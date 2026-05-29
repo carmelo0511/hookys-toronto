@@ -1,0 +1,54 @@
+# Hooky's Fish & Chips — crawler policy
+# Search engines and AI assistants are welcome to read, index, and cite this site.
+
+User-agent: *
+Allow: /
+
+# ----- OpenAI -----
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# ----- Anthropic (Claude) -----
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# ----- Perplexity -----
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# ----- Google (Gemini / AI Overviews grounding) & Apple Intelligence -----
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# ----- Other answer engines & dataset crawlers -----
+User-agent: Amazonbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Structured summary for language models:
+# https://hookys-toronto.vercel.app/llms.txt
+
+Sitemap: https://hookys-toronto.vercel.app/sitemap.xml

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <pattern id="tile" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M0 0H64M0 0V64" stroke="#EAF1FB" stroke-width="1" opacity="0.05"/>
+    </pattern>
+  </defs>
+
+  <!-- full bleed so the crop bands are on-brand cobalt -->
+  <rect width="1200" height="1200" fill="#06205A"/>
+  <rect width="1200" height="1200" fill="url(#tile)"/>
+
+  <!-- OG content lives in the central 630px band (y 285..915) -->
+  <g transform="translate(0 285)">
+    <!-- big vinyl, bleeding off the right edge -->
+    <g transform="translate(1215 322)">
+      <circle r="272" fill="#06143A"/>
+      <circle r="262" fill="#F2C14E" stroke="#06143A" stroke-width="6"/>
+      <circle r="210" fill="none" stroke="#06143A" stroke-width="2" opacity="0.30"/>
+      <circle r="172" fill="none" stroke="#06143A" stroke-width="2" opacity="0.30"/>
+      <circle r="136" fill="#06205A"/>
+      <circle r="136" fill="none" stroke="#06143A" stroke-width="5"/>
+      <circle r="32" fill="#FF4C3B" stroke="#06143A" stroke-width="6"/>
+      <circle r="6" fill="#06143A"/>
+    </g>
+
+    <!-- eyebrow -->
+    <text x="90" y="112" font-family="Menlo, monospace" font-size="21" letter-spacing="3.5"
+          fill="#EAF1FB" opacity="0.75">WELLINGTON MARKET · 486 FRONT ST W · TORONTO</text>
+
+    <!-- wordmark with painted ink shadow -->
+    <g font-family="'Bagel Fat One'" font-size="150">
+      <text x="86" y="292" fill="#06143A" opacity="0.55">HOOKY'S</text>
+      <text x="80" y="286" fill="#EAF1FB">HOOK<tspan fill="#F2C14E">Y'</tspan>S</text>
+    </g>
+
+    <!-- tagline -->
+    <text x="88" y="382" font-family="'DM Serif Display'" font-style="italic" font-size="56"
+          fill="#EAF1FB">Battered, fried, <tspan fill="#F2C14E">beloved.</tspan></text>
+
+    <!-- coral sticker (painted edge) -->
+    <g transform="translate(90 446)">
+      <rect x="8" y="10" width="404" height="66" fill="#06143A"/>
+      <rect width="404" height="66" fill="#FF4C3B" stroke="#06143A" stroke-width="3"/>
+      <text x="202" y="45" text-anchor="middle" font-family="Menlo, monospace" font-weight="bold"
+            font-size="23" letter-spacing="4" fill="#06143A">FISH · CHIPS · VINYL</text>
+    </g>
+  </g>
+</svg>

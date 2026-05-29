@@ -4,963 +4,1612 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Hooky's — Battered, Fried, Beloved · Toronto</title>
-<meta name="description" content="Hooky's Fish & Chips. Inside Wellington Market, 486 Front St W, Toronto. Vinyl on the walls, halibut in the basket." />
+<meta name="description" content="Hooky's Fish & Chips — a counter inside Wellington Market at 486 Front St W, Toronto. Beer-battered halibut, house-cut chips, and six sauces. Open 11am–9pm daily. Takeout and delivery via Uber Eats & DoorDash." />
+<meta name="theme-color" content="#06205A" />
+<link rel="canonical" href="https://hookys-toronto.vercel.app/" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Icons / PWA -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<!-- Open Graph -->
+<meta property="og:type" content="restaurant.restaurant" />
+<meta property="og:site_name" content="Hooky's" />
+<meta property="og:title" content="Hooky's — Battered, Fried, Beloved" />
+<meta property="og:description" content="Fish & chips inside Wellington Market, Toronto. Vinyl on the walls, halibut in the basket." />
+<meta property="og:url" content="https://hookys-toronto.vercel.app/" />
+<meta property="og:locale" content="en_CA" />
+<meta property="og:image" content="https://hookys-toronto.vercel.app/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          cobalt: {
-            950: '#06205A',
-            900: '#0B2D78',
-            800: '#0E3A95',
-            700: '#1247B0',
-            600: '#1E5FBF',
-            500: '#3E7EDB',
-          },
-          grout: '#EAF1FB',
-          sand: '#E8D5A8',
-          sandDeep: '#C9AE74',
-          coral: '#FF4C3B',
-          coralDeep: '#D4321F',
-          mustard: '#F2C14E',
-          ink: '#06143A',
-        },
-        fontFamily: {
-          sign: ['"Bagel Fat One"', 'system-ui'],
-          serif: ['"DM Serif Display"', 'Georgia', 'serif'],
-          body: ['Manrope', 'ui-sans-serif', 'system-ui'],
-        },
-      },
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Hooky's — Battered, Fried, Beloved" />
+<meta name="twitter:description" content="Fish & chips inside Wellington Market, Toronto." />
+<meta name="twitter:image" content="https://hookys-toronto.vercel.app/og.jpg" />
+
+<!-- Restaurant schema (rich, machine-readable: menu, prices, hours, ordering) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "@id": "https://hookys-toronto.vercel.app/#restaurant",
+  "name": "Hooky's Fish & Chips",
+  "alternateName": "Hooky's Toronto",
+  "description": "Fish & chips counter inside Wellington Market at 486 Front St W, Toronto. Beer-battered day-boat halibut, house-cut chips, six house sauces, and vinyl records on the walls. Open 11am to 9pm, seven days a week. Takeout and delivery via Uber Eats and DoorDash.",
+  "url": "https://hookys-toronto.vercel.app/",
+  "telephone": "+1-416-866-7474",
+  "servesCuisine": ["Fish and Chips", "Seafood", "British"],
+  "priceRange": "$$",
+  "currenciesAccepted": "CAD",
+  "paymentAccepted": "Cash, Credit Card, Debit Card",
+  "acceptsReservations": false,
+  "image": "https://hookys-toronto.vercel.app/og.jpg",
+  "keywords": "fish and chips Toronto, halibut and chips, Wellington Market, beer-battered fish, seafood, takeout, delivery, poutine, Front Street West",
+  "areaServed": { "@type": "City", "name": "Toronto" },
+  "containedInPlace": { "@type": "Place", "name": "Wellington Market" },
+  "hasMap": "https://www.google.com/maps/place/Hooky's+Fish+and+Chips/@43.6424673,-79.4016241,17z",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "486 Front St W",
+    "addressLocality": "Toronto",
+    "addressRegion": "ON",
+    "postalCode": "M5V 0V2",
+    "addressCountry": "CA"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 43.6424673,
+    "longitude": -79.4016241
+  },
+  "openingHours": "Mo-Su 11:00-21:00",
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "11:00",
+    "closes": "21:00"
+  }],
+  "sameAs": ["https://instagram.com/hookystoronto"],
+  "potentialAction": [
+    {
+      "@type": "OrderAction",
+      "name": "Order on Uber Eats",
+      "target": { "@type": "EntryPoint", "urlTemplate": "https://www.ubereats.com/ca/store/hookys-fish-and-chips-486-front-st-w/4OtvWxOaQHiiDgI3bU6A-Q" },
+      "deliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet"
     },
+    {
+      "@type": "OrderAction",
+      "name": "Order on DoorDash",
+      "target": { "@type": "EntryPoint", "urlTemplate": "https://www.doordash.com/en-CA/store/hooky's-fish-and-chips-toronto-28843128/36099164/" },
+      "deliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet"
+    }
+  ],
+  "hasMenu": {
+    "@type": "Menu",
+    "name": "Hooky's Menu",
+    "url": "https://hookys-toronto.vercel.app/#menu",
+    "inLanguage": "en",
+    "hasMenuSection": [
+      {
+        "@type": "MenuSection",
+        "name": "Today's Specials",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Fish Sandwich", "offers": { "@type": "Offer", "price": "13.95", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Catch of the Day", "description": "Fryer's pick — market price, ask at the counter." },
+          { "@type": "MenuItem", "name": "Cinnamon Bites", "description": "6 pieces; extra sauce $1.", "offers": { "@type": "Offer", "price": "5.00", "priceCurrency": "CAD" } }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Fish & Chips",
+        "description": "Comes with a free sauce.",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Halibut & Chips", "offers": { "@type": "Offer", "price": "22.95", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Haddock & Chips", "offers": { "@type": "Offer", "price": "16.50", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Cod & Chips", "offers": { "@type": "Offer", "price": "14.95", "priceCurrency": "CAD" } }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Mains",
+        "description": "Filet only — fryer-fresh.",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Halibut", "offers": { "@type": "Offer", "price": "17.50", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Haddock", "offers": { "@type": "Offer", "price": "12.50", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Cod", "offers": { "@type": "Offer", "price": "8.99", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Calamari", "offers": { "@type": "Offer", "price": "13.75", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Prawns", "offers": { "@type": "Offer", "price": "13.95", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Jalapeño Popcorn Shrimp", "offers": { "@type": "Offer", "price": "11.00", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Scallops", "offers": { "@type": "Offer", "price": "17.95", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Clams", "offers": { "@type": "Offer", "price": "14.99", "priceCurrency": "CAD" } }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Sides",
+        "description": "Prices listed Regular / Large.",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Chips", "offers": [ { "@type": "Offer", "name": "Regular", "price": "6.75", "priceCurrency": "CAD" }, { "@type": "Offer", "name": "Large", "price": "9.50", "priceCurrency": "CAD" } ] },
+          { "@type": "MenuItem", "name": "Curly Fries", "offers": [ { "@type": "Offer", "name": "Regular", "price": "7.95", "priceCurrency": "CAD" }, { "@type": "Offer", "name": "Large", "price": "13.95", "priceCurrency": "CAD" } ] },
+          { "@type": "MenuItem", "name": "Onion Rings", "offers": [ { "@type": "Offer", "name": "Regular", "price": "7.95", "priceCurrency": "CAD" }, { "@type": "Offer", "name": "Large", "price": "13.15", "priceCurrency": "CAD" } ] },
+          { "@type": "MenuItem", "name": "Fried Pickles", "offers": [ { "@type": "Offer", "name": "Regular", "price": "7.95", "priceCurrency": "CAD" }, { "@type": "Offer", "name": "Large", "price": "13.95", "priceCurrency": "CAD" } ] },
+          { "@type": "MenuItem", "name": "Sweet Potato Fries", "offers": [ { "@type": "Offer", "name": "Regular", "price": "7.95", "priceCurrency": "CAD" }, { "@type": "Offer", "name": "Large", "price": "13.15", "priceCurrency": "CAD" } ] },
+          { "@type": "MenuItem", "name": "Slaw", "offers": { "@type": "Offer", "price": "2.75", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Poutine", "description": "New.", "offers": { "@type": "Offer", "price": "10.95", "priceCurrency": "CAD" } }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Cakes & Sausages",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Fish Cakes (3)", "offers": { "@type": "Offer", "price": "11.50", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Crab Cakes (2)", "offers": { "@type": "Offer", "price": "12.00", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Battered Sausages", "offers": { "@type": "Offer", "price": "13.95", "priceCurrency": "CAD" } }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Tacos",
+        "description": "Prices listed for 1 / 3 tacos.",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Fish Tacos", "offers": [ { "@type": "Offer", "name": "One", "price": "6.95", "priceCurrency": "CAD" }, { "@type": "Offer", "name": "Three", "price": "17.95", "priceCurrency": "CAD" } ] },
+          { "@type": "MenuItem", "name": "Shrimp Tacos", "offers": [ { "@type": "Offer", "name": "One", "price": "6.95", "priceCurrency": "CAD" }, { "@type": "Offer", "name": "Three", "price": "17.95", "priceCurrency": "CAD" } ] }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Sauces",
+        "description": "One sauce free with fish & chips; extra sauces +$1.75.",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Tartar Mayo" },
+          { "@type": "MenuItem", "name": "Garlic Mayo" },
+          { "@type": "MenuItem", "name": "Spicy Mayo" },
+          { "@type": "MenuItem", "name": "Curry Dip" },
+          { "@type": "MenuItem", "name": "House Gravy" },
+          { "@type": "MenuItem", "name": "Mushy Peas" }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Drinks",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Pop Can", "offers": { "@type": "Offer", "price": "1.99", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Special Can", "offers": { "@type": "Offer", "price": "2.75", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Bottled Pop", "offers": { "@type": "Offer", "price": "3.75", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Iced Tea", "offers": { "@type": "Offer", "price": "3.25", "priceCurrency": "CAD" } },
+          { "@type": "MenuItem", "name": "Water", "offers": { "@type": "Offer", "price": "2.00", "priceCurrency": "CAD" } }
+        ]
+      }
+    ]
   }
+}
 </script>
 
+<!-- FAQ schema (lets AI answer common questions directly) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Where is Hooky's Fish & Chips located?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Hooky's is inside Wellington Market at 486 Front St W, Toronto, Ontario M5V 0V2, Canada — on Front Street West in downtown Toronto." }
+    },
+    {
+      "@type": "Question",
+      "name": "What are Hooky's opening hours?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Hooky's is open from 11:00 AM to 9:00 PM, seven days a week (Monday through Sunday), on Toronto time." }
+    },
+    {
+      "@type": "Question",
+      "name": "How much is fish and chips at Hooky's?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Halibut & Chips is $22.95, Haddock & Chips is $16.50, and Cod & Chips is $14.95 (CAD). Each comes with a free sauce." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Hooky's offer delivery or takeout?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Hooky's offers takeout from the counter and delivery through Uber Eats and DoorDash." }
+    },
+    {
+      "@type": "Question",
+      "name": "What kind of food does Hooky's serve?",
+      "acceptedAnswer": { "@type": "Answer", "text": "British-style fish and chips and seafood: beer-battered halibut, haddock and cod, plus calamari, prawns, scallops, clams, fish and shrimp tacos, fish and crab cakes, battered sausages, poutine, house-cut chips, and six house sauces." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Hooky's take reservations?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Hooky's is a walk-up counter inside Wellington Market — there are no table reservations. Takeout and delivery are available." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Hooky's safe for food allergies?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Hooky's fries in a shared kitchen, so cross-contact is possible. Please tell the staff about any allergies before ordering." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I contact Hooky's?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Call (416) 866-7474 or visit @hookystoronto on Instagram." }
+    },
+    {
+      "@type": "Question",
+      "name": "What payment methods does Hooky's accept?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Hooky's accepts cash, credit cards, and debit cards, in Canadian dollars (CAD)." }
+    }
+  ]
+}
+</script>
+
+<!-- Fonts: trimmed to weights actually used -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
 <style>
+  /* ---------- Tokens ---------- */
   :root {
-    --tile: 56px;
-    --grout: rgba(255, 255, 255, 0.08);
-  }
-  html { scroll-behavior: smooth; }
-  section[id] { scroll-margin-top: 72px; }
-  body {
-    background: #06205A;
-    color: #EAF1FB;
-    font-family: Manrope, ui-sans-serif, system-ui;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    --cobalt-950:#06205A;
+    --cobalt-900:#0B2D78;
+    --cobalt-800:#0E3A95;
+    --cobalt-700:#1247B0;
+    --cobalt-600:#1E5FBF;
+    --cobalt-500:#3E7EDB;
+    --grout:#EAF1FB;
+    --sand:#E8D5A8;
+    --sand-deep:#C9AE74;
+    --coral:#FF4C3B;
+    --coral-deep:#D4321F;
+    --mustard:#F2C14E;
+    --ink:#06143A;
+    --tile:56px;
+    --grout-line:rgba(255,255,255,0.08);
+    --container:1400px;
+    --topbar-h:56px;
   }
 
-  /* Subway tile pattern (the actual storefront) */
+  /* ---------- Base ---------- */
+  *,*::before,*::after { box-sizing:border-box; }
+  html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  section[id] { scroll-margin-top:72px; }
+  body {
+    margin:0;
+    background:var(--cobalt-950);
+    color:var(--grout);
+    font-family:Manrope, ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    line-height:1.45;
+  }
+  img,svg { display:block; max-width:100%; }
+  a { color:inherit; text-decoration:none; }
+  ul { margin:0; padding:0; list-style:none; }
+  p { margin:0; }
+  h1,h2,h3,h4 { margin:0; }
+  button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; padding:0; }
+  ::selection { background:var(--mustard); color:var(--ink); }
+
+  :focus { outline:none; }
+  :focus-visible {
+    outline:3px solid var(--mustard);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .skip-link {
+    position:absolute; left:-9999px; top:0;
+    background:var(--mustard); color:var(--ink);
+    padding:.6rem 1rem; font-weight:700; z-index:100;
+  }
+  .skip-link:focus { left:1rem; top:1rem; }
+
+  /* ---------- Layout helpers ---------- */
+  .container { max-width:var(--container); margin:0 auto; padding:0 1.25rem; }
+  @media (min-width:768px) { .container { padding:0 2.5rem; } }
+
+  /* ---------- Fonts ---------- */
+  .font-sign  { font-family:"Bagel Fat One", system-ui, sans-serif; font-weight:400; }
+  .font-serif { font-family:"DM Serif Display", Georgia, serif; }
+  .eyebrow { font-weight:800; letter-spacing:.28em; text-transform:uppercase; font-size:11px; }
+
+  /* ---------- Backgrounds ---------- */
   .tile-bg {
-    background-color: #0B2D78;
+    background-color:var(--cobalt-900);
     background-image:
-      linear-gradient(var(--grout) 2px, transparent 2px),
-      linear-gradient(90deg, var(--grout) 2px, transparent 2px),
+      linear-gradient(var(--grout-line) 2px, transparent 2px),
+      linear-gradient(90deg, var(--grout-line) 2px, transparent 2px),
       radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
-    background-size: var(--tile) calc(var(--tile)/2), calc(var(--tile)*1.5) var(--tile), 6px 6px;
-    background-position: 0 0, 0 0, 0 0;
+    background-size:var(--tile) calc(var(--tile)/2), calc(var(--tile)*1.5) var(--tile), 6px 6px;
   }
   .tile-bg-deep {
-    background-color: #06205A;
+    background-color:var(--cobalt-950);
     background-image:
       linear-gradient(rgba(255,255,255,0.06) 2px, transparent 2px),
       linear-gradient(90deg, rgba(255,255,255,0.06) 2px, transparent 2px);
-    background-size: 64px 32px, 96px 64px;
+    background-size:64px 32px, 96px 64px;
   }
-
-  /* Hand-painted grain overlay */
+  .grain { position:relative; }
   .grain::before {
-    content: "";
-    position: absolute; inset: 0; pointer-events: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 1   0 0 0 0 1   0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    mix-blend-mode: overlay; opacity: 0.5;
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 1   0 0 0 0 1   0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode:overlay; opacity:.5;
   }
   .sand-grain {
-    background-color: #E8D5A8;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6   0 0 0 0 0.46   0 0 0 0 0.22   0 0 0 0.25 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-color:var(--sand);
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6   0 0 0 0 0.46   0 0 0 0 0.22   0 0 0 0.25 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
 
-  /* Painted edge for boards */
-  .painted-edge {
-    box-shadow:
-      inset 0 0 0 6px #E8D5A8,
-      inset 0 0 0 8px #06143A,
-      0 30px 60px -20px rgba(0,0,0,0.5);
-    border-radius: 6px;
-  }
-
-  /* Wordmark — slight skew + chalk shadow */
+  /* ---------- Wordmark ---------- */
   .wordmark {
-    font-family: "Bagel Fat One", system-ui;
-    color: #EAF1FB;
+    font-family:"Bagel Fat One", system-ui;
+    color:var(--grout);
+    font-size:clamp(56px, 11.5vw, 168px);
+    line-height:.85;
+    letter-spacing:-.02em;
+    white-space:nowrap;
     text-shadow:
-      2px 0 0 #06143A,
-      4px 4px 0 rgba(255, 76, 59, 0.35),
-      8px 8px 0 rgba(0,0,0,0.25);
-    letter-spacing: -0.02em;
+      2px 0 0 var(--ink),
+      4px 4px 0 rgba(255,76,59,.35),
+      8px 8px 0 rgba(0,0,0,.25);
   }
-  .wordmark .apos { color: #F2C14E; }
+  .wordmark .apos { color:var(--mustard); }
 
-  /* Dotted price leaders */
-  .leader {
-    display: flex; align-items: baseline; gap: 0.75rem;
+  /* ---------- Topbar ---------- */
+  .topbar {
+    position:sticky; top:0; z-index:40;
+    backdrop-filter:blur(8px);
+    background:rgba(6,32,90,.85);
+    border-bottom:1px solid rgba(234,241,251,.1);
   }
-  .leader .dots {
-    flex: 1;
-    border-bottom: 2px dotted rgba(234, 241, 251, 0.35);
-    transform: translateY(-4px);
+  .topbar-inner { height:var(--topbar-h); display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+  .brand-mini {
+    display:flex; align-items:center; gap:.6rem;
+    font-family:"Bagel Fat One", system-ui;
+    font-size:18px; letter-spacing:.04em; color:var(--grout);
   }
-  .leader:hover .dots { border-bottom-color: #FF4C3B; }
-  .leader:hover .name { color: #F2C14E; }
-  .leader .name, .leader .price { transition: color .2s ease; }
-
-  /* Vinyl record */
-  .vinyl {
-    background:
-      radial-gradient(circle at center, #E8D5A8 0 14%, #06143A 14.5% 16%, #0B2D78 16.5% 22%, #06143A 22.5% 24%, #0B2D78 24.5% 30%, #06143A 30.5% 32%, #0B2D78 32.5% 38%, #06143A 38.5% 40%, #0B2D78 40.5% 50%);
-    border-radius: 9999px;
-    box-shadow:
-      0 30px 60px -10px rgba(0,0,0,0.5),
-      inset 0 0 0 1px rgba(255,255,255,0.08);
+  .brand-dot {
+    position:relative; display:inline-block; width:28px; height:28px;
+    background:var(--mustard); border:2px solid var(--ink); border-radius:9999px;
   }
-  .vinyl::after {
-    content: "HOOKY'S · SIDE A · 33⅓ RPM · BATTERED & FRIED · ";
-    position: absolute; inset: 14% ; border-radius: 9999px;
-    color: #06143A;
-    font-family: "Bagel Fat One"; font-size: 9px; letter-spacing: 0.18em;
-    display: grid; place-items: center;
+  .brand-dot::before { content:""; position:absolute; inset:4px; border:1px solid rgba(6,20,58,.4); border-radius:9999px; }
+  .brand-dot::after  { content:""; position:absolute; inset:10px; background:var(--coral); border:1px solid var(--ink); border-radius:9999px; }
+  .nav-desktop {
+    display:none; align-items:center; gap:1.75rem;
+    font-size:13px; font-weight:600; text-transform:uppercase;
+    letter-spacing:.18em; color:rgba(234,241,251,.8);
+  }
+  .nav-desktop a:hover { color:var(--mustard); }
+  .clock {
+    display:none;
+    font-family:ui-monospace, monospace; font-size:11px;
+    letter-spacing:.25em; text-transform:uppercase; color:var(--mustard);
+  }
+  .menu-toggle {
+    display:inline-flex; align-items:center; gap:.5rem;
+    padding:.4rem .7rem; color:var(--grout);
+    border:1px solid rgba(234,241,251,.25);
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+  }
+  .menu-toggle .bars { display:inline-flex; flex-direction:column; gap:3px; }
+  .menu-toggle .bars span { width:18px; height:2px; background:var(--grout); }
+  @media (min-width:768px) {
+    .nav-desktop { display:flex; }
+    .menu-toggle { display:none; }
+  }
+  @media (min-width:640px) { .clock { display:block; } }
+
+  /* Mobile menu sheet */
+  .mobile-sheet {
+    position:fixed; inset:var(--topbar-h) 0 0 0;
+    background:var(--cobalt-950);
+    padding:2rem 1.25rem;
+    z-index:39;
+    transform:translateY(-100%);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1);
+    overflow-y:auto;
+  }
+  .mobile-sheet[data-open="true"] { transform:translateY(0); }
+  .mobile-sheet nav {
+    display:flex; flex-direction:column; gap:1rem;
+    font-family:"Bagel Fat One", system-ui;
+    font-size:clamp(28px, 8vw, 48px); line-height:1; color:var(--grout);
+  }
+  .mobile-sheet nav a:hover, .mobile-sheet nav a:focus-visible { color:var(--mustard); }
+  .mobile-sheet .meta {
+    margin-top:2rem; padding-top:1.5rem;
+    border-top:1px solid rgba(234,241,251,.15);
+    font-family:ui-monospace, monospace; font-size:11px;
+    letter-spacing:.2em; text-transform:uppercase; color:rgba(234,241,251,.7);
+    display:flex; flex-direction:column; gap:.6rem;
+  }
+  @media (min-width:768px) { .mobile-sheet { display:none; } }
+
+  /* ---------- Hero ---------- */
+  .hero { position:relative; overflow:hidden; }
+  .hero-inner { padding-top:2.5rem; }
+  @media (min-width:768px) { .hero-inner { padding-top:4rem; } }
+
+  .meta-row {
+    display:flex; flex-wrap:wrap; gap:.75rem 1.5rem;
+    justify-content:space-between;
+    color:rgba(234,241,251,.75);
+    font-family:ui-monospace, monospace;
+    font-size:11px; letter-spacing:.25em; text-transform:uppercase;
+  }
+  .meta-row .group { display:flex; align-items:center; gap:.75rem; }
+  .pulse {
+    width:8px; height:8px; border-radius:9999px; background:var(--coral);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:.5; transform:scale(.85); } }
+  .meta-row a:hover { color:var(--mustard); }
+
+  .hero-grid {
+    display:grid; grid-template-columns:repeat(12, minmax(0,1fr));
+    gap:1rem; margin-top:2rem;
+  }
+  @media (min-width:768px) { .hero-grid { margin-top:2.5rem; } }
+  .left-rail, .right-rail { grid-column:span 12; }
+  .hero-main { grid-column:span 12; position:relative; }
+  @media (min-width:1024px) {
+    .left-rail  { grid-column:span 2; display:flex; flex-direction:column; align-items:flex-start; gap:1.5rem; padding-top:2.5rem; }
+    .hero-main  { grid-column:span 8; }
+    .right-rail { grid-column:span 2; display:flex; flex-direction:column; gap:1rem; }
+  }
+  @media (max-width:1023.98px) {
+    .left-rail { display:none; }
+    .right-rail { display:flex; flex-direction:row; gap:.75rem; flex-wrap:wrap; margin-top:1.5rem; }
+    .right-rail > * { flex:1 1 220px; }
   }
 
-  /* Animations */
-  @keyframes rise { from { transform: translateY(28px); opacity: 0; filter: blur(6px); } to { transform: none; opacity: 1; filter: none; } }
-  @keyframes pop  { from { transform: scale(0.85) rotate(-6deg); opacity: 0; } to { transform: none; opacity: 1; } }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes bob  { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-6px) rotate(2deg); } }
-  @keyframes drift { 0%,100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
-  .a-rise { animation: rise .9s cubic-bezier(.2,.8,.2,1) both; }
-  .a-pop  { animation: pop  .7s cubic-bezier(.2,.9,.3,1.4) both; }
-  .a-spin { animation: spin 18s linear infinite; }
-  .a-bob  { animation: bob 5s ease-in-out infinite; }
-  .a-drift{ animation: drift 9s ease-in-out infinite; }
+  .tagline { display:flex; flex-direction:column; gap:1.25rem; margin-top:1.5rem; }
+  @media (min-width:768px) {
+    .tagline { flex-direction:row; align-items:flex-end; justify-content:space-between; gap:1.5rem; margin-top:2rem; }
+  }
+  .tagline p {
+    font-family:"DM Serif Display", Georgia, serif; font-style:italic;
+    font-size:clamp(22px,3vw,36px); line-height:1.05;
+    max-width:26ch; color:var(--grout);
+  }
+  .tagline p .accent { color:var(--mustard); }
+  .tagline .addr {
+    font-family:ui-monospace, monospace; font-size:11px;
+    letter-spacing:.22em; text-transform:uppercase;
+    color:rgba(234,241,251,.7); max-width:28ch;
+  }
 
-  .delay-1 { animation-delay: .15s; }
-  .delay-2 { animation-delay: .35s; }
-  .delay-3 { animation-delay: .55s; }
-  .delay-4 { animation-delay: .75s; }
-  .delay-5 { animation-delay: .95s; }
-
-  /* CTA */
+  /* CTAs */
+  .ctas { margin-top:2rem; display:flex; flex-wrap:wrap; align-items:center; gap:1rem; }
+  .cta, .ghost-cta {
+    display:inline-block; padding:1rem 1.5rem;
+    font-weight:700; text-transform:uppercase; letter-spacing:.2em;
+    font-size:.85rem;
+    transition:transform .15s ease, box-shadow .15s ease, background .2s ease, color .2s ease;
+  }
   .cta {
-    background: #FF4C3B;
-    color: #06143A;
-    border: 2px solid #06143A;
-    box-shadow: 6px 6px 0 #06143A;
-    transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
+    background:var(--coral); color:var(--ink);
+    border:2px solid var(--ink);
+    box-shadow:6px 6px 0 var(--ink);
+    font-family:"Bagel Fat One", system-ui; font-size:1.05rem; letter-spacing:.04em;
   }
-  .cta:hover { transform: translate(-2px,-2px); box-shadow: 10px 10px 0 #06143A; background: #F2C14E; }
-  .cta:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #06143A; }
+  .cta:hover { transform:translate(-2px,-2px); box-shadow:10px 10px 0 var(--ink); background:var(--mustard); }
+  .cta:active { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--ink); }
+  .ghost-cta { border:2px solid var(--grout); color:var(--grout); }
+  .ghost-cta:hover { background:var(--grout); color:var(--cobalt-950); }
 
-  .ghost-cta {
-    border: 2px solid #EAF1FB;
-    transition: background .2s ease, color .2s ease;
+  .side-b-note {
+    display:flex; align-items:center; gap:.5rem; margin-left:.25rem;
+    color:rgba(234,241,251,.7);
+    font-size:.72rem; text-transform:uppercase; letter-spacing:.2em;
   }
-  .ghost-cta:hover { background: #EAF1FB; color: #06205A; }
+  .side-b-note .hr { width:24px; height:1px; background:rgba(234,241,251,.4); }
+  .side-b-note .accent { color:var(--coral); }
+
+  /* Delivery block */
+  .delivery { margin-top:1.5rem; }
+  .delivery .label {
+    font-family:ui-monospace, monospace; font-size:10px;
+    letter-spacing:.25em; text-transform:uppercase;
+    color:var(--mustard); margin-bottom:.5rem;
+  }
+  .delivery .grid { display:grid; grid-template-columns:1fr; gap:.75rem; max-width:560px; }
+  @media (min-width:640px) { .delivery .grid { grid-template-columns:1fr 1fr; } }
+  .delivery a {
+    display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+    padding:1rem 1.25rem;
+    background:var(--grout); color:var(--ink);
+    border:2px solid var(--ink);
+    box-shadow:4px 4px 0 var(--ink);
+    transition:transform .15s ease, box-shadow .15s ease, background .2s ease;
+  }
+  .delivery a:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--ink); }
+  .delivery a.uber:hover { background:var(--mustard); }
+  .delivery a.dd:hover   { background:var(--coral); }
+  .delivery a .name { font-weight:900; font-size:19px; letter-spacing:-.01em; white-space:nowrap; }
+  .delivery a .name em { font-style:italic; }
+  .delivery a .order {
+    font-family:ui-monospace, monospace; font-size:10px;
+    letter-spacing:.22em; text-transform:uppercase; opacity:.7; white-space:nowrap;
+  }
+  .delivery a:hover .order { opacity:1; }
+
+  /* Stats grid */
+  .stats { margin-top:3rem; display:grid; grid-template-columns:repeat(2,1fr); gap:.75rem; }
+  @media (min-width:768px) { .stats { grid-template-columns:repeat(4,1fr); } }
+  .stat {
+    background:rgba(6,32,90,.7);
+    border:1px solid rgba(234,241,251,.15);
+    padding:1rem;
+  }
+  .stat .k { font-family:ui-monospace, monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:rgba(234,241,251,.6); }
+  .stat .v { font-family:"Bagel Fat One", system-ui; font-size:1.5rem; color:var(--mustard); margin-top:.25rem; }
+  .stat .sub { font-size:12px; color:rgba(234,241,251,.7); margin-top:.125rem; }
+
+  /* Left rail */
+  .vinyl-wrap { position:relative; width:140px; height:140px; }
+  .vinyl {
+    position:absolute; inset:0; border-radius:9999px;
+    background:
+      radial-gradient(circle at center,
+        var(--sand) 0 14%,
+        var(--ink) 14.5% 16%,
+        var(--cobalt-900) 16.5% 22%,
+        var(--ink) 22.5% 24%,
+        var(--cobalt-900) 24.5% 30%,
+        var(--ink) 30.5% 32%,
+        var(--cobalt-900) 32.5% 38%,
+        var(--ink) 38.5% 40%,
+        var(--cobalt-900) 40.5% 50%);
+    box-shadow:0 30px 60px -10px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.08);
+    animation:spin 18s linear infinite;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  .lure-frame {
+    background:var(--ink); border:2px solid var(--sand);
+    box-shadow:0 12px 30px -10px rgba(0,0,0,.6); padding:.75rem;
+  }
+  .lure-frame .lure-svg { width:7rem; height:4rem; }
+  .lure-frame .label-no { font-family:ui-monospace, monospace; font-size:10px; letter-spacing:.22em; color:var(--sand); margin-top:.25rem; }
+  .lure-frame .label-name { color:var(--grout); font-weight:600; font-size:.75rem; }
+
+  /* Right rail cards */
+  .card-special {
+    background:var(--coral); color:var(--ink);
+    padding:1.25rem;
+    border:2px solid var(--ink);
+    box-shadow:8px 8px 0 var(--ink);
+    transform:rotate(3deg);
+    max-width:240px;
+  }
+  .card-special .title { font-family:"Bagel Fat One", system-ui; font-size:1.5rem; line-height:1; }
+  .card-special .name { font-family:"DM Serif Display", Georgia, serif; font-style:italic; font-size:1.1rem; margin-top:.5rem; }
+  .card-special .price { font-family:"Bagel Fat One", system-ui; font-size:2rem; margin-top:.25rem; }
+  .card-special .note {
+    margin-top:.75rem; padding-top:.5rem;
+    border-top:2px solid rgba(6,20,58,.6);
+    font-family:ui-monospace, monospace; font-size:10px;
+    letter-spacing:.2em; text-transform:uppercase;
+  }
+
+  .card-spinning {
+    background:var(--grout); color:var(--ink);
+    padding:1rem;
+    border:2px solid var(--ink);
+    box-shadow:6px 6px 0 var(--ink);
+    transform:rotate(-2deg);
+    max-width:240px;
+  }
+  .card-spinning .eyebrow-mini { font-family:ui-monospace, monospace; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--cobalt-900); }
+  .card-spinning .heading { font-family:"Bagel Fat One", system-ui; font-size:1.25rem; line-height:1.1; margin-top:.25rem; }
+  .card-spinning .track { font-family:"DM Serif Display", Georgia, serif; font-style:italic; font-size:.875rem; margin-top:.25rem; line-height:1.25; }
+
+  /* Castle wrapper */
+  .castle-wrap { position:relative; margin-top:2.5rem; }
+  .castle { filter:drop-shadow(0 6px 0 rgba(0,0,0,.25)); width:100%; height:auto; }
 
   /* Marquee */
-  @keyframes marq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .marquee-track { animation: marq 28s linear infinite; }
+  .marquee {
+    background:var(--mustard); color:var(--ink);
+    border-top:3px solid var(--ink); border-bottom:3px solid var(--ink);
+    overflow:hidden; padding:.5rem 0;
+  }
+  .marquee-track { display:flex; width:max-content; animation:marq 28s linear infinite; }
+  @keyframes marq { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  .marquee-row { display:flex; align-items:center; gap:2rem; padding:0 1.5rem; flex-shrink:0; }
+  .marquee-row span { font-family:"Bagel Fat One", system-ui; color:var(--cobalt-950); font-size:clamp(22px,3vw,36px); letter-spacing:-.02em; }
 
-  /* Decorative fish lure card */
-  .lure-frame {
-    background: #06143A;
-    border: 2px solid #E8D5A8;
-    box-shadow: 0 12px 30px -10px rgba(0,0,0,.6);
+  /* ---------- Menu Section ---------- */
+  .section { padding:5rem 0; }
+  @media (min-width:768px) { .section { padding:7rem 0; } }
+
+  .menu-head { display:flex; flex-direction:column; gap:1.5rem; margin-bottom:3rem; }
+  @media (min-width:768px) { .menu-head { flex-direction:row; align-items:flex-end; justify-content:space-between; } }
+  .menu-head h2 {
+    margin-top:.75rem;
+    font-family:"Bagel Fat One", system-ui;
+    font-size:clamp(56px,9vw,140px); line-height:.85; color:var(--grout);
+  }
+  .menu-head h2 .accent { color:var(--coral); }
+  .menu-head .lede {
+    margin-top:1rem;
+    font-family:"DM Serif Display", Georgia, serif; font-style:italic;
+    color:rgba(234,241,251,.85); max-width:52ch; font-size:1.125rem;
+  }
+  .chip-row { display:flex; flex-wrap:wrap; gap:.5rem; max-width:420px; }
+  .chip {
+    padding:.4rem .8rem; border:1px solid rgba(234,241,251,.3);
+    border-radius:9999px;
+    font-family:ui-monospace, monospace; font-size:11px;
+    letter-spacing:.18em; text-transform:uppercase;
+    color:rgba(234,241,251,.8);
+    transition:background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .chip:hover, .chip:focus-visible { background:var(--mustard); color:var(--ink); border-color:var(--ink); }
+
+  .specials { display:grid; gap:1.25rem; margin-bottom:2.5rem; grid-template-columns:1fr; }
+  @media (min-width:768px) { .specials { grid-template-columns:repeat(3,1fr); } }
+  .special { padding:1.5rem; border:2px solid var(--ink); color:var(--ink); }
+  .special.coral { background:var(--coral); }
+  .special.mustard { background:var(--mustard); }
+  .special.grout { background:var(--grout); }
+  .special .tag { font-family:ui-monospace, monospace; font-size:10px; letter-spacing:.22em; text-transform:uppercase; opacity:.8; }
+  .special .name { font-family:"Bagel Fat One", system-ui; font-size:1.75rem; margin-top:.25rem; }
+  .special .price { font-family:"Bagel Fat One", system-ui; font-size:3rem; margin-top:.5rem; }
+  .special .row { display:flex; align-items:baseline; gap:.75rem; margin-top:.5rem; }
+  .special .row .small { font-family:"DM Serif Display", Georgia, serif; font-style:italic; font-size:.875rem; }
+
+  .menu-cards { display:grid; gap:1.25rem; grid-template-columns:1fr; }
+  @media (min-width:768px) { .menu-cards { grid-template-columns:repeat(2,1fr); gap:1.75rem; } }
+  .menu-card {
+    position:relative; background:var(--cobalt-900); padding:1.75rem;
+    box-shadow: inset 0 0 0 6px var(--sand), inset 0 0 0 8px var(--ink), 0 30px 60px -20px rgba(0,0,0,.5);
+    border-radius:6px;
+  }
+  @media (min-width:768px) { .menu-card { padding:2.25rem; } }
+  .menu-card.wide { grid-column:span 1; }
+  @media (min-width:768px) { .menu-card.wide { grid-column:span 2; } }
+
+  .menu-card .tab {
+    position:absolute; top:-1rem; left:1.5rem;
+    padding:.25rem .75rem; border:2px solid var(--ink);
+    background: repeating-linear-gradient(45deg, var(--mustard) 0 14px, var(--ink) 14px 28px);
+  }
+  .menu-card .tab span { font-family:"Bagel Fat One", system-ui; color:var(--ink); font-size:.875rem; letter-spacing:.04em; }
+  .menu-card header {
+    display:flex; align-items:flex-end; justify-content:space-between; gap:1rem;
+    margin-bottom:1.5rem; padding-bottom:1rem;
+    border-bottom:2px dashed rgba(234,241,251,.3);
+  }
+  .menu-card h3 { font-family:"Bagel Fat One", system-ui; font-size:clamp(34px,4.5vw,52px); line-height:1; color:var(--grout); }
+  .menu-card .note {
+    font-family:ui-monospace, monospace; font-size:11px;
+    letter-spacing:.18em; text-transform:uppercase;
+    color:var(--mustard); padding-bottom:.5rem; text-align:right;
   }
 
-  /* Underwater silhouettes */
-  .castle {
-    filter: drop-shadow(0 6px 0 rgba(0,0,0,.25));
+  .leader-list { display:grid; gap:.75rem 0; }
+  .menu-card.wide .leader-list { grid-template-columns:1fr; }
+  @media (min-width:768px) { .menu-card.wide .leader-list { grid-template-columns:1fr 1fr; column-gap:2.5rem; } }
+  .leader { display:flex; align-items:baseline; gap:.75rem; color:var(--grout); font-size:17px; }
+  .leader .name { font-family:"DM Serif Display", Georgia, serif; font-style:italic; color:rgba(234,241,251,.95); transition:color .2s ease; }
+  .leader .dots { flex:1; border-bottom:2px dotted rgba(234,241,251,.45); transform:translateY(-4px); transition:border-color .2s ease; }
+  .leader .price { font-family:"Bagel Fat One", system-ui; color:var(--mustard); font-size:18px; letter-spacing:.04em; }
+  .leader:hover .dots { border-bottom-color:var(--coral); }
+  .leader:hover .name { color:var(--mustard); }
+
+  .allergy-note {
+    margin-top:2.5rem; text-align:center;
+    color:rgba(234,241,251,.6);
+    font-family:ui-monospace, monospace; font-size:12px;
+    letter-spacing:.25em; text-transform:uppercase;
   }
 
-  /* Section labels */
-  .eyebrow {
-    font-family: Manrope; font-weight: 800; letter-spacing: 0.28em;
-    text-transform: uppercase; font-size: 11px;
+  /* ---------- Story ---------- */
+  .story { position:relative; background:var(--cobalt-950); overflow:hidden; }
+  .story .watermark {
+    position:absolute; top:-2.5rem; right:-2.5rem;
+    opacity:.06; pointer-events:none; user-select:none;
+    font-family:"Bagel Fat One", system-ui;
+    font-size:28vw; line-height:1; color:var(--grout);
+  }
+  .story-grid { position:relative; display:grid; grid-template-columns:1fr; gap:2.5rem; align-items:flex-start; }
+  .story-copy { grid-column:auto; }
+  .story-art  { grid-column:auto; position:relative; }
+  @media (min-width:768px) {
+    .story-grid { grid-template-columns:repeat(12,minmax(0,1fr)); }
+    .story-copy { grid-column:span 7; }
+    .story-art  { grid-column:span 5; }
+  }
+  .story h2 { font-family:"Bagel Fat One", system-ui; font-size:clamp(48px,7vw,108px); line-height:.88; color:var(--grout); margin-top:.75rem; }
+  .story h2 .accent { color:var(--mustard); }
+  .story .copy-cols {
+    margin-top:1.5rem; display:grid; gap:1.5rem;
+    font-family:"DM Serif Display", Georgia, serif;
+    color:rgba(234,241,251,.9); font-size:17px; line-height:1.6;
+  }
+  @media (min-width:640px) { .story .copy-cols { grid-template-columns:1fr 1fr; } }
+  .story .copy-cols strong { color:var(--mustard); font-family:"Bagel Fat One", system-ui; font-weight:400; font-style:normal; }
+  .tag-row { margin-top:2.5rem; display:flex; flex-wrap:wrap; gap:.75rem; }
+  .tag-row .pill {
+    padding:.5rem .75rem; border:1px solid rgba(234,241,251,.25);
+    color:rgba(234,241,251,.85);
+    font-family:ui-monospace, monospace; font-size:12px;
+    letter-spacing:.18em; text-transform:uppercase;
+    transition:background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .tag-row .pill:hover { background:var(--coral); color:var(--ink); border-color:var(--ink); }
+
+  .art-stage { position:relative; height:420px; }
+  .sand-panel {
+    position:absolute; inset:0; border:2px solid var(--ink); border-radius:6px;
+    box-shadow:12px 12px 0 var(--cobalt-900);
+  }
+  .vinyl-big { position:absolute; top:-1.5rem; left:-1.5rem; width:260px; height:260px; animation:bob 5s ease-in-out infinite; }
+  .vinyl-big .vinyl { animation:spin 18s linear infinite; }
+  @keyframes bob { 0%,100%{ transform:translateY(0) rotate(-3deg); } 50%{ transform:translateY(-6px) rotate(2deg); } }
+  .vinyl-big .badge {
+    position:absolute; bottom:-.75rem; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:var(--grout);
+    padding:.25rem .75rem;
+    font-family:ui-monospace, monospace; font-size:10px;
+    letter-spacing:.2em; text-transform:uppercase;
+  }
+  .quote-frame {
+    position:absolute; bottom:1.5rem; right:1.5rem;
+    background:var(--ink); border:2px solid var(--sand);
+    padding:.75rem; max-width:220px;
+    box-shadow:0 12px 30px -10px rgba(0,0,0,.6);
+    animation:drift 9s ease-in-out infinite;
+  }
+  @keyframes drift { 0%,100%{ transform:translateX(0); } 50%{ transform:translateX(8px); } }
+  .quote-frame .source { font-family:ui-monospace, monospace; color:var(--sand); font-size:10px; letter-spacing:.2em; text-transform:uppercase; }
+  .quote-frame .quote { margin-top:.25rem; font-family:"DM Serif Display", Georgia, serif; font-style:italic; color:var(--grout); font-size:1rem; line-height:1.3; }
+  .kops-sticker {
+    position:absolute; top:1rem; right:1rem;
+    background:var(--coral); color:var(--ink);
+    padding:.25rem .75rem; border:2px solid var(--ink);
+    transform:rotate(6deg);
+    font-family:"Bagel Fat One", system-ui; font-size:.875rem;
+    box-shadow:4px 4px 0 var(--ink);
   }
 
-  /* Striped tape */
-  .tape {
+  /* ---------- Visit ---------- */
+  .visit-grid { display:grid; grid-template-columns:1fr; gap:2.5rem; }
+  .visit-hours { grid-column:auto; }
+  .visit-where { grid-column:auto; }
+  @media (min-width:768px) {
+    .visit-grid { grid-template-columns:repeat(12,minmax(0,1fr)); }
+    .visit-hours { grid-column:span 5; }
+    .visit-where { grid-column:span 7; }
+  }
+  .visit h2 { font-family:"Bagel Fat One", system-ui; font-size:clamp(44px,6vw,88px); line-height:.9; color:var(--grout); margin-top:.75rem; }
+  .visit h2 .accent { color:var(--coral); }
+  .hours-table {
+    margin-top:2rem;
+    border-top:1px solid rgba(234,241,251,.15);
+    border-bottom:1px solid rgba(234,241,251,.15);
+  }
+  .hours-table li {
+    display:flex; align-items:baseline; justify-content:space-between;
+    padding:.75rem 0;
+    border-bottom:1px solid rgba(234,241,251,.15);
+  }
+  .hours-table li:last-child { border-bottom:0; }
+  .hours-table li.is-today { background:rgba(242,193,78,.08); padding-left:.5rem; padding-right:.5rem; }
+  .hours-table .day { font-family:"Bagel Fat One", system-ui; color:var(--grout); font-size:1.25rem; letter-spacing:.04em; }
+  .hours-table .hr { font-family:ui-monospace, monospace; color:rgba(234,241,251,.85); font-size:.875rem; letter-spacing:.18em; }
+  .allergy-callout { margin-top:2rem; padding:1.25rem; border:2px solid var(--mustard); color:var(--grout); }
+  .allergy-callout .h { font-family:"Bagel Fat One", system-ui; color:var(--mustard); font-size:1.25rem; }
+  .allergy-callout p { margin-top:.25rem; font-family:"DM Serif Display", Georgia, serif; font-style:italic; color:rgba(234,241,251,.9); }
+
+  .where-card {
+    background:var(--cobalt-950); border:2px solid var(--grout); padding:2rem;
+    box-shadow: inset 0 0 0 6px var(--sand), inset 0 0 0 8px var(--ink), 0 30px 60px -20px rgba(0,0,0,.5);
+    border-radius:6px;
+  }
+  @media (min-width:768px) { .where-card { padding:2.5rem; } }
+  .where-head { display:flex; align-items:flex-start; justify-content:space-between; gap:1.5rem; }
+  .where-card .address { margin-top:.75rem; font-family:"Bagel Fat One", system-ui; color:var(--grout); font-size:1.75rem; line-height:1.1; }
+  @media (min-width:768px) { .where-card .address { font-size:2.25rem; } }
+  .where-card .address .accent { color:var(--mustard); }
+  .where-card .meta { margin-top:1rem; font-family:ui-monospace, monospace; color:rgba(234,241,251,.8); font-size:.875rem; letter-spacing:.18em; }
+  .where-card .meta a:hover { color:var(--mustard); }
+  .compass {
+    display:grid; place-items:center; width:5rem; height:5rem;
+    border:2px solid var(--grout); border-radius:9999px; color:var(--grout);
+    font-family:"Bagel Fat One", system-ui; font-size:1.75rem;
+    transform:rotate(-8deg);
+  }
+  @media (max-width:639.98px) { .compass { display:none; } }
+
+  .faux-map {
+    position:relative; margin-top:2rem; height:14rem;
+    border:1px solid rgba(234,241,251,.3); overflow:hidden;
     background:
-      repeating-linear-gradient(45deg, #F2C14E 0 14px, #06143A 14px 28px);
+      repeating-linear-gradient(45deg, rgba(234,241,251,.08) 0 1px, transparent 1px 14px),
+      repeating-linear-gradient(-45deg, rgba(234,241,251,.08) 0 1px, transparent 1px 14px);
+  }
+  .map-svg { position:absolute; inset:0; width:100%; height:100%; }
+  .pin { position:absolute; left:44%; top:44%; }
+  .pin .dot {
+    width:24px; height:24px; border-radius:9999px;
+    background:var(--coral); border:2px solid var(--ink);
+    position:relative;
+  }
+  .pin .ping {
+    width:24px; height:24px; border-radius:9999px;
+    background:var(--coral); border:2px solid var(--ink);
+    position:absolute; inset:0; opacity:.6;
+    animation:ping 2s cubic-bezier(0,0,.2,1) infinite;
+  }
+  @keyframes ping { 75%,100% { transform:scale(2); opacity:0; } }
+  .pin .label {
+    margin-top:.5rem; position:absolute; left:.75rem;
+    transform:translateX(-50%); white-space:nowrap;
+    font-family:"Bagel Fat One", system-ui; color:var(--grout); font-size:.875rem;
   }
 
-  /* Custom scrollbar accent */
-  ::selection { background: #F2C14E; color: #06143A; }
+  .where-card .actions { margin-top:2rem; display:grid; gap:1rem; grid-template-columns:1fr; }
+  @media (min-width:640px) { .where-card .actions { grid-template-columns:1fr 1fr; } }
+  .where-card .actions .cta, .where-card .actions .ghost-cta { display:block; text-align:center; }
+
+  /* ---------- Footer ---------- */
+  footer { background:var(--ink); border-top:4px solid var(--mustard); }
+  .foot { padding:2.5rem 0; display:flex; flex-direction:column; gap:1.5rem; }
+  @media (min-width:768px) { .foot { flex-direction:row; align-items:center; justify-content:space-between; } }
+  .foot-brand { display:flex; align-items:center; gap:1rem; }
+  .foot-brand .dot {
+    position:relative; display:inline-block; width:36px; height:36px;
+    background:var(--mustard); border:2px solid rgba(234,241,251,.4); border-radius:9999px;
+  }
+  .foot-brand .dot::before { content:""; position:absolute; inset:4px; border:1px solid rgba(234,241,251,.3); border-radius:9999px; }
+  .foot-brand .dot::after { content:""; position:absolute; inset:14px; background:var(--coral); border-radius:9999px; }
+  .foot-brand .name { font-family:"Bagel Fat One", system-ui; color:var(--grout); font-size:1.5rem; line-height:1; }
+  .foot-brand .tagline { font-family:ui-monospace, monospace; font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:rgba(234,241,251,.6); margin-top:.25rem; }
+  .foot-links {
+    display:flex; flex-wrap:wrap; column-gap:2rem; row-gap:.75rem;
+    font-family:ui-monospace, monospace; font-size:11px;
+    letter-spacing:.22em; text-transform:uppercase;
+    color:rgba(234,241,251,.7);
+  }
+  .foot-links a:hover { color:var(--mustard); }
+  .copy { font-family:ui-monospace, monospace; font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:rgba(234,241,251,.5); }
+
+  /* Entrance anims */
+  @keyframes rise { from { transform:translateY(28px); opacity:0; filter:blur(6px); } to { transform:none; opacity:1; filter:none; } }
+  @keyframes pop  { from { transform:scale(.85) rotate(-6deg); opacity:0; } to { transform:none; opacity:1; } }
+  .a-rise { animation:rise .9s cubic-bezier(.2,.8,.2,1) both; }
+  .a-pop  { animation:pop .7s cubic-bezier(.2,.9,.3,1.4) both; }
+  .delay-1 { animation-delay:.15s; }
+  .delay-2 { animation-delay:.35s; }
+  .delay-3 { animation-delay:.55s; }
+  .delay-4 { animation-delay:.75s; }
+  .delay-5 { animation-delay:.95s; }
+
+  .tilt { transform-style:preserve-3d; transition:transform .6s cubic-bezier(.2,.8,.2,1); will-change:transform; }
+
+  /* ---------- Soft scroll-reveal ---------- */
+  .reveal {
+    opacity:0;
+    transform:translateY(30px);
+    transition:opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1);
+    will-change:opacity, transform;
+  }
+  .reveal.reveal-in { opacity:1; transform:none; }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+      scroll-behavior:auto !important;
+    }
+    .vinyl, .vinyl-big, .marquee-track, .pin .ping, .pulse,
+    .quote-frame, .a-rise, .a-pop { animation:none !important; }
+    .tilt { transform:none !important; }
+    .reveal { opacity:1 !important; transform:none !important; }
+  }
 </style>
 </head>
-<body class="bg-cobalt-950">
-<div id="root"></div>
+<body>
 
-<script type="text/babel" data-presets="env,react">
-const { useState, useEffect, useRef } = React;
+<a class="skip-link" href="#top">Skip to content</a>
 
-/* ---------- DATA ---------- */
+<!-- ============ TOPBAR ============ -->
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a href="#top" class="brand-mini" aria-label="Hooky's — back to top">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span>HOOKY&rsquo;S</span>
+    </a>
+    <nav class="nav-desktop" aria-label="Primary">
+      <a href="#menu">Menu</a>
+      <a href="#story">Story</a>
+      <a href="#visit">Visit</a>
+      <a href="https://instagram.com/hookystoronto" target="_blank" rel="noreferrer">@hookystoronto</a>
+    </nav>
+    <span class="clock" id="clock" aria-live="polite">OPEN</span>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-sheet">
+      <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span id="menu-toggle-label">Menu</span>
+    </button>
+  </div>
+</header>
 
-const MENU = [
-  {
-    id: "fnc",
-    title: "Fish & Chips",
-    note: "Comes with a free sauce.",
-    items: [
-      { name: "Halibut & Chips", price: "22.95" },
-      { name: "Haddock & Chips", price: "16.50" },
-      { name: "Cod & Chips",     price: "14.95" },
-    ],
-  },
-  {
-    id: "mains",
-    title: "Mains",
-    note: "Filet only — fryer-fresh.",
-    items: [
-      { name: "Halibut",                  price: "17.50" },
-      { name: "Haddock",                  price: "12.50" },
-      { name: "Cod",                      price: "8.99"  },
-      { name: "Calamari",                 price: "13.75" },
-      { name: "Prawns",                   price: "13.95" },
-      { name: "Jalapeño Popcorn Shrimp",  price: "11.00" },
-      { name: "Scallops",                 price: "17.95" },
-      { name: "Clams",                    price: "14.99" },
-    ],
-  },
-  {
-    id: "sides",
-    title: "Sides",
-    note: "Reg / Lg",
-    twoCol: true,
-    items: [
-      { name: "Chips",             price: "6.75 / 9.50"  },
-      { name: "Curly Fries",       price: "7.95 / 13.95" },
-      { name: "Onion Rings",       price: "7.95 / 13.15" },
-      { name: "Fried Pickles",     price: "7.95 / 13.95" },
-      { name: "Sweet Potato Fries",price: "7.95 / 13.15" },
-      { name: "Slaw",              price: "2.75"          },
-      { name: "Poutine — NEW",     price: "10.95"         },
-    ],
-  },
-  {
-    id: "cakes",
-    title: "Cakes & Sausages",
-    items: [
-      { name: "Fish Cakes (3)",      price: "11.50" },
-      { name: "Crab Cakes (2)",      price: "12.00" },
-      { name: "Battered Sausages",   price: "13.95" },
-    ],
-  },
-  {
-    id: "tacos",
-    title: "Tacos",
-    note: "1 / 3",
-    items: [
-      { name: "Fish Tacos",   price: "6.95 / 17.95" },
-      { name: "Shrimp Tacos", price: "6.95 / 17.95" },
-    ],
-  },
-  {
-    id: "sauces",
-    title: "Sauces",
-    note: "Extra +$1.75",
-    twoCol: true,
-    items: [
-      { name: "Tartar Mayo" },
-      { name: "Garlic Mayo" },
-      { name: "Spicy Mayo" },
-      { name: "Curry Dip" },
-      { name: "House Gravy" },
-      { name: "Mushy Peas" },
-    ],
-  },
-  {
-    id: "drinks",
-    title: "Drinks",
-    items: [
-      { name: "Pop Can",     price: "1.99" },
-      { name: "Special Can", price: "2.75" },
-      { name: "Bottled Pop", price: "3.75" },
-      { name: "Iced Tea",    price: "3.25" },
-      { name: "Water",       price: "2.00" },
-    ],
-  },
-];
+<div class="mobile-sheet" id="mobile-sheet" data-open="false" aria-hidden="true">
+  <nav aria-label="Mobile primary">
+    <a href="#menu">Menu</a>
+    <a href="#story">Story</a>
+    <a href="#visit">Visit</a>
+    <a href="https://instagram.com/hookystoronto" target="_blank" rel="noreferrer">@hookystoronto</a>
+  </nav>
+  <div class="meta">
+    <span id="mobile-status">Open · 11–9 daily</span>
+    <a href="tel:+14168667474">(416) 866-7474</a>
+    <span>486 Front St W · Toronto</span>
+  </div>
+</div>
 
-const SPECIALS = [
-  { name: "Fish Sandwich", price: "—",  tag: "TODAY" },
-  { name: "Krabby Patty",  price: "12", tag: "NEW · BIKINI BOTTOM APPROVED" },
-];
+<!-- ============ HERO ============ -->
+<section id="top" class="hero tile-bg grain">
+  <div class="container hero-inner">
 
-const DESSERT = { name: "Cinnamon Bites", price: "5", note: "6 for $5" };
-
-/* ---------- COMPONENTS ---------- */
-
-function Wordmark({ size = "text-[clamp(56px,11.5vw,168px)]" }) {
-  return (
-    <h1 className={`wordmark ${size} leading-[0.85] font-sign whitespace-nowrap`}>
-      HOOKY<span className="apos">’</span>S
-    </h1>
-  );
-}
-
-/* 3D mouse-tilt wrapper. Composes with a baseRotate (the resting tilt of the card). */
-function Tilt({ children, className = "", style = {}, max = 14, scale = 1.04, baseRotate = 0, lift = 14 }) {
-  const ref = useRef(null);
-  const rafRef = useRef(0);
-  const [tx, setTx] = useState({
-    rx: 0, ry: 0, s: 1, t: "transform 600ms cubic-bezier(.2,.8,.2,1)",
-  });
-
-  const onMove = (e) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width;
-    const y = (e.clientY - r.top) / r.height;
-    cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(() => {
-      setTx({
-        rx: -(y - 0.5) * 2 * max,
-        ry: (x - 0.5) * 2 * max,
-        s: scale,
-        t: "transform 90ms ease-out",
-      });
-    });
-  };
-  const onLeave = () => {
-    setTx({ rx: 0, ry: 0, s: 1, t: "transform 600ms cubic-bezier(.2,.8,.2,1)" });
-  };
-
-  const transform =
-    `perspective(900px) rotateX(${tx.rx}deg) rotateY(${tx.ry}deg) rotateZ(${baseRotate}deg) translateZ(${(tx.s - 1) * 400}px) scale(${tx.s})`;
-
-  return (
-    <div
-      ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      className={className}
-      style={{
-        ...style,
-        transform,
-        transformStyle: "preserve-3d",
-        transition: tx.t,
-        willChange: "transform",
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Marquee() {
-  const items = [
-    "BATTERED",
-    "★",
-    "FRIED",
-    "★",
-    "BELOVED",
-    "✶",
-    "EST. AT THE MARKET",
-    "★",
-    "VINYL ON THE WALLS",
-    "★",
-    "HALIBUT IN THE BASKET",
-    "✶",
-  ];
-  const row = (
-    <div className="flex items-center gap-8 px-6 shrink-0">
-      {items.map((t, i) => (
-        <span key={i} className="font-sign text-cobalt-950 text-[clamp(22px,3vw,36px)] tracking-tight">
-          {t}
-        </span>
-      ))}
-    </div>
-  );
-  return (
-    <div className="bg-mustard border-y-[3px] border-ink overflow-hidden py-2">
-      <div className="flex marquee-track w-max">
-        {row}{row}{row}{row}
+    <div class="meta-row">
+      <div class="group">
+        <span class="pulse" aria-hidden="true"></span>
+        <span id="status-line">Fryer&rsquo;s on · 11a–9p daily</span>
+      </div>
+      <div class="group">
+        <span>Wellington Market · Toronto</span>
+        <span style="opacity:.5">|</span>
+        <a href="tel:+14168667474">(416) 866-7474</a>
       </div>
     </div>
-  );
-}
 
-function Vinyl({ className = "" }) {
-  return (
-    <div className={`relative ${className}`}>
-      <div className="vinyl absolute inset-0 a-spin"></div>
+    <div class="hero-grid">
+      <aside class="left-rail" aria-hidden="true">
+        <div class="vinyl-wrap a-pop delay-3"><span class="vinyl"></span></div>
+        <div class="tilt a-rise delay-4" style="transform:rotate(-3deg)">
+          <div class="lure-frame">
+            <svg viewBox="0 0 120 70" class="lure-svg">
+              <ellipse cx="55" cy="35" rx="38" ry="14" fill="#FF4C3B" stroke="#E8D5A8" stroke-width="1.5"/>
+              <circle cx="38" cy="32" r="4" fill="#EAF1FB" stroke="#06143A" stroke-width="1.5"/>
+              <circle cx="38" cy="32" r="1.6" fill="#06143A"/>
+              <path d="M93 35 Q108 22 115 35 Q108 48 93 35 Z" fill="#F2C14E" stroke="#06143A" stroke-width="1.2"/>
+              <path d="M28 35 q-10 -8 -18 0 q10 8 18 0 z" fill="#3E7EDB" stroke="#06143A" stroke-width="1.2"/>
+              <path d="M55 50 q4 12 14 14" stroke="#06143A" stroke-width="1.2" fill="none"/>
+              <path d="M84 56 q-4 4 0 8 q5 -2 4 -7 z" fill="#EAF1FB" stroke="#06143A" stroke-width="1.2"/>
+            </svg>
+            <div class="label-no">No. 01</div>
+            <div class="label-name">The Halibut</div>
+          </div>
+        </div>
+        <div class="tilt a-rise delay-5" style="margin-left:-.5rem; transform:rotate(4deg)">
+          <div class="lure-frame">
+            <svg viewBox="0 0 120 70" class="lure-svg">
+              <ellipse cx="55" cy="35" rx="38" ry="14" fill="#F2C14E" stroke="#E8D5A8" stroke-width="1.5"/>
+              <circle cx="38" cy="32" r="4" fill="#EAF1FB" stroke="#06143A" stroke-width="1.5"/>
+              <circle cx="38" cy="32" r="1.6" fill="#06143A"/>
+              <path d="M93 35 Q108 22 115 35 Q108 48 93 35 Z" fill="#FF4C3B" stroke="#06143A" stroke-width="1.2"/>
+              <path d="M28 35 q-10 -8 -18 0 q10 8 18 0 z" fill="#3E7EDB" stroke="#06143A" stroke-width="1.2"/>
+              <path d="M55 50 q4 12 14 14" stroke="#06143A" stroke-width="1.2" fill="none"/>
+              <path d="M84 56 q-4 4 0 8 q5 -2 4 -7 z" fill="#EAF1FB" stroke="#06143A" stroke-width="1.2"/>
+            </svg>
+            <div class="label-no">No. 02</div>
+            <div class="label-name">The Reeler</div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="hero-main">
+        <h1 class="wordmark a-rise">HOOKY<span class="apos">&rsquo;</span>S</h1>
+
+        <div class="tagline a-rise delay-1">
+          <p>Battered, fried,&nbsp;<span class="accent">beloved.</span></p>
+          <div class="addr">
+            Inside Wellington Market<br/>
+            486 Front St W · Toronto
+          </div>
+        </div>
+
+        <div class="ctas a-rise delay-2">
+          <a href="#menu" class="cta">See the menu &rarr;</a>
+          <a href="#visit" class="ghost-cta">Find the stall</a>
+          <span class="side-b-note">
+            <span class="hr" aria-hidden="true"></span>
+            Side B: <span class="accent">Halibut &amp; Chips $22.95</span>
+          </span>
+        </div>
+
+        <div class="delivery a-rise delay-2">
+          <div class="label">Order delivery · 4.7 &#9733; on Uber Eats</div>
+          <div class="grid">
+            <a class="uber"
+               href="https://www.ubereats.com/ca/store/hookys-fish-and-chips-486-front-st-w/4OtvWxOaQHiiDgI3bU6A-Q"
+               target="_blank" rel="noreferrer">
+              <span class="name">Uber<em>Eats</em></span>
+              <span class="order">Order &rarr;</span>
+            </a>
+            <a class="dd"
+               href="https://www.doordash.com/en-CA/store/hooky's-fish-and-chips-toronto-28843128/36099164/"
+               target="_blank" rel="noreferrer">
+              <span class="name">DoorDash</span>
+              <span class="order">Order &rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="stats a-rise delay-3">
+          <div class="stat">
+            <div class="k">Halibut</div>
+            <div class="v">$22.95</div>
+            <div class="sub">House classic</div>
+          </div>
+          <div class="stat">
+            <div class="k">Sauces</div>
+            <div class="v">6 ways</div>
+            <div class="sub">Tartar to curry</div>
+          </div>
+          <div class="stat">
+            <div class="k">Records</div>
+            <div class="v">2,000+</div>
+            <div class="sub">KOPS on the wall</div>
+          </div>
+          <div class="stat">
+            <div class="k">Daily</div>
+            <div class="v">11–9</div>
+            <div class="sub">Seven days a week</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="right-rail a-pop delay-4">
+        <div class="tilt card-special">
+          <div class="title">Fryer&rsquo;s Pick</div>
+          <div class="name">Halibut &amp; Chips</div>
+          <div class="price">$22.95</div>
+          <div class="note">Beer-battered · Day-boat</div>
+        </div>
+        <div class="tilt card-spinning">
+          <div class="eyebrow-mini">Side A · 33⅓</div>
+          <div class="heading">Now Spinning</div>
+          <div class="track" id="now-spinning">Otis Redding — "Sittin&rsquo; on the Dock of the Bay"</div>
+        </div>
+      </aside>
     </div>
-  );
-}
 
-function Castle() {
-  // Hand-drawn underwater sandcastle silhouette in SVG (a wink, not a copy)
-  return (
-    <svg viewBox="0 0 600 220" className="castle w-full h-auto" aria-hidden="true">
-      <defs>
-        <linearGradient id="sandG" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#E8D5A8"/>
-          <stop offset="1" stopColor="#C9AE74"/>
-        </linearGradient>
-      </defs>
-      {/* sand floor */}
-      <path d="M0 180 C 80 160, 180 200, 280 175 S 480 150, 600 178 L 600 220 L 0 220 Z" fill="url(#sandG)"/>
-      {/* sandcastles cluster */}
-      <g fill="#3E7EDB" stroke="#06143A" strokeWidth="2">
-        <rect x="60"  y="120" width="34" height="55" />
-        <rect x="55"  y="110" width="44" height="12" />
-        <polygon points="60,110 77,92 94,110" />
-        <rect x="110" y="100" width="40" height="75" />
-        <rect x="105" y="92"  width="50" height="12" />
-        <rect x="118" y="78"  width="24" height="20" />
-        <polygon points="118,78 130,60 142,78" />
-        <rect x="170" y="125" width="28" height="50" />
-        <rect x="220" y="115" width="36" height="60" />
-        <rect x="215" y="106" width="46" height="12" />
-        {/* big castle */}
-        <rect x="290" y="95"  width="60" height="80" />
-        <rect x="282" y="85"  width="76" height="14" />
-        <rect x="298" y="65"  width="44" height="22" />
-        <polygon points="298,65 320,42 342,65" />
-        <rect x="370" y="120" width="34" height="55" />
-        <rect x="420" y="105" width="48" height="70" />
-        <rect x="415" y="96"  width="58" height="12" />
-        <rect x="490" y="125" width="30" height="50" />
-        <rect x="535" y="115" width="40" height="60" />
-      </g>
-      {/* tiny pineapple wink */}
-      <g transform="translate(465 75)">
-        <ellipse cx="14" cy="22" rx="13" ry="18" fill="#F2C14E" stroke="#06143A" strokeWidth="2"/>
-        <path d="M2 22 L26 22 M5 14 L23 14 M5 30 L23 30" stroke="#06143A" strokeWidth="1.5" fill="none"/>
-        <path d="M8 5 L14 -4 L20 5 M11 0 L14 -8 L17 0" stroke="#1F8A4C" fill="#1F8A4C" strokeWidth="2"/>
-      </g>
-      {/* bubbles */}
-      <g fill="none" stroke="#EAF1FB" strokeWidth="2" opacity="0.6">
-        <circle cx="20" cy="60" r="6"/>
-        <circle cx="40" cy="40" r="4"/>
-        <circle cx="560" cy="50" r="5"/>
-        <circle cx="585" cy="80" r="3"/>
-      </g>
-    </svg>
-  );
-}
-
-function FishLure({ label, n }) {
-  return (
-    <div className="lure-frame p-3">
-      <svg viewBox="0 0 120 70" className="w-28 h-16">
-        <g>
-          <ellipse cx="55" cy="35" rx="38" ry="14" fill="#FF4C3B" stroke="#E8D5A8" strokeWidth="1.5"/>
-          <circle cx="38" cy="32" r="4" fill="#EAF1FB" stroke="#06143A" strokeWidth="1.5"/>
-          <circle cx="38" cy="32" r="1.6" fill="#06143A"/>
-          <path d="M93 35 Q108 22 115 35 Q108 48 93 35 Z" fill="#F2C14E" stroke="#06143A" strokeWidth="1.2"/>
-          <path d="M28 35 q-10 -8 -18 0 q10 8 18 0 z" fill="#3E7EDB" stroke="#06143A" strokeWidth="1.2"/>
-          <path d="M55 50 q4 12 14 14" stroke="#06143A" strokeWidth="1.2" fill="none"/>
-          <path d="M84 56 q-4 4 0 8 q5 -2 4 -7 z" fill="#EAF1FB" stroke="#06143A" strokeWidth="1.2"/>
+    <div class="castle-wrap a-rise delay-3" aria-hidden="true">
+      <svg viewBox="0 0 600 220" class="castle">
+        <defs>
+          <linearGradient id="sandG" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#E8D5A8"/>
+            <stop offset="1" stop-color="#C9AE74"/>
+          </linearGradient>
+        </defs>
+        <path d="M0 180 C 80 160, 180 200, 280 175 S 480 150, 600 178 L 600 220 L 0 220 Z" fill="url(#sandG)"/>
+        <g fill="#3E7EDB" stroke="#06143A" stroke-width="2">
+          <rect x="60"  y="120" width="34" height="55" />
+          <rect x="55"  y="110" width="44" height="12" />
+          <polygon points="60,110 77,92 94,110" />
+          <rect x="110" y="100" width="40" height="75" />
+          <rect x="105" y="92"  width="50" height="12" />
+          <rect x="118" y="78"  width="24" height="20" />
+          <polygon points="118,78 130,60 142,78" />
+          <rect x="170" y="125" width="28" height="50" />
+          <rect x="220" y="115" width="36" height="60" />
+          <rect x="215" y="106" width="46" height="12" />
+          <rect x="290" y="95"  width="60" height="80" />
+          <rect x="282" y="85"  width="76" height="14" />
+          <rect x="298" y="65"  width="44" height="22" />
+          <polygon points="298,65 320,42 342,65" />
+          <rect x="370" y="120" width="34" height="55" />
+          <rect x="420" y="105" width="48" height="70" />
+          <rect x="415" y="96"  width="58" height="12" />
+          <rect x="490" y="125" width="30" height="50" />
+          <rect x="535" y="115" width="40" height="60" />
+        </g>
+        <g fill="#F2C14E" stroke="#06143A" stroke-width="1.5">
+          <path d="M450 70 q8 -6 16 0 l-4 -4 z M450 70 q8 6 16 0 l-4 4 z" />
+          <path d="M478 58 q6 -4 12 0 l-3 -3 z M478 58 q6 4 12 0 l-3 3 z" />
+          <path d="M500 78 q6 -4 12 0 l-3 -3 z M500 78 q6 4 12 0 l-3 3 z" />
+        </g>
+        <g fill="none" stroke="#EAF1FB" stroke-width="2" opacity=".6">
+          <circle cx="20" cy="60" r="6"/>
+          <circle cx="40" cy="40" r="4"/>
+          <circle cx="560" cy="50" r="5"/>
+          <circle cx="585" cy="80" r="3"/>
         </g>
       </svg>
-      <div className="text-[10px] mt-1 text-sand font-mono tracking-widest">No. {n}</div>
-      <div className="text-grout text-xs font-semibold">{label}</div>
     </div>
-  );
-}
+  </div>
 
-function MenuCard({ section, idx }) {
-  const isWide = section.twoCol;
-  return (
-    <article
-      id={section.id}
-      className={`relative bg-cobalt-900 painted-edge p-7 md:p-9 ${isWide ? "md:col-span-2" : ""}`}
-    >
-      {/* category tab */}
-      <div className="absolute -top-4 left-6 tape px-3 py-1 border-2 border-ink">
-        <span className="font-sign text-ink text-sm tracking-wide">{`0${idx + 1}`}</span>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-row">
+        <span>BATTERED</span><span>★</span><span>FRIED</span><span>★</span><span>BELOVED</span><span>✶</span>
+        <span>EST. AT THE MARKET</span><span>★</span><span>VINYL ON THE WALLS</span><span>★</span>
+        <span>HALIBUT IN THE BASKET</span><span>✶</span>
       </div>
-
-      <header className="flex items-end justify-between gap-4 mb-6 border-b-2 border-dashed border-grout/30 pb-4">
-        <h3 className="font-sign text-[clamp(34px,4.5vw,52px)] leading-none text-grout">
-          {section.title}
-        </h3>
-        {section.note && (
-          <p className="font-mono text-[11px] text-mustard tracking-widest uppercase pb-2 text-right">
-            {section.note}
-          </p>
-        )}
-      </header>
-
-      <ul className={`grid ${isWide ? "md:grid-cols-2 gap-x-10" : ""} gap-y-3`}>
-        {section.items.map((it) => (
-          <li key={it.name} className="leader text-grout text-[17px]">
-            <span className="name font-serif italic text-grout/95">{it.name}</span>
-            <span className="dots"></span>
-            {it.price && (
-              <span className="price font-sign text-mustard text-[18px] tracking-wide">
-                ${it.price}
-              </span>
-            )}
-          </li>
-        ))}
-      </ul>
-    </article>
-  );
-}
-
-/* ---------- PAGE ---------- */
-
-function App() {
-  const [time, setTime] = useState("");
-  useEffect(() => {
-    const tz = "America/Toronto";
-    const fmt = new Intl.DateTimeFormat("en-CA", {
-      timeZone: tz, hour: "2-digit", minute: "2-digit", weekday: "short"
-    });
-    const tick = () => setTime(fmt.format(new Date()) + " · TO");
-    tick();
-    const id = setInterval(tick, 30_000);
-    return () => clearInterval(id);
-  }, []);
-
-  return (
-    <div className="relative">
-      {/* ------------- TOP BAR ------------- */}
-      <header className="sticky top-0 z-40 backdrop-blur bg-cobalt-950/85 border-b border-grout/10">
-        <div className="max-w-[1400px] mx-auto px-5 md:px-10 h-14 flex items-center justify-between">
-          <a href="#top" className="flex items-center gap-2">
-            <span className="inline-block w-7 h-7 rounded-full bg-mustard border-2 border-ink relative">
-              <span className="absolute inset-1 rounded-full border border-ink/40"></span>
-              <span className="absolute inset-[10px] rounded-full bg-coral border border-ink"></span>
-            </span>
-            <span className="font-sign tracking-wide text-grout text-lg">HOOKY’S</span>
-          </a>
-          <nav className="hidden md:flex items-center gap-7 text-[13px] font-semibold uppercase tracking-[0.18em] text-grout/80">
-            <a href="#menu" className="hover:text-mustard transition-colors">Menu</a>
-            <a href="#story" className="hover:text-mustard transition-colors">Story</a>
-            <a href="#visit" className="hover:text-mustard transition-colors">Visit</a>
-            <a href="https://instagram.com/hookystoronto" target="_blank" rel="noreferrer"
-               className="hover:text-mustard transition-colors">@hookystoronto</a>
-          </nav>
-          <div className="font-mono text-[11px] text-mustard tracking-widest uppercase hidden sm:block">
-            {time || "OPEN"}
-          </div>
-        </div>
-      </header>
-
-      {/* ------------- HERO ------------- */}
-      <section id="top" className="relative tile-bg grain overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-5 md:px-10 pt-10 md:pt-16 pb-0">
-          {/* meta row */}
-          <div className="flex flex-wrap items-center justify-between gap-3 text-grout/75">
-            <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.25em]">
-              <span className="w-2 h-2 rounded-full bg-coral animate-pulse"></span>
-              Fryer’s on · 11a–9p daily
-            </div>
-            <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.25em]">
-              <span>Wellington Market · Toronto</span>
-              <span className="opacity-50">|</span>
-              <a href="tel:+14168667474" className="hover:text-mustard transition-colors">(416) 866-7474</a>
-            </div>
-          </div>
-
-          <div className="relative grid grid-cols-12 gap-4 mt-8 md:mt-10">
-            {/* left rail: vinyl + lures */}
-            <aside className="hidden lg:flex col-span-2 flex-col items-start gap-6 pt-10">
-              <div className="relative w-[140px] h-[140px] a-pop delay-3">
-                <Vinyl className="w-[140px] h-[140px]" />
-              </div>
-              <Tilt className="a-rise delay-4" baseRotate={-3} max={18} scale={1.06}>
-                <FishLure label="The Halibut" n="01" />
-              </Tilt>
-              <Tilt className="a-rise delay-5 -ml-2" baseRotate={4} max={18} scale={1.06}>
-                <FishLure label="Krabby Hook" n="K2" />
-              </Tilt>
-            </aside>
-
-            {/* main */}
-            <div className="col-span-12 lg:col-span-8 relative">
-              <div className="a-rise">
-                <Wordmark />
-              </div>
-
-              <div className="mt-6 md:mt-8 flex flex-col md:flex-row gap-6 md:items-end md:justify-between a-rise delay-1">
-                <p className="font-serif italic text-[clamp(22px,3vw,36px)] leading-[1.05] max-w-[26ch] text-grout">
-                  Battered, fried, &nbsp;<span className="text-mustard">beloved.</span>
-                </p>
-                <div className="font-mono text-[11px] tracking-[0.22em] uppercase text-grout/70 max-w-[28ch]">
-                  Inside Wellington Market <br/>
-                  486 Front St W · Toronto
-                </div>
-              </div>
-
-              {/* CTAs */}
-              <div className="mt-8 flex flex-wrap items-center gap-4 a-rise delay-2">
-                <a href="#menu" className="cta px-6 py-4 font-sign text-lg tracking-wide">
-                  See the menu →
-                </a>
-                <a href="#visit" className="ghost-cta px-6 py-4 font-semibold text-grout text-sm uppercase tracking-[0.2em]">
-                  Find the stall
-                </a>
-                <div className="flex items-center gap-2 ml-1 text-grout/70 text-xs uppercase tracking-[0.2em]">
-                  <span className="w-6 h-px bg-grout/40"></span>
-                  Side B: <span className="text-coral">Krabby Patty $12</span>
-                </div>
-              </div>
-
-              {/* Order delivery — top of the page */}
-              <div className="mt-6 a-rise delay-2">
-                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-mustard mb-2">
-                  Order delivery · 4.7 ★ on Uber Eats
-                </div>
-                <div className="grid sm:grid-cols-2 gap-3 max-w-[560px]">
-                  <a href="https://www.ubereats.com/ca/store/hookys-fish-and-chips-486-front-st-w/4OtvWxOaQHiiDgI3bU6A-Q"
-                     target="_blank" rel="noreferrer"
-                     className="group flex items-center justify-between gap-3 px-5 py-4 bg-grout text-ink border-2 border-ink hover:bg-mustard transition-all shadow-[4px_4px_0_#06143A] hover:shadow-[6px_6px_0_#06143A] hover:-translate-x-[2px] hover:-translate-y-[2px]">
-                    <span className="font-body font-black text-[19px] tracking-tight whitespace-nowrap">
-                      Uber<span className="italic">Eats</span>
-                    </span>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] opacity-70 group-hover:opacity-100 whitespace-nowrap">Order →</span>
-                  </a>
-                  <a href="https://www.doordash.com/en-CA/store/hooky's-fish-and-chips-toronto-28843128/36099164/"
-                     target="_blank" rel="noreferrer"
-                     className="group flex items-center justify-between gap-3 px-5 py-4 bg-grout text-ink border-2 border-ink hover:bg-coral transition-all shadow-[4px_4px_0_#06143A] hover:shadow-[6px_6px_0_#06143A] hover:-translate-x-[2px] hover:-translate-y-[2px]">
-                    <span className="font-body font-black text-[19px] tracking-tight whitespace-nowrap">
-                      DoorDash
-                    </span>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] opacity-70 group-hover:opacity-100 whitespace-nowrap">Order →</span>
-                  </a>
-                </div>
-              </div>
-
-              {/* receipt-style facts */}
-              <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 a-rise delay-3">
-                {[
-                  ["Halibut", "$22.95", "House classic"],
-                  ["Sauces", "6 ways", "Tartar to curry"],
-                  ["Records", "2,000+", "KOPS on the wall"],
-                  ["Bikini Btm", "✓ open", "Krabby Patty ready"],
-                ].map(([k,v,sub]) => (
-                  <div key={k} className="bg-cobalt-950/70 border border-grout/15 p-4">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-grout/60">{k}</div>
-                    <div className="font-sign text-2xl text-mustard mt-1">{v}</div>
-                    <div className="text-[12px] text-grout/70 mt-0.5">{sub}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* right rail: today's special card */}
-            <aside className="col-span-12 lg:col-span-2 flex lg:flex-col gap-4 mt-6 lg:mt-0 a-pop delay-4">
-              <Tilt baseRotate={3} max={16} scale={1.05} className="lg:max-w-[220px]">
-                <div className="bg-coral text-ink p-5 border-2 border-ink shadow-[8px_8px_0_#06143A]">
-                  <div className="font-sign text-2xl leading-none">Today’s Special</div>
-                  <div className="font-serif italic text-lg mt-2">Krabby Patty</div>
-                  <div className="font-sign text-4xl mt-1">$12</div>
-                  <div className="mt-3 border-t-2 border-ink/60 pt-2 text-[10px] font-mono uppercase tracking-[0.2em]">
-                    Bikini Bottom · approved
-                  </div>
-                </div>
-              </Tilt>
-
-              <Tilt baseRotate={-2} max={16} scale={1.05} className="lg:max-w-[220px] flex-1">
-                <div className="bg-grout text-ink p-4 border-2 border-ink shadow-[6px_6px_0_#06143A] h-full">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-cobalt-900">Side A · 33⅓</div>
-                  <div className="font-sign text-xl leading-tight mt-1">Now Spinning</div>
-                  <div className="font-serif italic text-sm mt-1 leading-snug">
-                    Otis Redding — “Sittin’ on the Dock of the Bay”
-                  </div>
-                </div>
-              </Tilt>
-            </aside>
-          </div>
-
-          {/* underwater scene */}
-          <div className="relative mt-10 a-rise delay-3">
-            <Castle/>
-          </div>
-        </div>
-
-        <Marquee />
-      </section>
-
-      {/* ------------- MENU ------------- */}
-      <section id="menu" className="relative tile-bg-deep py-20 md:py-28">
-        <div className="max-w-[1400px] mx-auto px-5 md:px-10">
-
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-            <div>
-              <div className="eyebrow text-mustard">The Board · Hand-painted, hand-priced</div>
-              <h2 className="mt-3 font-sign text-[clamp(56px,9vw,140px)] leading-[0.85] text-grout">
-                The <span className="text-coral">Menu.</span>
-              </h2>
-              <p className="mt-4 font-serif italic text-grout/85 max-w-[52ch] text-lg">
-                Everything battered to order. The fish is the fish — flaky, white, hot.
-                Sauce on the side, opinions optional.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2 max-w-[420px]">
-              {MENU.map((s) => (
-                <a key={s.id} href={`#${s.id}`}
-                   className="px-3 py-1.5 rounded-full border border-grout/30 text-[11px] font-mono uppercase tracking-[0.18em] text-grout/80 hover:bg-mustard hover:text-ink hover:border-ink transition-colors">
-                  {s.title}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Specials & Dessert strip */}
-          <div className="grid md:grid-cols-3 gap-5 mb-10">
-            {SPECIALS.map((s, i) => (
-              <div key={s.name}
-                   className={`relative p-6 border-2 border-ink ${i === 1 ? "bg-mustard text-ink" : "bg-coral text-ink"}`}>
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] opacity-80">{s.tag}</div>
-                <div className="font-sign text-3xl mt-1">{s.name}</div>
-                <div className="font-sign text-5xl mt-2">{s.price !== "—" ? `$${s.price}` : "ASK US"}</div>
-              </div>
-            ))}
-            <div className="relative p-6 border-2 border-ink bg-grout text-ink">
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em]">Dessert</div>
-              <div className="font-sign text-3xl mt-1">{DESSERT.name}</div>
-              <div className="flex items-baseline gap-3 mt-2">
-                <div className="font-sign text-5xl">${DESSERT.price}</div>
-                <div className="font-serif italic text-sm">for 6 · Extra sauce $1</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Menu cards */}
-          <div className="grid md:grid-cols-2 gap-5 md:gap-7">
-            {MENU.map((s, i) => (
-              <MenuCard key={s.id} section={s} idx={i} />
-            ))}
-          </div>
-
-          <p className="mt-10 text-center text-grout/60 text-xs font-mono uppercase tracking-[0.25em]">
-            * Please notify us of allergies — we fry in a shared kitchen.
-          </p>
-        </div>
-      </section>
-
-      {/* ------------- STORY ------------- */}
-      <section id="story" className="relative bg-cobalt-950 py-24 md:py-32 overflow-hidden">
-        {/* big watermark */}
-        <div aria-hidden className="absolute -top-10 -right-10 opacity-[0.06] select-none pointer-events-none">
-          <div className="font-sign text-[28vw] leading-none text-grout">FISH</div>
-        </div>
-
-        <div className="max-w-[1400px] mx-auto px-5 md:px-10 relative">
-          <div className="grid md:grid-cols-12 gap-10 items-start">
-            {/* left: copy */}
-            <div className="md:col-span-7">
-              <div className="eyebrow text-coral">Side A · The Story</div>
-              <h2 className="mt-3 font-sign text-[clamp(48px,7vw,108px)] leading-[0.88] text-grout">
-                Vinyl on the walls, <br/>
-                <span className="text-mustard">halibut</span> in the basket.
-              </h2>
-              <div className="mt-6 grid sm:grid-cols-2 gap-6 font-serif text-grout/90 text-[17px] leading-relaxed">
-                <p>
-                  Hooky’s opened in a corner of <strong className="text-mustard not-italic font-sign">Wellington Market</strong> on Front St West
-                  with a fryer, a chalkboard, and a stack of records borrowed from
-                  <strong className="text-mustard not-italic font-sign"> KOPS Records</strong>.
-                  The records stayed. The chalkboard got bigger. The line got longer.
-                </p>
-                <p>
-                  The mural behind the counter is hand-painted — sandcastles,
-                  a yellow submarine, and yes, a pineapple. It’s a wink. The fish
-                  is serious. Sustainable, day-boat when we can get it,
-                  beer-battered when you ask nicely.
-                </p>
-              </div>
-
-              <div className="mt-10 flex flex-wrap gap-3">
-                {[
-                  "Beer-battered",
-                  "Day-boat halibut",
-                  "House-cut chips",
-                  "Six sauces, no apologies",
-                  "Krabby Patty available",
-                ].map((t) => (
-                  <span key={t}
-                        className="px-3 py-2 border border-grout/25 text-grout/85 text-[12px] font-mono uppercase tracking-[0.18em] hover:bg-coral hover:text-ink hover:border-ink transition-colors">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* right: vinyl + sand panel */}
-            <div className="md:col-span-5 relative">
-              <div className="relative h-[420px]">
-                <div className="absolute inset-0 sand-grain rounded-md border-2 border-ink shadow-[12px_12px_0_#0B2D78]"></div>
-                <div className="absolute -top-6 -left-6 w-[260px] h-[260px] a-bob">
-                  <Vinyl className="w-[260px] h-[260px] a-spin" />
-                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-ink text-grout px-3 py-1 font-mono text-[10px] tracking-[0.2em] uppercase">
-                    Side A · 33⅓
-                  </div>
-                </div>
-                <div className="absolute bottom-6 right-6 lure-frame p-3 a-drift">
-                  <div className="font-mono text-[10px] text-sand uppercase tracking-[0.2em]">From the wall</div>
-                  <div className="font-serif italic text-grout text-base mt-1 max-w-[200px] leading-snug">
-                    “Marvin Gaye · What’s Going On — Side B, after the chips.”
-                  </div>
-                </div>
-                <div className="absolute top-4 right-4 bg-coral text-ink px-3 py-1 border-2 border-ink rotate-[6deg] font-sign text-sm shadow-[4px_4px_0_#06143A]">
-                  KOPS × HOOKY’S
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ------------- VISIT ------------- */}
-      <section id="visit" className="relative tile-bg py-24 md:py-32">
-        <div className="max-w-[1400px] mx-auto px-5 md:px-10">
-          <div className="grid md:grid-cols-12 gap-10">
-            {/* hours */}
-            <div className="md:col-span-5">
-              <div className="eyebrow text-mustard">Counter Hours</div>
-              <h2 className="mt-3 font-sign text-[clamp(44px,6vw,88px)] leading-[0.9] text-grout">
-                Pop in. <br/>
-                <span className="text-coral">We’re frying.</span>
-              </h2>
-
-              <ul className="mt-8 divide-y divide-grout/15 border-t border-b border-grout/15">
-                {[
-                  ["Monday",    "11:00 — 21:00"],
-                  ["Tuesday",   "11:00 — 21:00"],
-                  ["Wednesday", "11:00 — 21:00"],
-                  ["Thursday",  "11:00 — 21:00"],
-                  ["Friday",    "11:00 — 21:00"],
-                  ["Saturday",  "11:00 — 21:00"],
-                  ["Sunday",    "11:00 — 21:00"],
-                ].map(([d,h]) => (
-                  <li key={d} className="flex items-baseline justify-between py-3">
-                    <span className="font-sign text-grout text-xl tracking-wide">{d}</span>
-                    <span className="font-mono text-grout/85 text-sm tracking-widest">{h}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-8 p-5 border-2 border-mustard text-grout">
-                <div className="font-sign text-mustard text-xl">Allergies?</div>
-                <p className="font-serif italic mt-1 text-grout/90">
-                  Tell us at the counter. We share the fryer with shellfish and gluten-y things.
-                </p>
-              </div>
-            </div>
-
-            {/* address + IG */}
-            <div className="md:col-span-7">
-              <div className="bg-cobalt-950 border-2 border-grout p-8 md:p-10 painted-edge">
-                <div className="flex items-start justify-between gap-6">
-                  <div>
-                    <div className="eyebrow text-coral">Where</div>
-                    <div className="mt-3 font-sign text-grout text-3xl md:text-4xl leading-tight">
-                      Wellington Market <br/>
-                      <span className="text-mustard">486 Front St W</span>
-                    </div>
-                    <div className="mt-4 font-mono text-grout/80 text-sm tracking-widest">
-                      TORONTO ON · M5V 0V2 · <a href="tel:+14168667474" className="hover:text-mustard">(416) 866-7474</a>
-                    </div>
-                  </div>
-                  <div className="hidden sm:grid place-items-center w-20 h-20 rounded-full border-2 border-grout text-grout font-sign text-3xl rotate-[-8deg]">
-                    N
-                  </div>
-                </div>
-
-                {/* faux map */}
-                <div className="mt-8 relative h-56 border border-grout/30 overflow-hidden">
-                  <div className="absolute inset-0"
-                       style={{
-                         background:
-                           "repeating-linear-gradient(45deg, rgba(234,241,251,0.08) 0 1px, transparent 1px 14px), repeating-linear-gradient(-45deg, rgba(234,241,251,0.08) 0 1px, transparent 1px 14px)",
-                       }}/>
-                  <svg viewBox="0 0 600 220" className="absolute inset-0 w-full h-full">
-                    <path d="M-10 60 L 620 90" stroke="#E8D5A8" strokeWidth="2" opacity="0.8"/>
-                    <path d="M40 -10 L 80 240" stroke="#E8D5A8" strokeWidth="2" opacity="0.8"/>
-                    <path d="M520 -10 L 480 240" stroke="#E8D5A8" strokeWidth="2" opacity="0.8"/>
-                    <path d="M-10 170 L 620 150" stroke="#E8D5A8" strokeWidth="2" opacity="0.8"/>
-                    <text x="50" y="50" fill="#EAF1FB" fontFamily="Manrope" fontSize="10" letterSpacing="3">FRONT ST W</text>
-                    <text x="450" y="200" fill="#EAF1FB" fontFamily="Manrope" fontSize="10" letterSpacing="3">SPADINA</text>
-                  </svg>
-                  <div className="absolute" style={{ left: "44%", top: "44%" }}>
-                    <div className="relative">
-                      <div className="w-6 h-6 rounded-full bg-coral border-2 border-ink animate-ping absolute"></div>
-                      <div className="w-6 h-6 rounded-full bg-coral border-2 border-ink relative"></div>
-                    </div>
-                    <div className="mt-2 -translate-x-1/2 absolute left-3 whitespace-nowrap font-sign text-grout text-sm">
-                      You eat here.
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 grid sm:grid-cols-2 gap-4">
-                  <a href="https://instagram.com/hookystoronto" target="_blank" rel="noreferrer"
-                     className="cta block text-center px-5 py-4 font-sign text-lg tracking-wide">
-                    @hookystoronto →
-                  </a>
-                  <a href="https://www.google.com/maps/place/Hooky's+Fish+and+Chips/@43.6424673,-79.4016241,17z/data=!3m1!4b1!4m6!3m5!1s0x882b34e30f102aad:0x8347b228dc112ebb!8m2!3d43.6424635!4d-79.3967532!16s%2Fg%2F1ts_7784" target="_blank" rel="noreferrer"
-                     className="ghost-cta block text-center px-5 py-4 font-semibold text-grout text-sm uppercase tracking-[0.2em]">
-                    Open in maps
-                  </a>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ------------- FOOTER ------------- */}
-      <footer className="bg-ink border-t-4 border-mustard">
-        <div className="max-w-[1400px] mx-auto px-5 md:px-10 py-10 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="inline-block w-9 h-9 rounded-full bg-mustard border-2 border-grout/40 relative">
-              <span className="absolute inset-1 rounded-full border border-grout/30"></span>
-              <span className="absolute inset-[14px] rounded-full bg-coral"></span>
-            </span>
-            <div>
-              <div className="font-sign text-grout text-2xl tracking-wide leading-none">HOOKY’S</div>
-              <div className="font-mono text-[10px] tracking-[0.25em] text-grout/60 uppercase mt-1">
-                Toronto · Battered, fried, beloved.
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-x-8 gap-y-3 font-mono text-[11px] uppercase tracking-[0.22em] text-grout/70">
-            <a href="#menu" className="hover:text-mustard">Menu</a>
-            <a href="#story" className="hover:text-mustard">Story</a>
-            <a href="#visit" className="hover:text-mustard">Visit</a>
-            <a href="https://instagram.com/hookystoronto" target="_blank" rel="noreferrer" className="hover:text-mustard">Instagram</a>
-          </div>
-
-          <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-grout/50">
-            © {new Date().getFullYear()} Hooky’s · Side B forever
-          </div>
-        </div>
-      </footer>
+      <div class="marquee-row">
+        <span>BATTERED</span><span>★</span><span>FRIED</span><span>★</span><span>BELOVED</span><span>✶</span>
+        <span>EST. AT THE MARKET</span><span>★</span><span>VINYL ON THE WALLS</span><span>★</span>
+        <span>HALIBUT IN THE BASKET</span><span>✶</span>
+      </div>
+      <div class="marquee-row">
+        <span>BATTERED</span><span>★</span><span>FRIED</span><span>★</span><span>BELOVED</span><span>✶</span>
+        <span>EST. AT THE MARKET</span><span>★</span><span>VINYL ON THE WALLS</span><span>★</span>
+        <span>HALIBUT IN THE BASKET</span><span>✶</span>
+      </div>
+      <div class="marquee-row">
+        <span>BATTERED</span><span>★</span><span>FRIED</span><span>★</span><span>BELOVED</span><span>✶</span>
+        <span>EST. AT THE MARKET</span><span>★</span><span>VINYL ON THE WALLS</span><span>★</span>
+        <span>HALIBUT IN THE BASKET</span><span>✶</span>
+      </div>
     </div>
-  );
-}
+  </div>
+</section>
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+<!-- ============ MENU ============ -->
+<section id="menu" class="section tile-bg-deep">
+  <div class="container">
+
+    <div class="menu-head">
+      <div>
+        <div class="eyebrow" style="color:var(--mustard)">The Board · Hand-painted, hand-priced</div>
+        <h2>The <span class="accent">Menu.</span></h2>
+        <p class="lede">
+          Everything battered to order. The fish is the fish — flaky, white, hot.
+          Sauce on the side, opinions optional.
+        </p>
+      </div>
+      <div class="chip-row" id="chip-row" aria-label="Jump to menu section"></div>
+    </div>
+
+    <div class="specials">
+      <div class="special coral">
+        <div class="tag">TODAY</div>
+        <div class="name">Fish Sandwich</div>
+        <div class="price">$13.95</div>
+      </div>
+      <div class="special mustard">
+        <div class="tag">FRYER&rsquo;S PICK</div>
+        <div class="name">Catch of the Day</div>
+        <div class="price">MARKET</div>
+      </div>
+      <div class="special grout">
+        <div class="tag">DESSERT</div>
+        <div class="name">Cinnamon Bites</div>
+        <div class="row">
+          <div class="price">$5</div>
+          <div class="small">for 6 · Extra sauce $1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-cards" id="menu-cards"></div>
+
+    <p class="allergy-note">* Please notify us of allergies — we fry in a shared kitchen.</p>
+  </div>
+</section>
+
+<!-- ============ STORY ============ -->
+<section id="story" class="story section">
+  <div aria-hidden="true" class="watermark">FISH</div>
+  <div class="container story-grid">
+    <div class="story-copy">
+      <div class="eyebrow" style="color:var(--coral)">Side A · The Story</div>
+      <h2>Vinyl on the walls,<br/><span class="accent">halibut</span> in the basket.</h2>
+      <div class="copy-cols">
+        <p>
+          Hooky&rsquo;s opened in a corner of <strong>Wellington Market</strong> on Front St West
+          with a fryer, a chalkboard, and a stack of records borrowed from
+          <strong>KOPS Records</strong>.
+          The records stayed. The chalkboard got bigger. The line got longer.
+        </p>
+        <p>
+          The mural behind the counter is hand-painted — sandcastles, schools
+          of fish, and a few inside jokes you&rsquo;ll find if you look. The fish
+          is serious. Sustainable, day-boat when we can get it,
+          beer-battered when you ask nicely.
+        </p>
+      </div>
+      <div class="tag-row">
+        <span class="pill">Beer-battered</span>
+        <span class="pill">Day-boat halibut</span>
+        <span class="pill">House-cut chips</span>
+        <span class="pill">Six sauces, no apologies</span>
+        <span class="pill">Mushy peas, properly mushed</span>
+      </div>
+    </div>
+
+    <div class="story-art">
+      <div class="art-stage">
+        <div class="sand-panel sand-grain"></div>
+        <div class="vinyl-big">
+          <span class="vinyl"></span>
+          <div class="badge">Side A · 33⅓</div>
+        </div>
+        <div class="quote-frame">
+          <div class="source">From the wall</div>
+          <div class="quote">"Marvin Gaye · What&rsquo;s Going On — Side B, after the chips."</div>
+        </div>
+        <div class="kops-sticker">KOPS × HOOKY&rsquo;S</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISIT ============ -->
+<section id="visit" class="visit section tile-bg">
+  <div class="container visit-grid">
+    <div class="visit-hours">
+      <div class="eyebrow" style="color:var(--mustard)">Counter Hours</div>
+      <h2>Pop in.<br/><span class="accent">We&rsquo;re frying.</span></h2>
+
+      <ul class="hours-table" id="hours-table"></ul>
+
+      <div class="allergy-callout">
+        <div class="h">Allergies?</div>
+        <p>Tell us at the counter. We share the fryer with shellfish and gluten-y things.</p>
+      </div>
+    </div>
+
+    <div class="visit-where">
+      <div class="where-card">
+        <div class="where-head">
+          <div>
+            <div class="eyebrow" style="color:var(--coral)">Where</div>
+            <div class="address">
+              Wellington Market<br/>
+              <span class="accent">486 Front St W</span>
+            </div>
+            <div class="meta">
+              TORONTO ON · M5V 0V2 · <a href="tel:+14168667474">(416) 866-7474</a>
+            </div>
+          </div>
+          <div class="compass" aria-hidden="true">N</div>
+        </div>
+
+        <div class="faux-map" aria-label="Sketch of streets near Wellington Market">
+          <svg viewBox="0 0 600 220" class="map-svg" aria-hidden="true">
+            <path d="M-10 60 L 620 90" stroke="#E8D5A8" stroke-width="2" opacity="0.8"/>
+            <path d="M40 -10 L 80 240" stroke="#E8D5A8" stroke-width="2" opacity="0.8"/>
+            <path d="M520 -10 L 480 240" stroke="#E8D5A8" stroke-width="2" opacity="0.8"/>
+            <path d="M-10 170 L 620 150" stroke="#E8D5A8" stroke-width="2" opacity="0.8"/>
+            <text x="50" y="50" fill="#EAF1FB" font-family="Manrope" font-size="10" letter-spacing="3">FRONT ST W</text>
+            <text x="450" y="200" fill="#EAF1FB" font-family="Manrope" font-size="10" letter-spacing="3">SPADINA</text>
+          </svg>
+          <div class="pin">
+            <span class="ping" aria-hidden="true"></span>
+            <span class="dot" aria-hidden="true"></span>
+            <span class="label">You eat here.</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a class="cta" href="https://instagram.com/hookystoronto" target="_blank" rel="noreferrer">@hookystoronto &rarr;</a>
+          <a class="ghost-cta" href="https://www.google.com/maps/place/Hooky's+Fish+and+Chips/@43.6424673,-79.4016241,17z" target="_blank" rel="noreferrer">Open in maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container foot">
+    <div class="foot-brand">
+      <span class="dot" aria-hidden="true"></span>
+      <div>
+        <div class="name">HOOKY&rsquo;S</div>
+        <div class="tagline">Toronto · Battered, fried, beloved.</div>
+      </div>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#menu">Menu</a>
+      <a href="#story">Story</a>
+      <a href="#visit">Visit</a>
+      <a href="https://instagram.com/hookystoronto" target="_blank" rel="noreferrer">Instagram</a>
+    </nav>
+    <div class="copy">© <span id="year"></span> Hooky&rsquo;s · Side B forever</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ---- Data (single source of truth) ----
+  var HOURS = [
+    ['Monday',    11, 21],
+    ['Tuesday',   11, 21],
+    ['Wednesday', 11, 21],
+    ['Thursday',  11, 21],
+    ['Friday',    11, 21],
+    ['Saturday',  11, 21],
+    ['Sunday',    11, 21]
+  ];
+  // JS getDay(): 0=Sun..6=Sat -> our Mon-first index
+  var DOW_TO_INDEX = [6, 0, 1, 2, 3, 4, 5];
+
+  var NOW_SPINNING = [
+    'Otis Redding — "Sittin’ on the Dock of the Bay"',
+    'Marvin Gaye — "What’s Going On"',
+    'Aretha Franklin — "Respect"',
+    'Sam Cooke — "A Change Is Gonna Come"',
+    'Bill Withers — "Lovely Day"',
+    'Stevie Wonder — "Sir Duke"',
+    'Etta James — "At Last"'
+  ];
+
+  var MENU = [
+    { id:'fnc',    title:'Fish & Chips', note:'Comes with a free sauce.', items:[
+      ['Halibut & Chips', '22.95'],
+      ['Haddock & Chips', '16.50'],
+      ['Cod & Chips',     '14.95']
+    ]},
+    { id:'mains',  title:'Mains', note:'Filet only — fryer-fresh.', items:[
+      ['Halibut',                  '17.50'],
+      ['Haddock',                  '12.50'],
+      ['Cod',                       '8.99'],
+      ['Calamari',                 '13.75'],
+      ['Prawns',                   '13.95'],
+      ['Jalapeño Popcorn Shrimp', '11.00'],
+      ['Scallops',                 '17.95'],
+      ['Clams',                    '14.99']
+    ]},
+    { id:'sides',  title:'Sides', note:'Reg / Lg', wide:true, items:[
+      ['Chips',              '6.75 / 9.50'],
+      ['Curly Fries',        '7.95 / 13.95'],
+      ['Onion Rings',        '7.95 / 13.15'],
+      ['Fried Pickles',      '7.95 / 13.95'],
+      ['Sweet Potato Fries', '7.95 / 13.15'],
+      ['Slaw',               '2.75'],
+      ['Poutine — NEW',      '10.95']
+    ]},
+    { id:'cakes',  title:'Cakes & Sausages', items:[
+      ['Fish Cakes (3)',      '11.50'],
+      ['Crab Cakes (2)',      '12.00'],
+      ['Battered Sausages',   '13.95']
+    ]},
+    { id:'tacos',  title:'Tacos', note:'1 / 3', items:[
+      ['Fish Tacos',   '6.95 / 17.95'],
+      ['Shrimp Tacos', '6.95 / 17.95']
+    ]},
+    { id:'sauces', title:'Sauces', note:'Extra +$1.75', wide:true, items:[
+      ['Tartar Mayo'], ['Garlic Mayo'], ['Spicy Mayo'],
+      ['Curry Dip'], ['House Gravy'], ['Mushy Peas']
+    ]},
+    { id:'drinks', title:'Drinks', items:[
+      ['Pop Can',     '1.99'],
+      ['Special Can', '2.75'],
+      ['Bottled Pop', '3.75'],
+      ['Iced Tea',    '3.25'],
+      ['Water',       '2.00']
+    ]}
+  ];
+
+  function el(tag, opts) {
+    var node = document.createElement(tag);
+    if (opts) {
+      if (opts.className) node.className = opts.className;
+      if (opts.text != null) node.textContent = opts.text;
+      if (opts.href) node.setAttribute('href', opts.href);
+      if (opts.id) node.id = opts.id;
+      if (opts.attrs) Object.keys(opts.attrs).forEach(function (k) { node.setAttribute(k, opts.attrs[k]); });
+    }
+    return node;
+  }
+
+  function torontoParts(now) {
+    var fmt = new Intl.DateTimeFormat('en-CA', {
+      timeZone:'America/Toronto',
+      weekday:'short', hour12:false,
+      hour:'2-digit', minute:'2-digit'
+    });
+    var parts = fmt.formatToParts(now).reduce(function (acc, p) {
+      if (p.type !== 'literal') acc[p.type] = p.value;
+      return acc;
+    }, {});
+    var hour = parseInt(parts.hour, 10); if (hour === 24) hour = 0;
+    return {
+      weekday: parts.weekday,
+      hour: hour,
+      minute: parseInt(parts.minute, 10),
+      dow: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(parts.weekday)
+    };
+  }
+
+  function fmtHour(h) {
+    if (h === 0)  return '12a';
+    if (h === 12) return '12p';
+    if (h > 12)   return (h - 12) + 'p';
+    return h + 'a';
+  }
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  // ----- Render menu cards (DOM-built, no innerHTML) -----
+  (function renderMenu() {
+    var host = document.getElementById('menu-cards');
+    if (!host) return;
+    MENU.forEach(function (s, i) {
+      var num = i < 9 ? '0' + (i + 1) : String(i + 1);
+      var article = el('article', { className:'menu-card' + (s.wide ? ' wide' : ''), id:s.id });
+
+      var tab = el('div', { className:'tab' });
+      tab.appendChild(el('span', { text:num }));
+      article.appendChild(tab);
+
+      var header = document.createElement('header');
+      header.appendChild(el('h3', { text:s.title }));
+      if (s.note) header.appendChild(el('p', { className:'note', text:s.note }));
+      article.appendChild(header);
+
+      var list = el('ul', { className:'leader-list' });
+      s.items.forEach(function (it) {
+        var li = el('li', { className:'leader' });
+        li.appendChild(el('span', { className:'name', text:it[0] }));
+        li.appendChild(el('span', { className:'dots' }));
+        if (it[1]) li.appendChild(el('span', { className:'price', text:'$' + it[1] }));
+        list.appendChild(li);
+      });
+      article.appendChild(list);
+      host.appendChild(article);
+    });
+  })();
+
+  // ----- Render menu chips -----
+  (function renderChips() {
+    var host = document.getElementById('chip-row');
+    if (!host) return;
+    MENU.forEach(function (s) {
+      host.appendChild(el('a', { className:'chip', href:'#' + s.id, text:s.title }));
+    });
+  })();
+
+  // ----- Render hours from single source -----
+  (function renderHours() {
+    var host = document.getElementById('hours-table');
+    if (!host) return;
+    var todayIdx = DOW_TO_INDEX[new Date().getDay()];
+    HOURS.forEach(function (row, i) {
+      var li = el('li');
+      var isToday = i === todayIdx;
+      if (isToday) { li.className = 'is-today'; li.setAttribute('aria-current', 'true'); }
+      li.appendChild(el('span', { className:'day', text: row[0] + (isToday ? ' · today' : '') }));
+      li.appendChild(el('span', { className:'hr',  text: pad(row[1]) + ':00 — ' + pad(row[2]) + ':00' }));
+      host.appendChild(li);
+    });
+  })();
+
+  // ----- Status line + clock -----
+  function updateStatus() {
+    var p = torontoParts(new Date());
+    var dowIndex = p.dow >= 0 ? DOW_TO_INDEX[p.dow] : 0;
+    var row = HOURS[dowIndex];
+    var open = row[1], close = row[2];
+    var isOpen = (p.hour > open || (p.hour === open && p.minute >= 0)) && p.hour < close;
+
+    var text = isOpen
+      ? 'Fryer’s on · closes ' + fmtHour(close)
+      : 'Closed · opens ' + fmtHour(open);
+
+    var heroLine = document.getElementById('status-line');
+    var mobileLine = document.getElementById('mobile-status');
+    var clock = document.getElementById('clock');
+
+    if (heroLine)   heroLine.textContent = text;
+    if (mobileLine) mobileLine.textContent = text;
+    if (clock) {
+      var hh = p.hour, mm = p.minute < 10 ? '0' + p.minute : p.minute;
+      var suffix = hh >= 12 ? 'p' : 'a';
+      var disp = ((hh % 12) || 12);
+      clock.textContent = p.weekday + ' ' + disp + ':' + mm + suffix + ' · TO';
+    }
+  }
+  updateStatus();
+  setInterval(updateStatus, 30000);
+
+  // ----- Now Spinning rotation (deterministic per day) -----
+  (function rotateSpinning() {
+    var node = document.getElementById('now-spinning');
+    if (!node) return;
+    var day = Math.floor(Date.now() / 86400000);
+    node.textContent = NOW_SPINNING[day % NOW_SPINNING.length];
+  })();
+
+  // ----- Year in footer -----
+  var year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
+
+  // ----- Mobile menu toggle -----
+  (function mobileMenu() {
+    var btn = document.getElementById('menu-toggle');
+    var sheet = document.getElementById('mobile-sheet');
+    var label = document.getElementById('menu-toggle-label');
+    if (!btn || !sheet) return;
+    function setOpen(open) {
+      sheet.setAttribute('data-open', String(open));
+      sheet.setAttribute('aria-hidden', String(!open));
+      btn.setAttribute('aria-expanded', String(open));
+      if (label) label.textContent = open ? 'Close' : 'Menu';
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    btn.addEventListener('click', function () {
+      setOpen(sheet.getAttribute('data-open') !== 'true');
+    });
+    sheet.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { setOpen(false); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sheet.getAttribute('data-open') === 'true') {
+        setOpen(false); btn.focus();
+      }
+    });
+  })();
+
+  // ----- Tilt cards (skipped under reduced-motion) -----
+  (function tilt() {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    var els = document.querySelectorAll('.tilt');
+    els.forEach(function (node) {
+      var base = node.style.transform || '';
+      var match = base.match(/rotate\((-?\d+(?:\.\d+)?)deg\)/);
+      var baseRotate = match ? parseFloat(match[1]) : 0;
+      var max = 12;
+      var raf;
+      node.addEventListener('mousemove', function (e) {
+        var r = node.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width;
+        var y = (e.clientY - r.top) / r.height;
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(function () {
+          var rx = -(y - 0.5) * 2 * max;
+          var ry = (x - 0.5) * 2 * max;
+          node.style.transition = 'transform 90ms ease-out';
+          node.style.transform =
+            'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) ' +
+            'rotateZ(' + baseRotate + 'deg) scale(1.04)';
+        });
+      });
+      node.addEventListener('mouseleave', function () {
+        node.style.transition = 'transform 600ms cubic-bezier(.2,.8,.2,1)';
+        node.style.transform = 'rotate(' + baseRotate + 'deg)';
+      });
+    });
+  })();
+
+  // ----- Soft scroll-reveal (progressive enhancement; off under reduced-motion) -----
+  (function reveal() {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return;
+
+    // Reveal below-the-fold blocks as units — never the interactive cards
+    // themselves, so card hover transforms stay untouched.
+    var sel = '.menu-head, .specials, #menu-cards, .allergy-note, ' +
+              '.story-copy, .story-art, .visit-hours, .visit-where, .foot';
+    var targets = Array.prototype.slice.call(document.querySelectorAll(sel));
+    if (!targets.length) return;
+
+    targets.forEach(function (el) { el.classList.add('reveal'); });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('reveal-in');
+        entry.target.style.willChange = 'auto'; // release compositor hint once shown
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+
+    targets.forEach(function (el) { io.observe(el); });
+  })();
+})();
 </script>
 </body>
 </html>

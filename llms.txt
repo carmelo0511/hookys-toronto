@@ -1,0 +1,39 @@
+# Hooky's Fish & Chips
+
+> A casual British-style fish & chips counter inside Wellington Market at 486 Front St W, Toronto. Beer-battered day-boat halibut, house-cut chips, six house sauces, and a wall of soul and Motown vinyl. Open 11am–9pm, seven days a week. Takeout and delivery via Uber Eats and DoorDash.
+
+Hooky's is a fish and chips spot in downtown Toronto (CityPlace / Front Street West), known for day-boat halibut, fresh-cut chips, and a record collection borrowed from KOPS Records. It is a walk-up counter — there are no table reservations. All prices are in Canadian dollars (CAD).
+
+## Key facts
+- **Name:** Hooky's Fish & Chips (also "Hooky's Toronto")
+- **Location:** Inside Wellington Market, 486 Front St W, Toronto, ON M5V 0V2, Canada
+- **Hours:** 11:00 AM – 9:00 PM, seven days a week (Toronto time)
+- **Phone:** +1 (416) 866-7474
+- **Cuisine:** Fish and chips, seafood, British
+- **Price range:** $$ (CAD)
+- **Service:** Walk-up counter, takeout, and delivery — no reservations
+- **Payment:** Cash, credit card, debit card
+
+## Menu highlights (CAD)
+- **Fish & Chips** (comes with a free sauce): Halibut & Chips $22.95 · Haddock & Chips $16.50 · Cod & Chips $14.95
+- **Specials:** Fish Sandwich $13.95 · Catch of the Day (market price) · Cinnamon Bites $5 (6 pieces)
+- **Mains** (filet only): Halibut $17.50 · Haddock $12.50 · Cod $8.99 · Calamari $13.75 · Prawns $13.95 · Jalapeño Popcorn Shrimp $11.00 · Scallops $17.95 · Clams $14.99
+- **Sides** (Regular / Large): Chips $6.75 / $9.50 · Curly Fries $7.95 / $13.95 · Onion Rings $7.95 / $13.15 · Fried Pickles $7.95 / $13.95 · Sweet Potato Fries $7.95 / $13.15 · Slaw $2.75 · Poutine $10.95
+- **Cakes & Sausages:** Fish Cakes (3) $11.50 · Crab Cakes (2) $12.00 · Battered Sausages $13.95
+- **Tacos** (1 / 3): Fish Tacos $6.95 / $17.95 · Shrimp Tacos $6.95 / $17.95
+- **Sauces** (one free with fish & chips; extra +$1.75): Tartar Mayo, Garlic Mayo, Spicy Mayo, Curry Dip, House Gravy, Mushy Peas
+- **Drinks:** Pop Can $1.99 · Special Can $2.75 · Bottled Pop $3.75 · Iced Tea $3.25 · Water $2.00
+- **Allergy note:** fried in a shared kitchen — tell staff about allergies before ordering.
+
+## Order & contact
+- [Order on Uber Eats](https://www.ubereats.com/ca/store/hookys-fish-and-chips-486-front-st-w/4OtvWxOaQHiiDgI3bU6A-Q)
+- [Order on DoorDash](https://www.doordash.com/en-CA/store/hooky's-fish-and-chips-toronto-28843128/36099164/)
+- [Instagram @hookystoronto](https://instagram.com/hookystoronto)
+- [Find on Google Maps](https://www.google.com/maps/place/Hooky's+Fish+and+Chips/@43.6424673,-79.4016241,17z)
+- Phone: +1 (416) 866-7474
+
+## Pages
+- [Home](https://hookys-toronto.vercel.app/)
+- [Menu](https://hookys-toronto.vercel.app/#menu)
+- [Story](https://hookys-toronto.vercel.app/#story)
+- [Visit & hours](https://hookys-toronto.vercel.app/#visit)
