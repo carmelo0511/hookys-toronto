@@ -1,6 +1,6 @@
 {
   "v": 1,
-  "updatedAt": 1781759789125,
+  "updatedAt": 1781759832475,
   "edits": {
     "top/v#0": {
       "text": "$23.95",
@@ -15,6 +15,10 @@
       "baseFp": "a8328d5c"
     },
     "top/price#0": {
+      "text": "$23.95",
+      "baseFp": "ca0943e4"
+    },
+    "menu/fnc/item/halibut-chips/price": {
       "text": "$23.95",
       "baseFp": "ca0943e4"
     }
