@@ -1138,9 +1138,335 @@
     .tilt { transform:none !important; }
     .reveal { opacity:1 !important; transform:none !important; }
   }
+  /* ===================== HOOKY'S FIRST-LOAD LOADER — "REEL & HAUL" (append at very end of main <style>) ===================== */
+  /* Scroll lock applied while the curtain is up. Verified: real wheel/touch scroll fully blocked. */
+  html.ldr-lock, html.ldr-lock body { overflow:hidden !important; height:100%; touch-action:none; }
+
+  /* Root: hidden by default so repeat loads (and the brief pre-script paint) NEVER flash the curtain.
+     The inline gate adds .ldr-go on first load to switch it on + start the master timeline.
+     If JS never runs at all, the root stays display:none -> site fully usable, no flash. */
+  #ldr{
+    position:fixed; inset:0; z-index:10000;        /* above the editor chrome (max 9200) */
+    display:none;
+    opacity:1; visibility:visible; pointer-events:auto;
+    overflow:hidden; contain:strict;
+    -webkit-tap-highlight-color:transparent;
+  }
+  /* Session-gated reveal: the haul/master animations key off .ldr-go and end HIDDEN via fill-mode:both,
+     so the overlay disappears from CSS alone even if JS cleanup never fires (true CSS-only reveal). */
+  #ldr.ldr-go{
+    display:block;
+    animation:ldr-master 3.05s linear both;
+  }
+
+  /* The deep-water curtain — this is what gets HAULED up off the top of the viewport. */
+  #ldr .ldr-curtain{
+    position:absolute; left:0; right:0; top:0;
+    height:calc(100% + 16vh); /* extra so the wavy bottom edge still covers during the early tug */
+    background:
+      radial-gradient(125% 85% at 50% -12%, var(--cobalt-700) 0%, var(--cobalt-900) 46%, var(--cobalt-950) 100%);
+    transform:translate3d(0,0,0);
+  }
+  #ldr.ldr-go .ldr-curtain{
+    animation:ldr-haul 3.05s cubic-bezier(.5,0,.18,1) both;
+    will-change:transform;
+  }
+
+  /* Caustic shimmer — faint moving light, transform/opacity only, finite (forwards) not infinite. */
+  #ldr .ldr-caustic{
+    position:absolute; inset:-20% -20% 0 -20%;
+    background:
+      radial-gradient(40% 30% at 30% 20%, rgba(62,126,219,.30), transparent 60%),
+      radial-gradient(36% 26% at 72% 38%, rgba(242,193,78,.10), transparent 60%),
+      radial-gradient(50% 34% at 50% 78%, rgba(30,95,191,.26), transparent 62%);
+    mix-blend-mode:screen; opacity:.7;
+  }
+  #ldr.ldr-go .ldr-caustic{ animation:ldr-shimmer 3.05s ease-in-out both; will-change:transform,opacity; }
+
+  /* Wavy / torn-net water-surface bottom edge so the reveal is a SHAPE, not a flat rectangle. */
+  #ldr .ldr-edge{
+    position:absolute; left:-2%; width:104%;
+    bottom:-1px; height:14vh; min-height:60px;
+    display:block; fill:var(--cobalt-950);
+  }
+  #ldr .ldr-edge .ldr-edge-net{ fill:none; stroke:rgba(233,213,168,.28); stroke-width:2; }
+
+  /* Rising bubbles — finite (forwards) so they don't look dead-looped under reduced motion. */
+  #ldr .ldr-bubbles{ position:absolute; inset:0; pointer-events:none; }
+  #ldr .ldr-bub{
+    position:absolute; bottom:-6vh;
+    width:var(--s); height:var(--s); border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.9), rgba(174,206,255,.25) 55%, rgba(174,206,255,0) 72%);
+    border:1px solid rgba(233,240,251,.25);
+    opacity:0;
+  }
+  #ldr.ldr-go .ldr-bub{ animation:ldr-rise var(--d) ease-in var(--delay) both; will-change:transform,opacity; }
+  #ldr .b1{ --s:10px; --d:2.2s; --delay:.15s; left:18%; }
+  #ldr .b2{ --s:16px; --d:2.6s; --delay:.45s; left:30%; }
+  #ldr .b3{ --s:7px;  --d:1.9s; --delay:.05s; left:44%; }
+  #ldr .b4{ --s:13px; --d:2.4s; --delay:.70s; left:58%; }
+  #ldr .b5{ --s:9px;  --d:2.1s; --delay:.30s; left:70%; }
+  #ldr .b6{ --s:18px; --d:2.8s; --delay:.55s; left:82%; }
+  #ldr .b7{ --s:6px;  --d:1.7s; --delay:.90s; left:50%; }
+  #ldr .b8{ --s:11px; --d:2.3s; --delay:1.0s; left:9%;  }
+
+  /* Center stage: rope + hook + brand all ride up with the curtain. */
+  #ldr .ldr-stage{
+    position:absolute; left:0; right:0; top:0; bottom:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:clamp(14px,3.4vh,30px); padding:0 6vw;
+  }
+
+  /* The hook + wordmark cluster that bobs as the line reels in.
+     Positioning context for the rope so the line stays ATTACHED to the hook and rides up with it. */
+  #ldr .ldr-catch{
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center;
+    gap:clamp(10px,2.2vh,20px);
+  }
+  #ldr.ldr-go .ldr-catch{ animation:ldr-reel 3.05s cubic-bezier(.5,0,.18,1) both; will-change:transform; }
+
+  /* The taut twisted rope/line: attached to the hook eye, running far off the top of the viewport. */
+  #ldr .ldr-rope{
+    position:absolute; left:50%; top:auto;
+    bottom:calc(100% - 10px);            /* meet the eye at the top of the hook */
+    width:clamp(6px,1.4vw,10px); height:160vh;
+    transform:translateX(-50%); z-index:1;
+    background:
+      repeating-linear-gradient(48deg, var(--sand) 0 4px, var(--sand-deep) 4px 8px); /* twisted-rope weave */
+    border-left:1.5px solid rgba(6,20,58,.5);
+    border-right:1.5px solid rgba(6,20,58,.5);
+    border-radius:6px;
+    box-shadow:0 0 0 1px rgba(6,20,58,.35);
+  }
+  #ldr .ldr-hook{
+    width:clamp(54px,12vw,96px); height:auto;
+    filter:drop-shadow(4px 4px 0 var(--ink));
+  }
+  #ldr .ldr-hook path, #ldr .ldr-hook circle{ vector-effect:non-scaling-stroke; }
+  #ldr .ldr-word{
+    /* fallback is metrically close (system sans) so a cold-load font swap mid-haul isn't jarring */
+    font-family:"Bagel Fat One", system-ui, -apple-system, "Segoe UI", sans-serif; font-weight:400;
+    font-size:clamp(40px,12vw,108px); line-height:.9; color:var(--mustard);
+    text-shadow:4px 4px 0 var(--coral-deep), 7px 7px 0 var(--ink);
+    letter-spacing:.01em; -webkit-text-stroke:2px var(--ink);
+  }
+  #ldr .ldr-kicker{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    text-transform:uppercase; letter-spacing:.34em;
+    font-size:clamp(10px,2.6vw,14px); color:var(--grout); opacity:0; padding-left:.34em;
+  }
+  #ldr.ldr-go .ldr-kicker{ animation:ldr-kick 3.05s ease-out both; }
+  #ldr .ldr-kicker b{ font-weight:400; color:var(--coral); }
+
+  /* Escape-hatch hint: the whole curtain is tappable (and Esc works) to reveal early. */
+  #ldr .ldr-skip{
+    position:absolute; left:50%; bottom:clamp(16px,4.5vh,40px); transform:translateX(-50%);
+    z-index:3; pointer-events:none; white-space:nowrap;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    text-transform:uppercase; letter-spacing:.26em; font-size:clamp(9px,2.2vw,11px);
+    color:var(--grout); opacity:0;
+  }
+  #ldr.ldr-go .ldr-skip{ animation:ldr-skiphint 3.05s ease-out both; }
+  @keyframes ldr-skiphint{ 0%,30%{opacity:0} 46%{opacity:.4} 74%{opacity:.4} 86%,100%{opacity:0} }
+
+  /* ---- Choreography (browser-verified curtain travel) ----
+     0.00–0.45s  rope reels in: hook bobs up in two stepped notches (dashed-reel feel)
+     0.70–0.95s  sharp TUG: the curtain jolts down then snaps (recoil preserved)
+     ~1.0–3.05s  HAUL: a deliberate CONTINUOUS pull straight up & off the top, then hides
+                 (verified: -16%vh @1.4s -> -31% @1.7s -> -60% @2.1s -> -96% @2.5s -> off, no late snap) */
+
+  @keyframes ldr-master{
+    0%   { opacity:1; visibility:visible; pointer-events:auto; }
+    96%  { opacity:1; visibility:visible; pointer-events:auto; }
+    100% { opacity:0; visibility:hidden; pointer-events:none; } /* STICKS via fill-mode -> no-JS + reduced-motion safe */
+  }
+
+  /* Hook/brand reel: stepped bob, tiny tug recoil, then carried up with the haul. */
+  @keyframes ldr-reel{
+    0%   { transform:translateY(46px); }
+    10%  { transform:translateY(30px); }   /* notch 1 */
+    15%  { transform:translateY(34px); }
+    22%  { transform:translateY(15px); }   /* notch 2 */
+    26%  { transform:translateY(19px); }
+    30%  { transform:translateY(2px); }    /* settled, line taut */
+    33%  { transform:translateY(8px) scale(1.015); } /* recoil from the tug */
+    37%  { transform:translateY(-2px); }
+    100% { transform:translateY(-165vh); } /* hauled off top */
+  }
+
+  /* Curtain: still during reel, sharp tug jolt, then a smooth CONTINUOUS haul up and off. */
+  @keyframes ldr-haul{
+    0%   { transform:translate3d(0,0,0); }
+    24%  { transform:translate3d(0,0,0); }
+    28%  { transform:translate3d(0,1.4vh,0); }   /* tug down */
+    32%  { transform:translate3d(0,-0.9vh,0); }  /* snap up */
+    36%  { transform:translate3d(0,0.2vh,0); }   /* settle, going taut */
+    48%  { transform:translate3d(0,-14%,0); }    /* haul begins early & runs evenly */
+    72%  { transform:translate3d(0,-52%,0); }
+    100% { transform:translate3d(0,-124%,0); }   /* HAUL fully off the top */
+  }
+
+  @keyframes ldr-rise{
+    0%   { opacity:0; transform:translate3d(0,0,0) scale(.6); }
+    12%  { opacity:.85; }
+    80%  { opacity:.7; }
+    100% { opacity:0; transform:translate3d(8px,-92vh,0) scale(1); }
+  }
+
+  @keyframes ldr-shimmer{
+    0%   { transform:translate3d(0,0,0) scale(1); opacity:.55; }
+    50%  { transform:translate3d(2%,1.5%,0) scale(1.06); opacity:.8; }
+    66%  { opacity:.7; }
+    100% { transform:translate3d(-1%,-2%,0) scale(1.04); opacity:0; }
+  }
+
+  @keyframes ldr-kick{
+    0%   { opacity:0; transform:translateY(8px); }
+    14%  { opacity:0; transform:translateY(8px); }
+    26%  { opacity:.95; transform:translateY(0); }
+    44%  { opacity:.95; }
+    54%  { opacity:0; transform:translateY(-4px); }
+    100% { opacity:0; }
+  }
+
+  /* Reduced motion: explicit clean instant-hide (belt & suspenders alongside fill-mode end state).
+     The host's global rule already collapses durations to ~0; here we also swap the root to a dedicated
+     RM keyframe whose final frame is opacity:0/visibility:hidden/pointer-events:none, and silence the
+     decorative layers so reduced-motion users land on a fully revealed, scroll-free site with no flash. */
+  @media (prefers-reduced-motion: reduce){
+    #ldr.ldr-go{ animation:ldr-master-rm .001ms linear both !important; }
+    #ldr.ldr-go .ldr-curtain, #ldr.ldr-go .ldr-catch, #ldr.ldr-go .ldr-caustic,
+    #ldr.ldr-go .ldr-bub, #ldr.ldr-go .ldr-kicker, #ldr.ldr-go .ldr-skip{ animation:none !important; }
+    @keyframes ldr-master-rm{ to{ opacity:0; visibility:hidden; pointer-events:none; } }
+  }
+  /* ===================== /HOOKY'S FIRST-LOAD LOADER ===================== */
 </style>
 </head>
 <body>
+
+<!-- ============ HOOKY'S FIRST-LOAD LOADER — "REEL & HAUL" (drop in immediately after <body>) ============ -->
+<div id="ldr" data-hky-ui aria-hidden="true" role="presentation">
+  <div class="ldr-curtain">
+    <div class="ldr-caustic" aria-hidden="true"></div>
+
+    <div class="ldr-bubbles" aria-hidden="true">
+      <span class="ldr-bub b1"></span><span class="ldr-bub b2"></span>
+      <span class="ldr-bub b3"></span><span class="ldr-bub b4"></span>
+      <span class="ldr-bub b5"></span><span class="ldr-bub b6"></span>
+      <span class="ldr-bub b7"></span><span class="ldr-bub b8"></span>
+    </div>
+
+    <div class="ldr-stage">
+      <div class="ldr-catch">
+        <span class="ldr-rope" aria-hidden="true"></span>
+
+        <svg class="ldr-hook" viewBox="0 0 100 140" fill="none" aria-hidden="true">
+          <!-- eye -->
+          <circle cx="50" cy="14" r="9" stroke="var(--sand)" stroke-width="6"/>
+          <!-- shank -->
+          <path d="M50 23 V78" stroke="var(--sand)" stroke-width="9" stroke-linecap="round"/>
+          <!-- bend + point -->
+          <path d="M50 78 C50 108 30 122 22 104 C16 90 30 84 36 96"
+                stroke="var(--sand)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- barb -->
+          <path d="M36 96 L48 90" stroke="var(--sand-deep)" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+
+        <span class="ldr-word">HOOKY&rsquo;S</span>
+      </div>
+
+      <span class="ldr-kicker"><b>&#9679;</b>&nbsp;&nbsp;Reeling in&#8230;</span>
+    </div>
+
+    <!-- Wavy water-surface / torn-net bottom edge so the reveal is a SHAPE, not a flat rectangle -->
+    <svg class="ldr-edge" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,40 C150,90 300,0 450,46 C600,92 750,8 900,48 C1050,86 1150,28 1200,52 L1200,120 L0,120 Z"/>
+      <path class="ldr-edge-net" d="M0,40 C150,90 300,0 450,46 C600,92 750,8 900,48 C1050,86 1150,28 1200,52"/>
+    </svg>
+  </div>
+  <span class="ldr-skip" aria-hidden="true">Tap to skip</span>
+</div>
+<script>
+/* HOOKY'S loader gate — first-load-per-tab only; instant hide on repeat; pure progressive enhancement.
+   The CSS reveal (#ldr.ldr-go) ends opacity:0/visibility:hidden/pointer-events:none on its OWN via
+   animation-fill-mode:both, so even if this script dies after adding .ldr-go the overlay still vanishes.
+   This script's job is only: session-gate, scroll-lock, final node cleanup, and fail-open guards. */
+(function(){
+  var KEY = 'hky.loaded', DUR = 3050, SAFE = DUR + 280; /* total reveal <= 3.2s */
+  var el = document.getElementById('ldr');
+  if (!el) { return; }
+  var root = document.documentElement;
+  var inerted = [];   /* siblings we pull out of tab-order/AT while the curtain is up */
+  var done = false;
+
+  function hide(){
+    try { el.style.display = 'none'; el.style.visibility = 'hidden'; el.style.pointerEvents = 'none'; } catch(e){}
+    try { if (el.parentNode) { el.parentNode.removeChild(el); } } catch(e){}
+  }
+  function unlock(){ try { root.classList.remove('ldr-lock'); } catch(e){} }
+  /* Restore only the attributes we actually added (preserves any pre-existing aria-hidden). */
+  function uninert(){
+    try { for (var i = 0; i < inerted.length; i++) { var r = inerted[i]; if (r.inert) r.node.removeAttribute('inert'); if (r.aria) r.node.removeAttribute('aria-hidden'); } } catch(e){}
+  }
+  function onSkipKey(ev){ var k = ev.key; if (k === 'Escape' || k === 'Enter' || k === ' ' || k === 'Spacebar') { finish(); } }
+  function finish(){
+    if (done) { return; }
+    done = true;
+    try { document.removeEventListener('keydown', onSkipKey, false); } catch(e){}
+    uninert(); unlock(); hide();
+  }
+
+  try {
+    var seen = null;
+    try { seen = sessionStorage.getItem(KEY); } catch(e){ seen = null; }
+
+    /* Repeat load this tab -> hide INSTANTLY, no .ldr-go, no animation, no flash, no lock. */
+    if (seen) { el.style.display = 'none'; return; }
+    try { sessionStorage.setItem(KEY, '1'); } catch(e){}
+
+    /* First load: lock scroll BEFORE paint, then arm the session-gated CSS reveal. */
+    root.classList.add('ldr-lock');
+    el.classList.add('ldr-go');
+
+    /* a11y: take the rest of the page out of tab order + the accessibility tree while the
+       opaque curtain is up, so keyboard/screen-reader users can't land on invisible controls.
+       Skips editor chrome ([data-hky-ui]); fully restored in finish() and the fail-open catch. */
+    try {
+      var sib = el.nextElementSibling;
+      while (sib) {
+        if (sib.nodeType === 1 && !sib.hasAttribute('data-hky-ui')) {
+          var rec = { node: sib, inert: false, aria: false };
+          if (!sib.hasAttribute('inert')) { sib.setAttribute('inert', ''); rec.inert = true; }
+          if (!sib.hasAttribute('aria-hidden')) { sib.setAttribute('aria-hidden', 'true'); rec.aria = true; }
+          if (rec.inert || rec.aria) { inerted.push(rec); }
+        }
+        sib = sib.nextElementSibling;
+      }
+    } catch(e){}
+
+    /* Escape hatch: tap the curtain or press Esc/Enter/Space to reveal early (idempotent via finish). */
+    el.addEventListener('pointerdown', finish, false);
+    document.addEventListener('keydown', onSkipKey, false);
+
+    /* End on the master timeline (normal OR the reduced-motion keyframe); plus a hard safety timeout. */
+    el.addEventListener('animationend', function(ev){
+      if (ev.animationName === 'ldr-master' || ev.animationName === 'ldr-master-rm') { finish(); }
+    }, false);
+
+    var reduce = false;
+    try { reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
+    setTimeout(finish, reduce ? 80 : SAFE);
+
+    /* bfcache / back-forward restore: never replay or trap — force clean state. */
+    window.addEventListener('pageshow', function(ev){ if (ev && ev.persisted) { finish(); } }, false);
+  } catch(err){
+    /* Fail-open: any error must still restore the page, unlock scroll, and remove the overlay. */
+    uninert(); unlock(); hide();
+  }
+})();
+</script>
+<!-- ============ /HOOKY'S FIRST-LOAD LOADER ============ -->
 
 <a class="skip-link" href="#top">Skip to content</a>
 
@@ -3227,14 +3553,27 @@
     window.addEventListener('scroll', measure, true);   // once; measure() no-ops unless overlays exist
     window.addEventListener('resize', measure);
 
-    if(sessionStorage.getItem(EDITING_KEY)==='1'){ enterEditor(); }   // resume an in-progress edit session across reloads
+    // Don't open the editor (password modal / chrome) while the first-load loader curtain is up —
+    // it would appear/focus behind the opaque overlay. Defer until the loader has lifted.
+    function whenLoaderGone(fn){
+      try{
+        var l=document.getElementById('ldr');
+        if(!l || getComputedStyle(l).display==='none' || !document.documentElement.classList.contains('ldr-lock')){ fn(); return; }
+        var ran=false, run=function(){ if(ran) return; ran=true; try{ fn(); }catch(e){} };
+        l.addEventListener('animationend', function(e){ if(e.animationName==='ldr-master'||e.animationName==='ldr-master-rm'){ run(); } }, false);
+        window.addEventListener('pageshow', function(e){ if(e&&e.persisted) run(); }, false);
+        setTimeout(run, 3400);   // backstop matching the loader's own SAFE fallback
+      }catch(e){ try{ fn(); }catch(_){} }
+    }
+
+    if(sessionStorage.getItem(EDITING_KEY)==='1'){ whenLoaderGone(enterEditor); }   // resume an in-progress edit session across reloads
     else if(localStorage.getItem(SEEN_KEY)==='1' && hasEdits()){ stampAll(); applyState(); }
     else {
       // public visitor: apply whatever the client has published live (if anything)
       fetchPublished(function(pub){ publishedEdits=pub; if(pub && pub.edits && Object.keys(pub.edits).length){ edits={v:1,updatedAt:pub.updatedAt||0,edits:pub.edits}; stampAll(); applyState(); } });
     }
 
-    if(location.hash==='#editor'){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} openGate(); }
+    if(location.hash==='#editor'){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} whenLoaderGone(openGate); }
   } catch(err){ if(window.console&&console.warn) console.warn('[hky-editor] disabled:', err); }
 })();
 </script>
