@@ -1177,6 +1177,7 @@
     <span id="mobile-status">Open · 11–9 daily</span>
     <a href="tel:+14168667474">(416) 866-7474</a>
     <span>486 Front St W · Toronto</span>
+    <button id="hky-editor-link-m" data-hky-ui type="button" aria-haspopup="dialog">✎ Editor mode</button>
   </div>
 </div>
 
@@ -2492,6 +2493,9 @@
     text-transform:uppercase; letter-spacing:.14em; font-size:.6rem; padding:.28rem .55rem; border-radius:6px;
     cursor:pointer; opacity:.4; transition:opacity .2s ease, border-color .2s ease, color .2s ease; }
   #hky-editor-link:hover, #hky-editor-link:focus-visible{ opacity:1; border-color:var(--mustard); color:var(--mustard); outline:none; }
+  #hky-editor-link-m{ align-self:flex-start; margin-top:.5rem; background:none; border:1px solid rgba(234,241,251,.3);
+    color:rgba(234,241,251,.85); font:inherit; letter-spacing:.2em; text-transform:uppercase; padding:.55rem .9rem; border-radius:8px; cursor:pointer; }
+  #hky-editor-link-m:hover, #hky-editor-link-m:focus-visible{ color:var(--mustard); border-color:var(--mustard); outline:none; }
   #hky-root, #hky-root *{ box-sizing:border-box; }
   #hky-root{ font-family:Manrope, ui-sans-serif, system-ui, sans-serif; }
   .hky-ovl{ position:fixed; pointer-events:none; z-index:8999; border:2px dashed var(--mustard,#F2C14E); border-radius:5px; display:none; }
@@ -2580,7 +2584,9 @@
     font:600 12px Manrope; padding:8px 14px; display:none; }
   @media (max-width:767.98px){
     .hky-pane{ top:auto; left:0; width:auto; bottom:54px; max-height:56vh; transform:translateY(112%); border-left:none; border-top:1px solid rgba(234,241,251,.16); }
-    .hky-bar{ gap:6px; padding:0 8px; }
+    .hky-bar{ gap:6px; padding:0 8px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .hky-bar .hky-spacer{ display:none; }
+    .hky-bar .hky-pill, .hky-bar .hky-saved, .hky-bar .hky-btn, .hky-bar .hky-menu{ flex:0 0 auto; }
     .hky-bar .hky-hide-sm{ display:none; }
   }
   body[data-hky-editor="on"] .tilt{ transform:none !important; transition:none !important; }  /* freeze tilt so overlays stay aligned while editing */
@@ -3165,8 +3171,18 @@
 
     // ---------- boot ----------
     loadEdits();
-    var link=document.getElementById('hky-editor-link');
-    if(link) link.addEventListener('click', openGate);
+    function closeMobileSheet(){
+      var sheet=document.getElementById('mobile-sheet');
+      if(sheet && sheet.getAttribute('data-open')==='true'){
+        sheet.setAttribute('data-open','false'); sheet.setAttribute('aria-hidden','true');
+        var tgl=document.getElementById('menu-toggle'); if(tgl) tgl.setAttribute('aria-expanded','false');
+        var lbl=document.getElementById('menu-toggle-label'); if(lbl) lbl.textContent='Menu';
+        document.body.style.overflow='';
+      }
+    }
+    function wireOpen(el){ if(el) el.addEventListener('click', function(){ closeMobileSheet(); openGate(); }); }
+    wireOpen(document.getElementById('hky-editor-link'));
+    wireOpen(document.getElementById('hky-editor-link-m'));
     document.addEventListener('keydown', onKeyDown);
     window.addEventListener('scroll', measure, true);   // once; measure() no-ops unless overlays exist
     window.addEventListener('resize', measure);
