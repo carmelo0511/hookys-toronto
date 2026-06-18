@@ -1,10 +1,17 @@
 {
   "v": 1,
-  "updatedAt": 1781760692113,
+  "updatedAt": 1781761257703,
   "edits": {
     "top/price#0": {
       "text": "$23.95",
       "baseFp": "ca0943e4"
+    },
+    "top/v#0": {
+      "text": "$23.95",
+      "baseFp": "ca0943e4",
+      "style": {
+        "backgroundColor": "var(--cobalt-950)"
+      }
     }
   }
 }
