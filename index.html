@@ -2594,6 +2594,10 @@
   .hky-pubrow input{ flex:1; }
   .hky-pre{ white-space:pre-wrap; word-break:break-word; max-height:34vh; overflow:auto; background:rgba(0,0,0,.25);
     border:1px solid rgba(234,241,251,.16); border-radius:8px; padding:10px; font:500 11px/1.4 ui-monospace,monospace; margin:10px 0; }
+  .hky-review-count{ font:700 12px Manrope,sans-serif; margin:8px 0 8px; opacity:.85; }
+  .hky-review-list{ list-style:none; margin:0 0 4px; padding:0; max-height:34vh; overflow:auto; display:flex; flex-direction:column; gap:7px; }
+  .hky-review-list li{ font:500 12.5px/1.4 Manrope,sans-serif; color:#EAF1FB; background:rgba(255,255,255,.05);
+    border:1px solid rgba(234,241,251,.12); border-radius:8px; padding:8px 10px; word-break:break-word; }
   @media (prefers-reduced-motion: reduce){
     .hky-dot{ animation:none; }
     .hky-pane, .hky-toast{ transition:none; }
@@ -2605,7 +2609,7 @@
   'use strict';
   if (window.__hkyEditorInit) return; window.__hkyEditorInit = true;
   try {
-    var PW='Brunson', EDITS_KEY='hky.edits.v1', SEEN_KEY='hky.seen', UNLOCK_KEY='hky.unlocked', EDITING_KEY='hky.editing';
+    var PW='Brunson', EDITS_KEY='hky.edits.v1', SEEN_KEY='hky.seen', UNLOCK_KEY='hky.unlocked', EDITING_KEY='hky.editing', PUB_KEY='hky.pub';
     var PUBLISH_URL='/api/publish', PUBLISHED_URL='/hky-published.json';
     var STYLE_PROPS=['color','backgroundColor','fontFamily','fontSize','fontWeight','lineHeight','letterSpacing','textAlign',
       'fontStyle','textDecorationLine','textTransform','opacity','padding','borderRadius','borderWidth','borderStyle','borderColor','boxShadow'];
@@ -3078,14 +3082,41 @@
     // ---------- publish live (Vercel function commits to GitHub) ----------
     function fetchPublished(cb){ try{ fetch(PUBLISHED_URL+'?t='+(new Date().getTime()), {cache:'no-store'})
       .then(function(r){ return r.ok?r.json():null; }).then(function(j){ cb(j&&j.v===1?j:null); }).catch(function(){ cb(null); }); }catch(e){ cb(null); } }
+    function getPub(){ try{ return localStorage.getItem(PUB_KEY)||enteredPw||''; }catch(e){ return enteredPw||''; } }
     function publish(password, cb){
       try{
         fetch(PUBLISH_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ password:password, edits:edits }) })
           .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,status:r.status,j:j}; }).catch(function(){ return {ok:r.ok,status:r.status,j:{}}; }); })
-          .then(function(res){ if(res.ok && res.j && res.j.ok){ enteredPw=password; publishedEdits=JSON.parse(JSON.stringify(edits)); cb(true); }
-            else { cb(false, (res.j&&res.j.error) || (res.status===401?'Wrong publish password.':(res.status===404?'Publish API not found — deploy /api/publish to Vercel first.':'Publish failed ('+res.status+').'))); } })
-          .catch(function(err){ cb(false, 'Network error — the publish API only works on the deployed site, not local preview.'); });
-      }catch(e){ cb(false, String(e)); }
+          .then(function(res){ if(res.ok && res.j && res.j.ok){ enteredPw=password; try{ localStorage.setItem(PUB_KEY,password); }catch(e){} publishedEdits=JSON.parse(JSON.stringify(edits)); cb(true,'',200); }
+            else { cb(false, (res.j&&res.j.error) || (res.status===404?'Publishing isn’t available here (only on the live site).':'Publish failed ('+res.status+').'), res.status); } })
+          .catch(function(err){ cb(false, 'Couldn’t reach the site — publishing only works on the live site, not local preview.', 0); });
+      }catch(e){ cb(false, String(e), 0); }
+    }
+
+    // ---- plain-language review (no code) ----
+    function humanStyles(style){ var MAP={color:'text colour',backgroundColor:'background',fontFamily:'font',fontSize:'text size',fontWeight:'thickness',lineHeight:'line spacing',letterSpacing:'letter spacing',textAlign:'alignment',fontStyle:'italic',textDecorationLine:'underline',textTransform:'letter case',opacity:'transparency',padding:'spacing',borderRadius:'rounded corners',borderWidth:'border',borderStyle:'border',borderColor:'border colour',boxShadow:'shadow'}; var seen={}, out=[]; Object.keys(style).forEach(function(k){ var n=MAP[k]||k; if(!seen[n]){ seen[n]=1; out.push(n); } }); return out.join(', '); }
+    function friendlyLine(id){
+      var e=edits.edits[id], o=originals[id]||{};
+      var oldT=(o.text||'').replace(/\s+/g,' ').trim();
+      var lbl=oldT.length>44?oldT.slice(0,44)+'…':(oldT||'an item');
+      var newT=('text' in e)?e.text:(e.runs?e.runs.join('').replace(/\s+/g,' ').trim():null);
+      var parts=[];
+      if(newT!=null && newT!==oldT) parts.push('now “'+newT+'”');
+      if(e.style) parts.push('updated '+humanStyles(e.style));
+      if(e.href!=null) parts.push('link → '+e.href);
+      if(e.hidden) parts.push('hidden');
+      if(e.tx!=null||e.ty!=null) parts.push('moved');
+      if(!parts.length) parts.push('changed');
+      return '“'+lbl+'” — '+parts.join(' · ');
+    }
+    function buildFriendlyReview(){
+      var ids=Object.keys(edits.edits);
+      var wrap=ce('div');
+      wrap.appendChild(ce('div',{class:'hky-review-count'},[ids.length+' change'+(ids.length===1?'':'s')+' to publish:']));
+      var list=ce('ul',{class:'hky-review-list'});
+      ids.forEach(function(id){ list.appendChild(ce('li',{},[friendlyLine(id)])); });
+      wrap.appendChild(list);
+      return wrap;
     }
     function openPublish(){
       if(exportPop) exportPop.classList.remove('open'); if(hidPop) hidPop.classList.remove('open');
@@ -3094,22 +3125,29 @@
       var modal=ce('div',{class:'hky-modal','data-hky-ui':'',role:'dialog','aria-modal':'true','aria-label':'Publish changes'});
       var card=ce('div',{class:'hky-modal-card'});
       card.appendChild(ce('h3',{},['Review & publish']));
-      card.appendChild(ce('p',{},['These changes go live for everyone (the site redeploys in ~1 min). Review first:']));
-      card.appendChild(ce('pre',{class:'hky-pre'},[buildSummary()]));
+      card.appendChild(ce('p',{},['Here’s what will change on your live site. It goes live for everyone about a minute after you publish.']));
+      card.appendChild(buildFriendlyReview());
       var status=ce('div',{class:'hky-modal-err'},['']);
-      var row=ce('div',{class:'hky-pubrow'});
-      var pw=ce('input',{type:'password',autocomplete:'off','aria-label':'Publish password',placeholder:'Publish password'}); pw.value=enteredPw||'';
-      row.appendChild(pw); card.appendChild(row); card.appendChild(status);
+      var pwRow=ce('div',{class:'hky-pubrow'}); pwRow.style.display='none';
+      var pw=ce('input',{type:'password',autocomplete:'off','aria-label':'Publish password',placeholder:'Publish password'});
+      pwRow.appendChild(pw); card.appendChild(pwRow); card.appendChild(status);
       var rowB=ce('div',{class:'hky-row-btns'});
       var cancel=ce('button',{class:'hky-btn'},['Cancel']);
-      var dl=ce('button',{class:'hky-btn'},['Download JSON']);
       var go=ce('button',{class:'hky-btn accent'},['Publish live']);
-      rowB.appendChild(cancel); rowB.appendChild(dl); rowB.appendChild(go); card.appendChild(rowB);
-      modal.appendChild(card); document.body.appendChild(modal); pw.focus();
+      rowB.appendChild(cancel); rowB.appendChild(go); card.appendChild(rowB);
+      modal.appendChild(card); document.body.appendChild(modal);
       function close(){ modal.remove(); if(prev&&prev.focus) prev.focus(); }
-      cancel.onclick=close; dl.onclick=function(){ exportJSON(); };
-      go.onclick=function(){ go.disabled=true; status.style.color='#cfe0ff'; status.textContent='Publishing…';
-        publish(pw.value, function(ok,msg){ if(ok){ status.style.color='#7CCB8E'; status.textContent='Published! Live in ~1 min.'; setTimeout(close,1500); } else { go.disabled=false; status.style.color='#FF6B5B'; status.textContent=msg||'Publish failed.'; } }); };
+      function attempt(secret){
+        go.disabled=true; status.style.color='#cfe0ff'; status.textContent='Publishing…';
+        publish(secret, function(ok,msg,code){
+          if(ok){ status.style.color='#7CCB8E'; status.textContent='Published! Your changes are live in ~1 min.'; setTimeout(close,1600); }
+          else if(code===401){ go.disabled=false; pwRow.style.display=''; pw.focus(); status.style.color='#FFCF8A'; status.textContent='Quick one-time check — enter your publish password (you won’t be asked again on this device).'; }
+          else { go.disabled=false; status.style.color='#FF6B5B'; status.textContent=msg||'Publish failed.'; }
+        });
+      }
+      cancel.onclick=close;
+      go.onclick=function(){ attempt(pwRow.style.display==='none' ? getPub() : pw.value); };
+      pw.addEventListener('keydown',function(ev){ if(ev.key==='Enter'){ ev.preventDefault(); attempt(pw.value); } });
       modal.addEventListener('pointerdown',function(ev){ if(ev.target===modal) close(); });
     }
 
