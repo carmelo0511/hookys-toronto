@@ -548,23 +548,50 @@
   .stat .sub { font-size:12px; color:rgba(234,241,251,.7); margin-top:.125rem; }
 
   /* Left rail */
-  .vinyl-wrap { position:relative; width:140px; height:140px; }
-  .vinyl {
-    position:absolute; inset:0; border-radius:9999px;
-    background:
-      radial-gradient(circle at center,
-        var(--sand) 0 14%,
-        var(--ink) 14.5% 16%,
-        var(--cobalt-900) 16.5% 22%,
-        var(--ink) 22.5% 24%,
-        var(--cobalt-900) 24.5% 30%,
-        var(--ink) 30.5% 32%,
-        var(--cobalt-900) 32.5% 38%,
-        var(--ink) 38.5% 40%,
-        var(--cobalt-900) 40.5% 50%);
-    box-shadow:0 30px 60px -10px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.08);
+  /* ---------- Vinyl-record letters: the O's in HOOKY'S are 3D records that scrub-spin on scroll ---------- */
+  .wm-rec{
+    display:inline-block; position:relative;
+    width:.74em; height:.74em; margin:0 -.012em; vertical-align:-.05em;  /* sit like an O on the baseline */
+  }
+  .wm-rec__disc{
+    position:absolute; inset:0; border-radius:50%;
+    background:repeating-radial-gradient(circle at 50% 50%, #090c12 0 1.9%, #1b2230 1.9% 3.8%);
+    box-shadow:
+      inset 0 0 8% 2% rgba(0,0,0,.72), inset 0 0 0 1px rgba(255,255,255,.07),
+      .03em 0 0 var(--ink), .055em .055em 0 rgba(255,76,59,.38), .1em .1em 0 rgba(0,0,0,.28);
+    rotate: var(--rec-scrub, 0deg);                 /* JS scrubs this with scroll */
+    transform-origin:50% 50%;
+  }
+  .wm-rec.is-b .wm-rec__disc{ rotate: calc(-1 * var(--rec-scrub, 0deg)); }  /* 2nd O counter-rotates */
+  .wm-rec__idle{                                    /* slow always-on platter spin */
+    position:absolute; inset:0; border-radius:50%; overflow:hidden;
     animation:spin 18s linear infinite;
   }
+  .wm-rec.is-b .wm-rec__idle{ animation-direction:reverse; }
+  .wm-rec__idle::before{                            /* rotating light sweep -> spin reads */
+    content:""; position:absolute; inset:0; border-radius:50%;
+    background:conic-gradient(from 0deg, transparent 0 4%, rgba(255,255,255,.22) 10%, transparent 17% 100%);
+  }
+  .wm-rec__label{
+    position:absolute; inset:33%; border-radius:50%;
+    background:radial-gradient(circle at 38% 30%, var(--mustard), #cf962a 72%);
+    box-shadow:inset 0 0 0 .045em var(--coral), 0 0 0 1px rgba(6,20,58,.6);
+  }
+  .wm-rec__label::before{                           /* asymmetric tick so rotation is obvious */
+    content:""; position:absolute; top:6%; left:45%; width:10%; height:26%;
+    background:var(--ink); border-radius:1px; opacity:.6;
+  }
+  .wm-rec__label::after{                            /* spindle hole */
+    content:""; position:absolute; inset:39%; border-radius:50%; background:var(--ink);
+  }
+  .wm-rec__sheen{                                   /* fixed glassy highlight (does not spin) */
+    position:absolute; inset:0; border-radius:50%; pointer-events:none;
+    background:linear-gradient(125deg, rgba(255,255,255,.36) 0 14%, transparent 28% 72%, rgba(255,255,255,.12) 88% 100%);
+    mix-blend-mode:screen; opacity:.5;
+  }
+  @media (prefers-reduced-motion: reduce){ .wm-rec__idle{ animation:none; } }
+
+
   @keyframes spin { to { transform:rotate(360deg); } }
 
   .lure-frame {
@@ -575,43 +602,7 @@
   .lure-frame .label-no { font-family:ui-monospace, monospace; font-size:10px; letter-spacing:.22em; color:var(--sand); margin-top:.25rem; }
   .lure-frame .label-name { color:var(--grout); font-weight:600; font-size:.75rem; }
 
-  /* Interactive fryer (left-rail toy) */
-  .fryer-frame{
-    background:radial-gradient(120% 95% at 50% 38%, #0d2356, var(--ink));
-    border:2px solid var(--sand); border-radius:4px;
-    box-shadow:0 14px 34px -12px rgba(0,0,0,.65); padding:.7rem .7rem .6rem;
-    cursor:pointer; user-select:none; width:100%; max-width:176px;
-    transition:transform .15s ease, box-shadow .2s ease;
-  }
-  .fryer-frame:hover{ transform:translateY(-2px); box-shadow:0 18px 40px -12px rgba(0,0,0,.72); }
-  .fryer-frame:active{ transform:translateY(0); }
-  .fryer-svg{ width:100%; height:auto; display:block; }
-  .fryer-label{ display:flex; flex-direction:column; gap:.12rem; margin-top:.5rem; padding-top:.45rem; border-top:1px solid rgba(232,213,168,.22); }
-  .fryer-label .fry-no{ font-family:ui-monospace,monospace; font-size:9px; letter-spacing:.24em; color:var(--sand); opacity:.85; }
-  .fryer-label .fry-name{ color:var(--grout); font-weight:600; font-size:.82rem; letter-spacing:.01em; }
-  .fryer-label .fry-hint{ font-family:ui-monospace,monospace; font-size:9px; letter-spacing:.12em; color:var(--mustard); }
-
-  .fry-basket{ transition:transform .6s cubic-bezier(.5,0,.4,1); }
-  .fryer-frame[data-state="frying"] .fry-basket{ transform:translateY(24px); }
-
-  .fish-raw, .fish-done{ transition:opacity .4s ease; }
-  .fish-done{ opacity:0; }
-  .fryer-frame[data-state="done"] .fish-raw{ opacity:0; }
-  .fryer-frame[data-state="done"] .fish-done{ opacity:1; }
-
-  .fry-bubbles{ opacity:0; transition:opacity .2s ease; }
-  .fryer-frame[data-state="frying"] .fry-bubbles{ opacity:1; }
-  .fry-bubbles circle{ animation:fryBub 1s ease-in infinite; }
-  @keyframes fryBub{ 0%{ transform:translateY(0) scale(.4); opacity:0; } 30%{ opacity:.95; } 100%{ transform:translateY(-24px) scale(1); opacity:0; } }
-
-  .fry-steam{ opacity:0; transition:opacity .3s ease; }
-  .fryer-frame[data-state="done"] .fry-steam{ opacity:1; }
-  .fry-steam path{ transform-box:fill-box; transform-origin:50% 100%; animation:frySteam 2.2s ease-out infinite; }
-  @keyframes frySteam{ 0%{ opacity:0; transform:translateY(4px) scaleY(.7); } 30%{ opacity:.6; } 100%{ opacity:0; transform:translateY(-14px) scaleY(1.1); } }
-
-  .fry-led{ transition:fill .3s ease; }
-  .fryer-frame[data-state="frying"] .fry-led{ animation:pulse 1s ease-in-out infinite; }
-  .fryer-frame[data-state="done"] .fry-led{ fill:#33e0a0; }
+  /* (Interactive fryer toy removed) */
 
   /* Right rail cards */
   .card-special {
@@ -1076,26 +1067,52 @@
   .where-card .actions .cta, .where-card .actions .ghost-cta { display:block; text-align:center; }
 
   /* ---------- Footer ---------- */
-  footer { background:var(--ink); border-top:4px solid var(--mustard); }
-  .foot { padding:2.5rem 0; display:flex; flex-direction:column; gap:1.5rem; }
-  @media (min-width:768px) { .foot { flex-direction:row; align-items:center; justify-content:space-between; } }
-  .foot-brand { display:flex; align-items:center; gap:1rem; }
-  .foot-brand .dot {
-    position:relative; display:inline-block; width:36px; height:36px;
-    background:var(--mustard); border:2px solid rgba(234,241,251,.4); border-radius:9999px;
+  footer {
+    position:relative; overflow:hidden;
+    background:radial-gradient(125% 90% at 50% 0%, var(--cobalt-900) 0%, var(--cobalt-950) 44%, var(--ink) 100%);
+    border-top:4px solid var(--mustard);
+    padding-top:clamp(2.25rem,5vw,3.5rem);
   }
-  .foot-brand .dot::before { content:""; position:absolute; inset:4px; border:1px solid rgba(234,241,251,.3); border-radius:9999px; }
-  .foot-brand .dot::after { content:""; position:absolute; inset:14px; background:var(--coral); border-radius:9999px; }
-  .foot-brand .name { font-family:"Bagel Fat One", system-ui; color:var(--grout); font-size:1.5rem; line-height:1; }
-  .foot-brand .tagline { font-family:ui-monospace, monospace; font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:rgba(234,241,251,.6); margin-top:.25rem; }
+  .foot-top { position:relative; z-index:3; display:flex; flex-direction:column; gap:1.5rem; }
+  @media (min-width:768px) { .foot-top { flex-direction:row; align-items:flex-start; justify-content:space-between; } }
   .foot-links {
-    display:flex; flex-wrap:wrap; column-gap:2rem; row-gap:.75rem;
-    font-family:ui-monospace, monospace; font-size:11px;
-    letter-spacing:.22em; text-transform:uppercase;
-    color:rgba(234,241,251,.7);
+    display:flex; flex-wrap:wrap; column-gap:1.75rem; row-gap:.6rem;
+    font-family:ui-monospace, monospace; font-size:12px;
+    letter-spacing:.22em; text-transform:uppercase; color:rgba(234,241,251,.78);
   }
-  .foot-links a:hover { color:var(--mustard); }
-  .copy { font-family:ui-monospace, monospace; font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:rgba(234,241,251,.5); }
+  .foot-links a { padding-bottom:2px; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+  .foot-links a:hover { color:var(--mustard); border-color:var(--mustard); }
+  .foot-tagline { margin-top:.95rem; font-family:ui-monospace, monospace; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:rgba(234,241,251,.5); }
+  .foot-meta { text-align:left; }
+  @media (min-width:768px) { .foot-meta { text-align:right; } }
+  .copy { font-family:ui-monospace, monospace; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:rgba(234,241,251,.55); }
+  .foot-meta .sideb { margin-top:.45rem; font-family:ui-monospace, monospace; font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--coral); }
+
+  /* Giant wordmark — full-bleed, clipped off the bottom edge */
+  .foot-bigwrap { position:relative; z-index:2; margin-top:clamp(.5rem,2.5vw,1.5rem); }
+  .foot-bigmark {
+    display:block; text-align:center; white-space:nowrap;
+    font-family:"Bagel Fat One", system-ui, sans-serif; font-weight:400;
+    font-size:clamp(88px, 22.5vw, 380px); line-height:.82; letter-spacing:-.03em;
+    color:var(--grout);
+    text-shadow:3px 0 0 var(--ink), 10px 10px 0 var(--coral), 20px 20px 0 rgba(0,0,0,.28);
+    margin-bottom:clamp(-1.4rem,-4.6vw,-4.2rem);   /* clip the lower curves off the footer's bottom */
+    user-select:none;
+  }
+  .foot-bigmark .apos { color:var(--mustard); }
+
+  /* Floating fish-shop bits, "pinned" above the wordmark (gentle pendulum sway) */
+  .foot-floats { position:absolute; inset:0; z-index:1; pointer-events:none; }
+  .foot-float { position:absolute; transform-origin:50% 0; }
+  .foot-float svg { overflow:visible; display:block; width:100%; height:auto; filter:drop-shadow(3px 4px 0 rgba(6,20,58,.55)); }
+  .foot-float .pinline { stroke:rgba(234,241,251,.3); stroke-width:2.5; stroke-dasharray:3 6; stroke-linecap:round; }
+  .foot-float .pindot { fill:var(--mustard); stroke:var(--ink); stroke-width:2; }
+  .foot-float.f1 { left:5%;  top:-4%;  width:clamp(72px,9vw,128px); animation:foot-bob 6s   ease-in-out infinite; }
+  .foot-float.f2 { right:7%; top:-10%; width:clamp(66px,8vw,116px); animation:foot-bob 7.2s ease-in-out infinite .7s; }
+  .foot-float.f3 { right:33%; top:7%;  width:clamp(46px,5.5vw,86px); animation:foot-bob 5.4s ease-in-out infinite .35s; }
+  @keyframes foot-bob { 0%,100% { transform:translateY(0) rotate(-2.5deg); } 50% { transform:translateY(-8px) rotate(2.5deg); } }
+  @media (max-width:680px) { .foot-float.f3 { display:none; } .foot-float.f1 { width:64px; } .foot-float.f2 { width:60px; } }
+  @media (prefers-reduced-motion: reduce) { .foot-float { animation:none !important; } }
 
   /* Entrance anims */
   @keyframes rise { from { transform:translateY(28px); opacity:0; filter:blur(6px); } to { transform:none; opacity:1; filter:none; } }
@@ -1138,254 +1155,242 @@
     .tilt { transform:none !important; }
     .reveal { opacity:1 !important; transform:none !important; }
   }
-  /* ===================== HOOKY'S FIRST-LOAD LOADER — "REEL & HAUL" (append at very end of main <style>) ===================== */
-  /* Scroll lock applied while the curtain is up. Verified: real wheel/touch scroll fully blocked. */
+  /* ===================== HOOKY'S FIRST-LOAD LOADER — "FRESH FROM THE FRYER" ===================== */
+  /* A chip-shop serving of fish & chips builds on a deep-cobalt curtain while fryer status lines cycle,
+     then curved coral/mustard/sand/cobalt "ingredient ribbons" sweep up off the top to reveal the page.
+     Contract kept identical to the previous loader so the inline gate script below works unchanged:
+     #ldr starts display:none, the gate adds .ldr-go, the master animation is named ldr-master
+     (or ldr-master-rm under reduced motion) and ends HIDDEN via animation-fill-mode:both. */
   html.ldr-lock, html.ldr-lock body { overflow:hidden !important; height:100%; touch-action:none; }
 
-  /* Root: hidden by default so repeat loads (and the brief pre-script paint) NEVER flash the curtain.
-     The inline gate adds .ldr-go on first load to switch it on + start the master timeline.
-     If JS never runs at all, the root stays display:none -> site fully usable, no flash. */
   #ldr{
-    position:fixed; inset:0; z-index:10000;        /* above the editor chrome (max 9200) */
-    display:none;
-    opacity:1; visibility:visible; pointer-events:auto;
+    position:fixed; inset:0; z-index:10000;            /* above the editor chrome (max 9200) */
+    display:none;                                      /* hidden until the gate arms it -> no flash on repeat/no-JS */
+    align-items:center; justify-content:center;
     overflow:hidden; contain:strict;
+    background:radial-gradient(125% 85% at 50% -12%, var(--cobalt-700) 0%, var(--cobalt-900) 46%, var(--cobalt-950) 100%);
     -webkit-tap-highlight-color:transparent;
   }
-  /* Session-gated reveal: the haul/master animations key off .ldr-go and end HIDDEN via fill-mode:both,
-     so the overlay disappears from CSS alone even if JS cleanup never fires (true CSS-only reveal). */
-  #ldr.ldr-go{
-    display:block;
-    animation:ldr-master 3.05s linear both;
-  }
-
-  /* The deep-water curtain — this is what gets HAULED up off the top of the viewport. */
-  #ldr .ldr-curtain{
-    position:absolute; left:0; right:0; top:0;
-    height:calc(100% + 16vh); /* extra so the wavy bottom edge still covers during the early tug */
-    background:
-      radial-gradient(125% 85% at 50% -12%, var(--cobalt-700) 0%, var(--cobalt-900) 46%, var(--cobalt-950) 100%);
-    transform:translate3d(0,0,0);
-  }
-  #ldr.ldr-go .ldr-curtain{
-    animation:ldr-haul 3.05s cubic-bezier(.5,0,.18,1) both;
-    will-change:transform;
-  }
-
-  /* Caustic shimmer — faint moving light, transform/opacity only, finite (forwards) not infinite. */
-  #ldr .ldr-caustic{
-    position:absolute; inset:-20% -20% 0 -20%;
-    background:
-      radial-gradient(40% 30% at 30% 20%, rgba(62,126,219,.30), transparent 60%),
-      radial-gradient(36% 26% at 72% 38%, rgba(242,193,78,.10), transparent 60%),
-      radial-gradient(50% 34% at 50% 78%, rgba(30,95,191,.26), transparent 62%);
-    mix-blend-mode:screen; opacity:.7;
-  }
-  #ldr.ldr-go .ldr-caustic{ animation:ldr-shimmer 3.05s ease-in-out both; will-change:transform,opacity; }
-
-  /* Wavy / torn-net water-surface bottom edge so the reveal is a SHAPE, not a flat rectangle. */
-  #ldr .ldr-edge{
-    position:absolute; left:-2%; width:104%;
-    bottom:-1px; height:14vh; min-height:60px;
-    display:block; fill:var(--cobalt-950);
-  }
-  #ldr .ldr-edge .ldr-edge-net{ fill:none; stroke:rgba(233,213,168,.28); stroke-width:2; }
-
-  /* Rising bubbles — finite (forwards) so they don't look dead-looped under reduced motion. */
-  #ldr .ldr-bubbles{ position:absolute; inset:0; pointer-events:none; }
-  #ldr .ldr-bub{
-    position:absolute; bottom:-6vh;
-    width:var(--s); height:var(--s); border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.9), rgba(174,206,255,.25) 55%, rgba(174,206,255,0) 72%);
-    border:1px solid rgba(233,240,251,.25);
-    opacity:0;
-  }
-  #ldr.ldr-go .ldr-bub{ animation:ldr-rise var(--d) ease-in var(--delay) both; will-change:transform,opacity; }
-  #ldr .b1{ --s:10px; --d:2.2s; --delay:.15s; left:18%; }
-  #ldr .b2{ --s:16px; --d:2.6s; --delay:.45s; left:30%; }
-  #ldr .b3{ --s:7px;  --d:1.9s; --delay:.05s; left:44%; }
-  #ldr .b4{ --s:13px; --d:2.4s; --delay:.70s; left:58%; }
-  #ldr .b5{ --s:9px;  --d:2.1s; --delay:.30s; left:70%; }
-  #ldr .b6{ --s:18px; --d:2.8s; --delay:.55s; left:82%; }
-  #ldr .b7{ --s:6px;  --d:1.7s; --delay:.90s; left:50%; }
-  #ldr .b8{ --s:11px; --d:2.3s; --delay:1.0s; left:9%;  }
-
-  /* Center stage: rope + hook + brand all ride up with the curtain. */
-  #ldr .ldr-stage{
-    position:absolute; left:0; right:0; top:0; bottom:0;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:clamp(14px,3.4vh,30px); padding:0 6vw;
-  }
-
-  /* The hook + wordmark cluster that bobs as the line reels in.
-     Positioning context for the rope so the line stays ATTACHED to the hook and rides up with it. */
-  #ldr .ldr-catch{
-    position:relative; z-index:2;
-    display:flex; flex-direction:column; align-items:center;
-    gap:clamp(10px,2.2vh,20px);
-  }
-  #ldr.ldr-go .ldr-catch{ animation:ldr-reel 3.05s cubic-bezier(.5,0,.18,1) both; will-change:transform; }
-
-  /* The taut twisted rope/line: attached to the hook eye, running far off the top of the viewport. */
-  #ldr .ldr-rope{
-    position:absolute; left:50%; top:auto;
-    bottom:calc(100% - 10px);            /* meet the eye at the top of the hook */
-    width:clamp(6px,1.4vw,10px); height:160vh;
-    transform:translateX(-50%); z-index:1;
-    background:
-      repeating-linear-gradient(48deg, var(--sand) 0 4px, var(--sand-deep) 4px 8px); /* twisted-rope weave */
-    border-left:1.5px solid rgba(6,20,58,.5);
-    border-right:1.5px solid rgba(6,20,58,.5);
-    border-radius:6px;
-    box-shadow:0 0 0 1px rgba(6,20,58,.35);
-  }
-  #ldr .ldr-hook{
-    width:clamp(54px,12vw,96px); height:auto;
-    filter:drop-shadow(4px 4px 0 var(--ink));
-  }
-  #ldr .ldr-hook path, #ldr .ldr-hook circle{ vector-effect:non-scaling-stroke; }
-  #ldr .ldr-word{
-    /* fallback is metrically close (system sans) so a cold-load font swap mid-haul isn't jarring */
-    font-family:"Bagel Fat One", system-ui, -apple-system, "Segoe UI", sans-serif; font-weight:400;
-    font-size:clamp(40px,12vw,108px); line-height:.9; color:var(--mustard);
-    text-shadow:4px 4px 0 var(--coral-deep), 7px 7px 0 var(--ink);
-    letter-spacing:.01em; -webkit-text-stroke:2px var(--ink);
-  }
-  #ldr .ldr-kicker{
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-    text-transform:uppercase; letter-spacing:.34em;
-    font-size:clamp(10px,2.6vw,14px); color:var(--grout); opacity:0; padding-left:.34em;
-  }
-  #ldr.ldr-go .ldr-kicker{ animation:ldr-kick 3.05s ease-out both; }
-  #ldr .ldr-kicker b{ font-weight:400; color:var(--coral); }
-
-  /* Escape-hatch hint: the whole curtain is tappable (and Esc works) to reveal early. */
-  #ldr .ldr-skip{
-    position:absolute; left:50%; bottom:clamp(16px,4.5vh,40px); transform:translateX(-50%);
-    z-index:3; pointer-events:none; white-space:nowrap;
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-    text-transform:uppercase; letter-spacing:.26em; font-size:clamp(9px,2.2vw,11px);
-    color:var(--grout); opacity:0;
-  }
-  #ldr.ldr-go .ldr-skip{ animation:ldr-skiphint 3.05s ease-out both; }
-  @keyframes ldr-skiphint{ 0%,30%{opacity:0} 46%{opacity:.4} 74%{opacity:.4} 86%,100%{opacity:0} }
-
-  /* ---- Choreography (browser-verified curtain travel) ----
-     0.00–0.45s  rope reels in: hook bobs up in two stepped notches (dashed-reel feel)
-     0.70–0.95s  sharp TUG: the curtain jolts down then snaps (recoil preserved)
-     ~1.0–3.05s  HAUL: a deliberate CONTINUOUS pull straight up & off the top, then hides
-                 (verified: -16%vh @1.4s -> -31% @1.7s -> -60% @2.1s -> -96% @2.5s -> off, no late snap) */
-
+  #ldr.ldr-go{ display:flex; animation:ldr-master 4s linear both; }
   @keyframes ldr-master{
-    0%   { opacity:1; visibility:visible; pointer-events:auto; }
-    96%  { opacity:1; visibility:visible; pointer-events:auto; }
-    100% { opacity:0; visibility:hidden; pointer-events:none; } /* STICKS via fill-mode -> no-JS + reduced-motion safe */
+    0%,92%{ opacity:1; visibility:visible; pointer-events:auto; }
+    100%{ opacity:0; visibility:hidden; pointer-events:none; }   /* sticks via fill:both -> no-JS + reduced-motion safe */
   }
 
-  /* Hook/brand reel: stepped bob, tiny tug recoil, then carried up with the haul. */
-  @keyframes ldr-reel{
-    0%   { transform:translateY(46px); }
-    10%  { transform:translateY(30px); }   /* notch 1 */
-    15%  { transform:translateY(34px); }
-    22%  { transform:translateY(15px); }   /* notch 2 */
-    26%  { transform:translateY(19px); }
-    30%  { transform:translateY(2px); }    /* settled, line taut */
-    33%  { transform:translateY(8px) scale(1.015); } /* recoil from the tug */
-    37%  { transform:translateY(-2px); }
-    100% { transform:translateY(-165vh); } /* hauled off top */
+  #ldr .ldr-stage{
+    position:relative; width:min(92vw,520px); height:min(86vh,640px);
+    display:flex; align-items:center; justify-content:center;
   }
 
-  /* Curtain: still during reel, sharp tug jolt, then a smooth CONTINUOUS haul up and off. */
-  @keyframes ldr-haul{
-    0%   { transform:translate3d(0,0,0); }
-    24%  { transform:translate3d(0,0,0); }
-    28%  { transform:translate3d(0,1.4vh,0); }   /* tug down */
-    32%  { transform:translate3d(0,-0.9vh,0); }  /* snap up */
-    36%  { transform:translate3d(0,0.2vh,0); }   /* settle, going taut */
-    48%  { transform:translate3d(0,-14%,0); }    /* haul begins early & runs evenly */
-    72%  { transform:translate3d(0,-52%,0); }
-    100% { transform:translate3d(0,-124%,0); }   /* HAUL fully off the top */
+  /* brand wordmark above the product */
+  #ldr .ldr-word{
+    position:absolute; top:6%; left:50%; transform:translateX(-50%);
+    font-family:"Bagel Fat One", system-ui, -apple-system, "Segoe UI", sans-serif; font-weight:400;
+    font-size:clamp(30px,7vw,46px); line-height:1; color:var(--grout);
+    text-shadow:0 4px 0 rgba(6,20,58,.5); white-space:nowrap; opacity:0;
   }
+  #ldr .ldr-word .apos{ color:var(--mustard); }
+  #ldr.ldr-go .ldr-word{ animation:ldrw-in .5s cubic-bezier(.2,1.4,.4,1) .15s both, ldrw-out 1.2s cubic-bezier(.5,0,.2,1) 2.62s both; }
+  @keyframes ldrw-in{ from{ opacity:0; transform:translateX(-50%) translateY(-14px) scale(.8); } to{ opacity:1; transform:translateX(-50%) translateY(0) scale(1); } }
+  @keyframes ldrw-out{ 0%{ opacity:1; transform:translateX(-50%) translateY(0); } 70%{ opacity:1; } 100%{ opacity:0; transform:translateX(-50%) translateY(-220px); } }
 
-  @keyframes ldr-rise{
-    0%   { opacity:0; transform:translate3d(0,0,0) scale(.6); }
-    12%  { opacity:.85; }
-    80%  { opacity:.7; }
-    100% { opacity:0; transform:translate3d(8px,-92vh,0) scale(1); }
+  /* product wrapper — rides straight up & off the top during the reveal (no fade -> never goes muddy) */
+  #ldr .ldr-fc{ position:relative; width:340px; height:360px; transform-origin:50% 60%; }
+  #ldr .ldr-fc svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  #ldr.ldr-go .ldr-fc{ animation:ldr-settle .6s ease-out 2.0s both, ldr-lift 1.2s cubic-bezier(.5,0,.2,1) 2.62s both; }
+  @keyframes ldr-settle{ 0%{ transform:translateY(0) scale(1); } 40%{ transform:translateY(-6px) scale(1.02); } 100%{ transform:translateY(0) scale(1); } }
+  @keyframes ldr-lift{ 0%{ transform:translateY(0) scale(1); } 16%{ transform:translateY(14px) scale(.99); } 100%{ transform:translateY(-680px) scale(.92); } }
+
+  /* assembling parts drop in bottom-up with a bouncy settle */
+  #ldr .ldr-part{ opacity:0; transform:translateY(46px) scale(.9); transform-origin:50% 80%; }
+  #ldr.ldr-go .lp-boat { animation:ldr-drop .56s cubic-bezier(.18,1.5,.4,1) .35s both; }
+  #ldr.ldr-go .lp-chips{ animation:ldr-drop .56s cubic-bezier(.18,1.5,.4,1) .72s both; }
+  #ldr.ldr-go .lp-fish { animation:ldr-drop .58s cubic-bezier(.18,1.5,.4,1) 1.12s both; }
+  #ldr.ldr-go .lp-lemon{ animation:ldr-drop .5s  cubic-bezier(.18,1.6,.4,1) 1.52s both; }
+  #ldr.ldr-go .lp-fork { animation:ldr-drop .5s  cubic-bezier(.18,1.55,.4,1) 1.74s both; }
+  #ldr.ldr-go .lp-salt { animation:ldr-saltin .9s ease-out 1.62s both; }
+  #ldr.ldr-go .lp-steam{ animation:ldr-steam 1.4s ease-out 1.2s 2 both; }   /* finite (2 puffs) -> no dead infinite loop */
+  @keyframes ldr-drop{ 0%{ opacity:0; transform:translateY(-58px) scale(.86) rotate(-4deg); } 60%{ opacity:1; } 78%{ transform:translateY(6px) scale(1.03) rotate(1deg); } 100%{ opacity:1; transform:translateY(0) scale(1) rotate(0); } }
+  @keyframes ldr-saltin{ 0%{ opacity:0; transform:translateY(-18px); } 30%{ opacity:1; } 100%{ opacity:0; transform:translateY(14px); } }
+  @keyframes ldr-steam{ 0%{ opacity:0; transform:translateY(6px) scaleY(.7); } 30%{ opacity:.5; } 100%{ opacity:0; transform:translateY(-26px) scaleY(1.15); } }
+
+  /* status line cycles fryer messages */
+  #ldr .ldr-status{
+    position:absolute; bottom:7.5%; left:50%; transform:translateX(-50%);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; text-transform:uppercase;
+    font-size:clamp(12px,2.4vw,15px); letter-spacing:.2em; color:var(--sand);
+    white-space:nowrap; text-align:center; padding-left:.2em;
   }
+  #ldr .ldr-status .lmsg{ position:absolute; left:50%; top:0; transform:translateX(-50%); opacity:0; }
+  #ldr .ldr-status .ldot{ color:var(--coral); }
+  #ldr.ldr-go .lm1{ animation:ldr-msg 1.0s ease-out .3s both; }
+  #ldr.ldr-go .lm2{ animation:ldr-msg 1.05s ease-out 1.25s both; }
+  #ldr.ldr-go .lm3{ animation:ldr-msg 1.0s ease-out 2.25s both; }
+  #ldr.ldr-go .lm4{ animation:ldr-msgf 1.4s ease-out 3.05s both; }
+  @keyframes ldr-msg{ 0%{ opacity:0; transform:translateX(-50%) translateY(8px); } 18%{ opacity:1; transform:translateX(-50%) translateY(0); } 80%{ opacity:1; } 100%{ opacity:0; transform:translateX(-50%) translateY(-8px); } }
+  @keyframes ldr-msgf{ 0%{ opacity:0; transform:translateX(-50%) scale(.9); } 25%{ opacity:1; transform:translateX(-50%) scale(1.04); } 45%{ transform:translateX(-50%) scale(1); } 100%{ opacity:1; transform:translateX(-50%) scale(1); } }
 
-  @keyframes ldr-shimmer{
-    0%   { transform:translate3d(0,0,0) scale(1); opacity:.55; }
-    50%  { transform:translate3d(2%,1.5%,0) scale(1.06); opacity:.8; }
-    66%  { opacity:.7; }
-    100% { transform:translate3d(-1%,-2%,0) scale(1.04); opacity:0; }
+  /* curved reveal bands — staggered, convex tops, arc easing; the product rides up on the crest */
+  #ldr .ldr-bands{ position:absolute; inset:0; pointer-events:none; }
+  #ldr .ldr-band{ position:absolute; left:-6%; width:112%; transform:translateY(140%); will-change:transform; }
+  #ldr .ldr-band svg{ display:block; width:100%; height:100%; }
+  #ldr.ldr-go .lb-coral  { animation:ldr-sweep 1.18s cubic-bezier(.5,.02,.2,1) 2.58s both; }
+  #ldr.ldr-go .lb-mustard{ animation:ldr-sweep 1.18s cubic-bezier(.5,.02,.2,1) 2.70s both; }
+  #ldr.ldr-go .lb-sand   { animation:ldr-sweep 1.18s cubic-bezier(.5,.02,.2,1) 2.82s both; }
+  #ldr.ldr-go .lb-cobalt { animation:ldr-sweep 1.22s cubic-bezier(.5,.02,.2,1) 2.94s both; }
+  @keyframes ldr-sweep{ 0%{ transform:translateY(140%); } 34%{ transform:translateY(0%); } 62%{ transform:translateY(-2%); } 100%{ transform:translateY(-150%); } }
+
+  /* tap-to-skip hint */
+  #ldr .ldr-skip{
+    position:absolute; left:50%; bottom:clamp(12px,3.2vh,28px); transform:translateX(-50%);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; text-transform:uppercase;
+    letter-spacing:.26em; font-size:10px; color:var(--grout); opacity:0; pointer-events:none; white-space:nowrap;
   }
+  #ldr.ldr-go .ldr-skip{ animation:ldr-skiphint 4s ease-out both; }
+  @keyframes ldr-skiphint{ 0%,40%{opacity:0} 52%{opacity:.4} 72%{opacity:.4} 80%,100%{opacity:0} }
 
-  @keyframes ldr-kick{
-    0%   { opacity:0; transform:translateY(8px); }
-    14%  { opacity:0; transform:translateY(8px); }
-    26%  { opacity:.95; transform:translateY(0); }
-    44%  { opacity:.95; }
-    54%  { opacity:0; transform:translateY(-4px); }
-    100% { opacity:0; }
-  }
-
-  /* Reduced motion: explicit clean instant-hide (belt & suspenders alongside fill-mode end state).
-     The host's global rule already collapses durations to ~0; here we also swap the root to a dedicated
-     RM keyframe whose final frame is opacity:0/visibility:hidden/pointer-events:none, and silence the
-     decorative layers so reduced-motion users land on a fully revealed, scroll-free site with no flash. */
+  /* reduced motion: clean instant hide (belt & suspenders alongside the gate's RM path) */
   @media (prefers-reduced-motion: reduce){
     #ldr.ldr-go{ animation:ldr-master-rm .001ms linear both !important; }
-    #ldr.ldr-go .ldr-curtain, #ldr.ldr-go .ldr-catch, #ldr.ldr-go .ldr-caustic,
-    #ldr.ldr-go .ldr-bub, #ldr.ldr-go .ldr-kicker, #ldr.ldr-go .ldr-skip{ animation:none !important; }
+    #ldr.ldr-go .ldr-word, #ldr.ldr-go .ldr-fc, #ldr.ldr-go .ldr-part,
+    #ldr.ldr-go .lp-boat, #ldr.ldr-go .lp-chips, #ldr.ldr-go .lp-fish, #ldr.ldr-go .lp-lemon,
+    #ldr.ldr-go .lp-fork, #ldr.ldr-go .lp-salt, #ldr.ldr-go .lp-steam,
+    #ldr.ldr-go .lm1, #ldr.ldr-go .lm2, #ldr.ldr-go .lm3, #ldr.ldr-go .lm4,
+    #ldr.ldr-go .ldr-band, #ldr.ldr-go .ldr-skip{ animation:none !important; }
     @keyframes ldr-master-rm{ to{ opacity:0; visibility:hidden; pointer-events:none; } }
   }
-  /* ===================== /HOOKY'S FIRST-LOAD LOADER ===================== */
+  /* ===================== /HOOKY'S FIRST-LOAD LOADER ===================== */  /* ===================== /HOOKY'S FIRST-LOAD LOADER ===================== */
 </style>
 </head>
 <body>
 
-<!-- ============ HOOKY'S FIRST-LOAD LOADER — "REEL & HAUL" (drop in immediately after <body>) ============ -->
+<!-- ============ HOOKY'S FIRST-LOAD LOADER — "FRESH FROM THE FRYER" (drop in immediately after <body>) ============ -->
 <div id="ldr" data-hky-ui aria-hidden="true" role="presentation">
-  <div class="ldr-curtain">
-    <div class="ldr-caustic" aria-hidden="true"></div>
 
-    <div class="ldr-bubbles" aria-hidden="true">
-      <span class="ldr-bub b1"></span><span class="ldr-bub b2"></span>
-      <span class="ldr-bub b3"></span><span class="ldr-bub b4"></span>
-      <span class="ldr-bub b5"></span><span class="ldr-bub b6"></span>
-      <span class="ldr-bub b7"></span><span class="ldr-bub b8"></span>
-    </div>
-
-    <div class="ldr-stage">
-      <div class="ldr-catch">
-        <span class="ldr-rope" aria-hidden="true"></span>
-
-        <svg class="ldr-hook" viewBox="0 0 100 140" fill="none" aria-hidden="true">
-          <!-- eye -->
-          <circle cx="50" cy="14" r="9" stroke="var(--sand)" stroke-width="6"/>
-          <!-- shank -->
-          <path d="M50 23 V78" stroke="var(--sand)" stroke-width="9" stroke-linecap="round"/>
-          <!-- bend + point -->
-          <path d="M50 78 C50 108 30 122 22 104 C16 90 30 84 36 96"
-                stroke="var(--sand)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- barb -->
-          <path d="M36 96 L48 90" stroke="var(--sand-deep)" stroke-width="6" stroke-linecap="round"/>
-        </svg>
-
-        <span class="ldr-word">HOOKY&rsquo;S</span>
-      </div>
-
-      <span class="ldr-kicker"><b>&#9679;</b>&nbsp;&nbsp;Reeling in&#8230;</span>
-    </div>
-
-    <!-- Wavy water-surface / torn-net bottom edge so the reveal is a SHAPE, not a flat rectangle -->
-    <svg class="ldr-edge" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 C150,90 300,0 450,46 C600,92 750,8 900,48 C1050,86 1150,28 1200,52 L1200,120 L0,120 Z"/>
-      <path class="ldr-edge-net" d="M0,40 C150,90 300,0 450,46 C600,92 750,8 900,48 C1050,86 1150,28 1200,52"/>
-    </svg>
+  <!-- curved reveal bands (behind the product; sweep up off the top at the end) -->
+  <div class="ldr-bands" aria-hidden="true">
+    <div class="ldr-band lb-coral"   style="top:42%; height:64%;"><svg viewBox="0 0 100 64" preserveAspectRatio="none"><path d="M0,18 C28,-6 72,-6 100,18 L100,64 L0,64 Z" fill="var(--coral)"/></svg></div>
+    <div class="ldr-band lb-mustard" style="top:52%; height:62%;"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><path d="M0,16 C30,-7 70,-7 100,16 L100,62 L0,62 Z" fill="var(--mustard)"/></svg></div>
+    <div class="ldr-band lb-sand"    style="top:62%; height:60%;"><svg viewBox="0 0 100 60" preserveAspectRatio="none"><path d="M0,15 C30,-7 70,-7 100,15 L100,60 L0,60 Z" fill="var(--sand)"/></svg></div>
+    <div class="ldr-band lb-cobalt"  style="top:72%; height:66%;"><svg viewBox="0 0 100 66" preserveAspectRatio="none"><path d="M0,15 C30,-8 70,-8 100,15 L100,66 L0,66 Z" fill="var(--cobalt-950)"/></svg></div>
   </div>
-  <span class="ldr-skip" aria-hidden="true">Tap to skip</span>
+
+  <div class="ldr-stage">
+    <div class="ldr-word">HOOKY<span class="apos">&rsquo;</span>S</div>
+
+    <!-- ===== FISH & CHIPS (chip-shop cartoon) ===== -->
+    <div class="ldr-fc">
+      <svg viewBox="0 0 340 360" aria-hidden="true">
+        <defs>
+          <clipPath id="ldrBoatClip"><path d="M44 232 L296 232 L276 332 Q170 352 64 332 Z"/></clipPath>
+          <linearGradient id="ldrBatter" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F6C863"/><stop offset=".55" stop-color="#E3A23A"/><stop offset="1" stop-color="#C2802A"/>
+          </linearGradient>
+        </defs>
+
+        <!-- steam -->
+        <g class="ldr-part lp-steam" stroke="#EAF1FB" stroke-width="6" stroke-linecap="round" fill="none" opacity=".5">
+          <path d="M120 150 q-14 -22 0 -42 q14 -20 0 -40"/>
+          <path d="M170 138 q-14 -22 0 -42 q14 -20 0 -40"/>
+          <path d="M220 150 q-14 -22 0 -42 q14 -20 0 -40"/>
+        </g>
+
+        <!-- ===== VESSEL: red & white checkered paper boat ===== -->
+        <g class="ldr-part lp-boat">
+          <g clip-path="url(#ldrBoatClip)">
+            <rect x="44" y="226" width="252" height="120" fill="#fbf3ea"/>
+            <g fill="var(--coral)">
+              <rect x="44"  y="226" width="22" height="22"/><rect x="88"  y="226" width="22" height="22"/><rect x="132" y="226" width="22" height="22"/><rect x="176" y="226" width="22" height="22"/><rect x="220" y="226" width="22" height="22"/><rect x="264" y="226" width="22" height="22"/>
+              <rect x="66"  y="248" width="22" height="22"/><rect x="110" y="248" width="22" height="22"/><rect x="154" y="248" width="22" height="22"/><rect x="198" y="248" width="22" height="22"/><rect x="242" y="248" width="22" height="22"/>
+              <rect x="44"  y="270" width="22" height="22"/><rect x="88"  y="270" width="22" height="22"/><rect x="132" y="270" width="22" height="22"/><rect x="176" y="270" width="22" height="22"/><rect x="220" y="270" width="22" height="22"/><rect x="264" y="270" width="22" height="22"/>
+              <rect x="66"  y="292" width="22" height="22"/><rect x="110" y="292" width="22" height="22"/><rect x="154" y="292" width="22" height="22"/><rect x="198" y="292" width="22" height="22"/><rect x="242" y="292" width="22" height="22"/>
+              <rect x="44"  y="314" width="22" height="22"/><rect x="88"  y="314" width="22" height="22"/><rect x="132" y="314" width="22" height="22"/><rect x="176" y="314" width="22" height="22"/><rect x="220" y="314" width="22" height="22"/><rect x="264" y="314" width="22" height="22"/>
+            </g>
+          </g>
+          <path d="M44 232 L296 232 L276 332 Q170 352 64 332 Z" fill="none" stroke="var(--ink)" stroke-width="7" stroke-linejoin="round"/>
+          <path d="M36 226 Q170 214 304 226 L296 240 Q170 228 44 240 Z" fill="var(--coral-deep)" stroke="var(--ink)" stroke-width="6" stroke-linejoin="round"/>
+        </g>
+
+        <!-- ===== CHIPS: a full fan of thick-cut house chips ===== -->
+        <g class="ldr-part lp-chips" stroke="var(--ink)" stroke-width="5.5" stroke-linejoin="round">
+          <g fill="var(--sand-deep)">
+            <rect x="80"  y="126" width="24" height="112" rx="7" transform="rotate(-21 92 232)"/>
+            <rect x="232" y="126" width="24" height="112" rx="7" transform="rotate(21 244 232)"/>
+          </g>
+          <g fill="var(--mustard)">
+            <rect x="104" y="110" width="25" height="128" rx="7" transform="rotate(-11 116 230)"/>
+            <rect x="206" y="110" width="25" height="128" rx="7" transform="rotate(11 218 230)"/>
+            <rect x="140" y="102" width="26" height="138" rx="7" transform="rotate(-3 153 230)"/>
+            <rect x="176" y="102" width="26" height="138" rx="7" transform="rotate(4 189 230)"/>
+          </g>
+          <g stroke="#fff7e2" stroke-width="3" opacity=".55" stroke-linecap="round">
+            <line x1="116" y1="124" x2="116" y2="146"/>
+            <line x1="153" y1="116" x2="153" y2="138"/>
+            <line x1="189" y1="118" x2="189" y2="140"/>
+          </g>
+        </g>
+
+        <!-- ===== FISH: a battered fillet, tapered, with flaky white fish at the broken end ===== -->
+        <g class="ldr-part lp-fish">
+          <g transform="rotate(-7 176 208)">
+            <!-- crispy beer-battered body (tapers to the right) -->
+            <path d="M64 214 C58 196 72 184 92 188 C104 176 128 178 140 188 C154 176 182 178 196 188
+                     C214 178 244 182 262 190 C283 184 297 196 293 210 C291 224 275 230 258 226
+                     C242 236 214 236 198 228 C182 238 154 238 140 230 C124 238 98 236 86 226
+                     C70 228 58 226 64 214 Z"
+                  fill="url(#ldrBatter)" stroke="var(--ink)" stroke-width="7" stroke-linejoin="round"/>
+            <!-- glossy crust highlight -->
+            <path d="M98 200 Q152 184 210 191 Q250 196 280 208" fill="none" stroke="#FCE3A6" stroke-width="5.5" stroke-linecap="round" opacity=".7"/>
+            <!-- crispy bits -->
+            <g fill="#A86A1F" opacity=".5"><circle cx="150" cy="206" r="4.2"/><circle cx="196" cy="202" r="3.6"/><circle cx="240" cy="208" r="4"/></g>
+            <!-- flaky white fish showing at the broken left end -->
+            <path d="M64 214 C58 198 70 186 90 190 C98 202 97 220 86 228 C73 228 58 228 64 214 Z"
+                  fill="#EAF1FB" stroke="var(--ink)" stroke-width="5.5" stroke-linejoin="round"/>
+            <g stroke="#9FB2D2" stroke-width="2.6" opacity=".9" stroke-linecap="round" fill="none">
+              <path d="M73 200 q9 9 1 19"/><path d="M84 200 q9 10 1 21"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- ===== LEMON WEDGE ===== -->
+        <g class="ldr-part lp-lemon">
+          <g transform="rotate(-18 250 168)">
+            <path d="M236 150 Q272 150 272 186 Q254 192 236 186 Q230 168 236 150 Z" fill="#FBE08A" stroke="var(--ink)" stroke-width="6" stroke-linejoin="round"/>
+            <path d="M240 156 Q262 156 264 180 Q252 184 242 180 Q238 168 240 156 Z" fill="#FFF1B8" stroke="var(--ink)" stroke-width="3"/>
+            <g stroke="var(--ink)" stroke-width="2.6" opacity=".8">
+              <line x1="252" y1="160" x2="252" y2="180"/>
+              <line x1="245" y1="170" x2="260" y2="170"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- ===== WOODEN CHIP FORK ===== -->
+        <g class="ldr-part lp-fork">
+          <g transform="rotate(15 96 130)">
+            <rect x="89" y="120" width="14" height="118" rx="7" fill="var(--sand)" stroke="var(--ink)" stroke-width="5"/>
+            <path d="M84 122 L84 96 M96 122 L96 92 M108 122 L108 96" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+            <path d="M82 122 Q96 132 110 122" fill="var(--sand)" stroke="var(--ink)" stroke-width="5"/>
+          </g>
+        </g>
+
+        <!-- ===== SALT SPRINKLE ===== -->
+        <g class="ldr-part lp-salt" fill="#ffffff" stroke="var(--ink)" stroke-width="1.5">
+          <circle cx="150" cy="120" r="3"/><circle cx="178" cy="110" r="2.6"/><circle cx="200" cy="124" r="3"/>
+          <circle cx="132" cy="132" r="2.4"/><circle cx="216" cy="136" r="2.6"/><circle cx="164" cy="132" r="2.4"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ===== STATUS LINE ===== -->
+    <div class="ldr-status">
+      <span class="lmsg lm1">Heating the fryer<span class="ldot">&hellip;</span></span>
+      <span class="lmsg lm2">Battering the day-boat halibut<span class="ldot">&hellip;</span></span>
+      <span class="lmsg lm3">Salting the chips<span class="ldot">&hellip;</span></span>
+      <span class="lmsg lm4">Fresh from the fryer<span class="ldot">!</span></span>
+    </div>
+  </div>
+
+  <span class="ldr-skip">Tap to skip</span>
 </div>
 <script>
 /* HOOKY'S loader gate — first-load-per-tab only; instant hide on repeat; pure progressive enhancement.
@@ -1393,7 +1398,7 @@
    animation-fill-mode:both, so even if this script dies after adding .ldr-go the overlay still vanishes.
    This script's job is only: session-gate, scroll-lock, final node cleanup, and fail-open guards. */
 (function(){
-  var KEY = 'hky.loaded', DUR = 3050, SAFE = DUR + 280; /* total reveal <= 3.2s */
+  var KEY = 'hky.loaded', DUR = 4000, SAFE = DUR + 280; /* total reveal <= 4.3s */
   var el = document.getElementById('ldr');
   if (!el) { return; }
   var root = document.documentElement;
@@ -1418,14 +1423,10 @@
   }
 
   try {
-    var seen = null;
-    try { seen = sessionStorage.getItem(KEY); } catch(e){ seen = null; }
+    /* Plays on every full page load (no session gate). bfcache back/forward restores are still
+       skipped via the pageshow handler below so the loader never traps a returning user. */
 
-    /* Repeat load this tab -> hide INSTANTLY, no .ldr-go, no animation, no flash, no lock. */
-    if (seen) { el.style.display = 'none'; return; }
-    try { sessionStorage.setItem(KEY, '1'); } catch(e){}
-
-    /* First load: lock scroll BEFORE paint, then arm the session-gated CSS reveal. */
+    /* Lock scroll BEFORE paint, then arm the CSS reveal. */
     root.classList.add('ldr-lock');
     el.classList.add('ldr-go');
 
@@ -1524,118 +1525,10 @@
     </div>
 
     <div class="hero-grid">
-      <aside class="left-rail" aria-hidden="true">
-        <div class="vinyl-wrap a-pop delay-3"><span class="vinyl"></span></div>
-        <div class="a-rise delay-4">
-          <div class="fryer-frame" data-state="raw" title="Tap to fry the fish">
-            <svg class="fryer-svg" viewBox="0 0 120 120">
-              <defs>
-                <linearGradient id="bodyG" x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="0" stop-color="#aab4cc"/><stop offset=".22" stop-color="#eef2fa"/>
-                  <stop offset=".5" stop-color="#c7d0e1"/><stop offset=".8" stop-color="#9aa3bc"/><stop offset="1" stop-color="#7e87a2"/>
-                </linearGradient>
-                <linearGradient id="rimG" x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="0" stop-color="#c4cde0"/><stop offset=".25" stop-color="#f6f9fd"/>
-                  <stop offset=".55" stop-color="#cdd6e6"/><stop offset="1" stop-color="#8c95af"/>
-                </linearGradient>
-                <radialGradient id="knobG" cx="35%" cy="30%" r="75%">
-                  <stop offset="0" stop-color="#f2f5fb"/><stop offset=".6" stop-color="#bcc5d9"/><stop offset="1" stop-color="#8d97b1"/>
-                </radialGradient>
-                <radialGradient id="oilG" cx="42%" cy="32%" r="80%">
-                  <stop offset="0" stop-color="#FBC95C"/><stop offset=".55" stop-color="#E2A02C"/><stop offset="1" stop-color="#B07219"/>
-                </radialGradient>
-                <linearGradient id="rawG" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0" stop-color="#dbe5f4"/><stop offset=".5" stop-color="#aebfdc"/><stop offset="1" stop-color="#8b9fc6"/>
-                </linearGradient>
-                <radialGradient id="friedG" cx="40%" cy="28%" r="85%">
-                  <stop offset="0" stop-color="#F2C25A"/><stop offset=".5" stop-color="#D08F24"/><stop offset="1" stop-color="#9C6614"/>
-                </radialGradient>
-              </defs>
-
-              <!-- ground shadow -->
-              <ellipse cx="60" cy="106" rx="33" ry="4.5" fill="#000" opacity=".22"/>
-
-              <!-- pot body (cylinder) -->
-              <path d="M25 64 L25 90 Q25 104 60 104 Q95 104 95 90 L95 64 Z" fill="url(#bodyG)" stroke="#06143A" stroke-width="2" stroke-linejoin="round"/>
-              <path d="M34 67 Q31 84 36 99" fill="none" stroke="#ffffff" stroke-width="3" opacity=".2" stroke-linecap="round"/>
-
-              <!-- control strip -->
-              <rect x="36" y="84" width="48" height="13" rx="6.5" fill="#06143A" opacity=".14"/>
-              <circle class="fry-led" cx="48" cy="90.5" r="3" fill="#FF4C3B" stroke="#06143A" stroke-width="1"/>
-              <circle cx="47.2" cy="89.7" r=".9" fill="#fff" opacity=".7"/>
-              <circle cx="72" cy="90.5" r="4.6" fill="url(#knobG)" stroke="#06143A" stroke-width="1.4"/>
-              <line x1="72" y1="87.2" x2="72" y2="90" stroke="#06143A" stroke-width="1.4" stroke-linecap="round"/>
-
-              <!-- metal lip + oil -->
-              <ellipse cx="60" cy="64" rx="38" ry="11" fill="url(#rimG)" stroke="#06143A" stroke-width="2"/>
-              <ellipse cx="60" cy="64" rx="30" ry="8" fill="url(#oilG)"/>
-              <ellipse cx="53" cy="61.5" rx="11" ry="2.5" fill="#FCE7A6" opacity=".75"/>
-
-              <!-- frying bubbles -->
-              <g class="fry-bubbles" fill="#FCE9AE">
-                <circle cx="50" cy="90" r="2.6" style="animation-delay:0s"/>
-                <circle cx="60" cy="94" r="2.2" style="animation-delay:-.4s"/>
-                <circle cx="70" cy="90" r="2.8" style="animation-delay:-.7s"/>
-                <circle cx="56" cy="96" r="1.8" style="animation-delay:-.2s"/>
-              </g>
-
-              <!-- basket + fish -->
-              <g class="fry-basket">
-                <path d="M82 42 L101 24" stroke="#06143A" stroke-width="5.5" stroke-linecap="round"/>
-                <path d="M82 42 L101 24" stroke="url(#knobG)" stroke-width="3" stroke-linecap="round"/>
-                <circle cx="102" cy="23" r="4" fill="url(#knobG)" stroke="#06143A" stroke-width="1.4"/>
-                <ellipse cx="57" cy="42" rx="28" ry="7" fill="none" stroke="#06143A" stroke-width="2.5"/>
-
-                <g class="fish-raw">
-                  <path d="M39 46 L29 40 Q32 46 29 52 Z" fill="url(#rawG)" stroke="#06143A" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="M39 46 C 43 38 67 38 74 45 Q77 46 74 47 C 67 54 43 54 39 46 Z" fill="url(#rawG)" stroke="#06143A" stroke-width="1.5"/>
-                  <path d="M52 38 L56 32 L61 39 Z" fill="url(#rawG)" stroke="#06143A" stroke-width="1.2" stroke-linejoin="round"/>
-                  <path d="M46 42 Q56 39 67 43" fill="none" stroke="#f4f8fd" stroke-width="1.6" opacity=".5" stroke-linecap="round"/>
-                  <circle cx="68" cy="44" r="2.2" fill="#EAF1FB" stroke="#06143A" stroke-width="1"/>
-                  <circle cx="68.6" cy="44" r="1" fill="#06143A"/>
-                </g>
-
-                <g class="fish-done">
-                  <path d="M39 46 L28 39 Q31 46 28 53 Z" fill="url(#friedG)" stroke="#06143A" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="M39 46 C 42 40 47 40 50 42 C 54 38 59 40 61 42 C 65 39 70 42 74 45 Q77 46 74 47 C 67 54 43 54 39 46 Z" fill="url(#friedG)" stroke="#06143A" stroke-width="1.5"/>
-                  <path d="M52 38 L56 32 L61 39 Z" fill="url(#friedG)" stroke="#06143A" stroke-width="1.2" stroke-linejoin="round"/>
-                  <path d="M46 43 Q56 40 66 44" fill="none" stroke="#F8DD93" stroke-width="1.6" opacity=".55" stroke-linecap="round"/>
-                  <g fill="#6e470d" opacity=".5"><circle cx="50" cy="47" r="1"/><circle cx="58" cy="44" r="1"/><circle cx="64" cy="47" r=".9"/></g>
-                  <circle cx="68" cy="44" r="2.2" fill="#EAF1FB" stroke="#06143A" stroke-width="1"/>
-                  <circle cx="68.6" cy="44" r="1" fill="#06143A"/>
-                </g>
-
-                <!-- basket front mesh -->
-                <path d="M29 42 Q31 61 57 61 Q83 61 85 42" fill="none" stroke="#06143A" stroke-width="2"/>
-                <ellipse cx="57" cy="50" rx="23" ry="4.4" fill="none" stroke="#06143A" stroke-width="1" opacity=".4"/>
-                <ellipse cx="57" cy="56" rx="15" ry="3" fill="none" stroke="#06143A" stroke-width="1" opacity=".4"/>
-                <g stroke="#06143A" stroke-width="1" opacity=".42" stroke-linecap="round">
-                  <line x1="41" y1="44" x2="49" y2="60"/>
-                  <line x1="49" y1="43" x2="53" y2="61"/>
-                  <line x1="57" y1="42.5" x2="57" y2="61"/>
-                  <line x1="65" y1="43" x2="61" y2="61"/>
-                  <line x1="73" y1="44" x2="65" y2="60"/>
-                </g>
-              </g>
-
-              <!-- steam (when done) -->
-              <g class="fry-steam" stroke="#EAF1FB" stroke-width="2" fill="none" stroke-linecap="round">
-                <path d="M49 34 q-4 -7 0 -14" style="animation-delay:0s"/>
-                <path d="M57 32 q4 -7 0 -14" style="animation-delay:-.7s"/>
-                <path d="M65 34 q-4 -7 0 -14" style="animation-delay:-1.3s"/>
-              </g>
-            </svg>
-            <div class="fryer-label">
-              <span class="fry-no">No. 01</span>
-              <span class="fry-name">The Catch</span>
-              <span class="fry-hint">TAP TO FRY</span>
-            </div>
-          </div>
-        </div>
-      </aside>
+      <aside class="left-rail" aria-hidden="true"></aside>
 
       <div class="hero-main">
-        <h1 class="wordmark a-rise">HOOKY<span class="apos">&rsquo;</span>S</h1>
+        <h1 class="wordmark a-rise" aria-label="Hooky&rsquo;s"><span aria-hidden="true">H</span><span class="wm-rec" aria-hidden="true"><span class="wm-rec__disc"><span class="wm-rec__idle"><span class="wm-rec__label"></span></span></span><span class="wm-rec__sheen"></span></span><span class="wm-rec is-b" aria-hidden="true"><span class="wm-rec__disc"><span class="wm-rec__idle"><span class="wm-rec__label"></span></span></span><span class="wm-rec__sheen"></span></span><span aria-hidden="true">K</span><span aria-hidden="true">Y</span><span class="apos" aria-hidden="true">&rsquo;</span><span aria-hidden="true">S</span></h1>
 
         <div class="tagline a-rise delay-1">
           <p>Battered, fried,&nbsp;<span class="accent">beloved.</span></p>
@@ -2198,21 +2091,74 @@
 
 <!-- ============ FOOTER ============ -->
 <footer>
-  <div class="container foot">
-    <div class="foot-brand">
-      <span class="dot" aria-hidden="true"></span>
+  <div class="container">
+    <div class="foot-top">
       <div>
-        <div class="name">HOOKY&rsquo;S</div>
-        <div class="tagline">Toronto · Battered, fried, beloved.</div>
+        <nav class="foot-links" aria-label="Footer">
+          <a href="#menu">Menu</a>
+          <a href="#story">Story</a>
+          <a href="#visit">Visit</a>
+          <a href="https://instagram.com/hookystoronto" target="_blank" rel="noreferrer">Instagram</a>
+        </nav>
+        <div class="foot-tagline">Battered, fried, beloved · Inside Wellington Market, Toronto</div>
+      </div>
+      <div class="foot-meta">
+        <div class="copy">© <span id="year"></span> Hooky&rsquo;s — All rights reserved</div>
+        <div class="sideb">Side B forever</div>
       </div>
     </div>
-    <nav class="foot-links" aria-label="Footer">
-      <a href="#menu">Menu</a>
-      <a href="#story">Story</a>
-      <a href="#visit">Visit</a>
-      <a href="https://instagram.com/hookystoronto" target="_blank" rel="noreferrer">Instagram</a>
-    </nav>
-    <div class="copy">© <span id="year"></span> Hooky&rsquo;s · Side B forever</div>
+  </div>
+
+  <!-- Giant wordmark + floating fish-shop bits (decorative) -->
+  <div class="foot-bigwrap" aria-hidden="true">
+    <div class="foot-floats">
+      <!-- f1: battered fish fillet -->
+      <div class="foot-float f1">
+        <svg viewBox="0 0 124 150" fill="none">
+          <line class="pinline" x1="62" y1="2" x2="62" y2="60"/>
+          <circle class="pindot" cx="62" cy="6" r="5"/>
+          <g stroke="var(--ink)" stroke-width="6" stroke-linejoin="round">
+            <path d="M16 104 Q34 66 64 70 Q98 66 108 102 Q92 130 62 128 Q28 128 16 104 Z" fill="var(--mustard)"/>
+          </g>
+          <path d="M30 96 Q54 76 92 86" stroke="#fff2cf" stroke-width="5" stroke-linecap="round" fill="none" opacity=".75"/>
+          <g fill="var(--sand-deep)" stroke="var(--ink)" stroke-width="2.5">
+            <circle cx="42" cy="100" r="5"/><circle cx="68" cy="94" r="4.4"/><circle cx="90" cy="104" r="4.6"/>
+          </g>
+        </svg>
+      </div>
+      <!-- f2: house-cut chips -->
+      <div class="foot-float f2">
+        <svg viewBox="0 0 116 150" fill="none">
+          <line class="pinline" x1="58" y1="2" x2="58" y2="52"/>
+          <circle class="pindot" cx="58" cy="6" r="5"/>
+          <g stroke="var(--ink)" stroke-width="5.5" stroke-linejoin="round">
+            <rect x="30" y="64" width="20" height="80" rx="6" fill="var(--sand-deep)" transform="rotate(-13 40 104)"/>
+            <rect x="66" y="64" width="20" height="80" rx="6" fill="var(--sand-deep)" transform="rotate(13 76 104)"/>
+            <rect x="38" y="58" width="21" height="88" rx="6" fill="var(--mustard)" transform="rotate(-5 48 102)"/>
+            <rect x="57" y="58" width="21" height="88" rx="6" fill="var(--mustard)" transform="rotate(5 67 102)"/>
+          </g>
+          <g stroke="#fff7e2" stroke-width="3" opacity=".7" stroke-linecap="round">
+            <line x1="48" y1="70" x2="48" y2="86"/><line x1="67" y1="70" x2="67" y2="86"/>
+          </g>
+        </svg>
+      </div>
+      <!-- f3: lemon wedge -->
+      <div class="foot-float f3">
+        <svg viewBox="0 0 96 130" fill="none">
+          <line class="pinline" x1="48" y1="2" x2="48" y2="48"/>
+          <circle class="pindot" cx="48" cy="6" r="5"/>
+          <g transform="translate(0 6)">
+            <path d="M22 56 Q70 56 70 104 Q46 112 22 104 Q14 80 22 56 Z" fill="#FBE08A" stroke="var(--ink)" stroke-width="6" stroke-linejoin="round"/>
+            <path d="M28 64 Q60 64 62 100 Q44 106 30 100 Q24 82 28 64 Z" fill="#FFF1B8" stroke="var(--ink)" stroke-width="3"/>
+            <g stroke="var(--ink)" stroke-width="2.6" opacity=".8">
+              <line x1="44" y1="70" x2="44" y2="100"/><line x1="32" y1="86" x2="58" y2="86"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="foot-bigmark">HOOKY<span class="apos">&rsquo;</span>S</div>
   </div>
 </footer>
 
@@ -2588,32 +2534,20 @@
     applyKnobs();
   })();
 
-  // ----- Interactive fryer (raw fish -> golden) -----
-  (function fryer() {
-    var fr = document.querySelector('.fryer-frame');
-    if (!fr) return;
-    var nameEl = fr.querySelector('.fry-name');
-    var hintEl = fr.querySelector('.fry-hint');
-    var timer;
-    var COPY = {
-      raw:    { name:'The Catch',    hint:'TAP TO FRY' },
-      frying: { name:'In the oil…',  hint:'FRYING…' },
-      done:   { name:'Hot & Crispy', hint:'TAP TO RESET' }
-    };
-    function set(state) {
-      clearTimeout(timer);
-      fr.setAttribute('data-state', state);
-      nameEl.textContent = COPY[state].name;
-      hintEl.textContent = COPY[state].hint;
-      if (state === 'frying') timer = setTimeout(function () { set('done'); }, 2600);
+  // ----- Vinyl-record letters: scroll scrubs the O's in the wordmark like turntables -----
+  (function recordScrub() {
+    var wm = document.querySelector('.wordmark');
+    if (!wm || !wm.querySelector('.wm-rec')) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return; // leave the records still for reduced-motion users
+    function update() {
+      var deg = (window.scrollY * 0.5) % 360000; // scroll position drives the spin
+      wm.style.setProperty('--rec-scrub', deg.toFixed(1) + 'deg');
     }
-    fr.addEventListener('click', function () {
-      var s = fr.getAttribute('data-state');
-      if (s === 'raw') set('frying');
-      else if (s === 'done') set('raw');
-      // clicks ignored mid-fry
-    });
+    update();
+    window.addEventListener('scroll', update, { passive: true });
   })();
+
 
   // ----- Interactive aquarium (tap the water to feed the reef) -----
   (function aquarium() {
@@ -2951,7 +2885,7 @@
       '.allergy-note','.story-copy h2','.copy-cols p','.tag-row .pill','.kops-sticker','.quote-frame .source','.visit h2',
       '.where-card .address','.where-card .meta','.allergy-callout .h','.allergy-callout p','.hours-table .day','.hours-table .hr',
       '.foot-brand .name','.foot-brand .tagline','.foot-links a','.copy','.cta','.ghost-cta','.chip'].join(',');
-    var DENY_SEL = ['.castle-wrap','.castle-wrap *','.fryer-frame','.fryer-frame *','.turntable','.turntable *','.marquee','.marquee *',
+    var DENY_SEL = ['.castle-wrap','.castle-wrap *','.turntable','.turntable *','.marquee','.marquee *',
       '[data-hky-ui]','#clock','#status-line','#mobile-status','#now-spinning','#year','.quote-frame .quote','.record-label','.record-label *'].join(',');
     var CLAMP_SEL = '.wordmark, .menu-head h2, .story-copy h2, .visit h2, .special .price, .where-card .address';
 
@@ -3151,7 +3085,7 @@
     function onDown(e){
       if(!isEditing()) return;
       if(e.target.closest('[data-hky-ui]')) return;
-      if(e.target.closest('.castle-wrap,.turntable,.fryer-frame')){ e.preventDefault(); e.stopPropagation(); return; }  // mute toys (pointerdown) while editing
+      if(e.target.closest('.castle-wrap,.turntable')){ e.preventDefault(); e.stopPropagation(); return; }  // mute toys (pointerdown) while editing
       var t=e.target.closest('[data-hky-id]');
       if(!t || !isAllowed(t)){ if(!e.target.closest('[contenteditable]')) deselect(); return; }
       e.preventDefault(); e.stopPropagation();
@@ -3162,7 +3096,7 @@
     function onClickCapture(e){
       if(!isEditing()) return;
       if(e.target.closest('[data-hky-ui]')) return;
-      if(e.target.closest('a,button') || e.target.closest('.turntable,.fryer-frame,.castle-wrap')){ e.preventDefault(); e.stopPropagation(); }
+      if(e.target.closest('a,button') || e.target.closest('.turntable,.castle-wrap')){ e.preventDefault(); e.stopPropagation(); }
     }
     function onDbl(e){ if(!isEditing()) return; var t=e.target.closest('[data-hky-id]'); if(t&&isAllowed(t)){ e.preventDefault(); e.stopPropagation(); if(selected!==t) select(t); beginInline(t); } }
 
@@ -3562,7 +3496,7 @@
         var ran=false, run=function(){ if(ran) return; ran=true; try{ fn(); }catch(e){} };
         l.addEventListener('animationend', function(e){ if(e.animationName==='ldr-master'||e.animationName==='ldr-master-rm'){ run(); } }, false);
         window.addEventListener('pageshow', function(e){ if(e&&e.persisted) run(); }, false);
-        setTimeout(run, 3400);   // backstop matching the loader's own SAFE fallback
+        setTimeout(run, 4400);   // backstop matching the loader's own SAFE fallback
       }catch(e){ try{ fn(); }catch(_){} }
     }
 
